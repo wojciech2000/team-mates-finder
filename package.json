@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "apollo-server": "^2.19.0",
+    "bcrypt": "^5.0.0",
     "graphql": "^15.4.0",
     "mongoose": "^5.10.18"
   }
