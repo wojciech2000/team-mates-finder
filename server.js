@@ -1,5 +1,4 @@
-const dotenv = require("dotenv");
-dotenv.config();
+const dotenv = require("dotenv").config();
 const {ApolloServer} = require("apollo-server");
 const mongoose = require("mongoose");
 
