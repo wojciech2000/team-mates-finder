@@ -8,6 +8,7 @@ const {
   validateRegisterInput,
   validateLoginInput,
 } = require("../../utils/validators");
+const checkAuth = require("../../utils/checkAuth");
 
 const userResolver = {
   Query: {
@@ -68,10 +69,18 @@ const userResolver = {
       }
 
       //Check if user is unique
-      const user = await User.findOne({login});
-      if (user) {
+      const userLogin = await User.findOne({login});
+      if (userLogin) {
         throw new UserInputError("Username is taken", {
           errors: {username: "This username is taken"},
+        });
+      }
+
+      //check if emial is unique
+      const userEmail = await User.findOne({email});
+      if (userEmail) {
+        throw new UserInputError("Email is taken", {
+          errors: {username: "This email is taken"},
         });
       }
 
@@ -81,6 +90,33 @@ const userResolver = {
       await newUser.save();
 
       return {login, email, password};
+    },
+    updateNick: async (_, {nick}, context) => {
+      const {id, login} = checkAuth(context);
+
+      //Nick validation
+      if (nick.trim() === "") {
+        throw new UserInputError("Nick error", {
+          errors: {nickTaken: "Nick cannot be empty"},
+        });
+      }
+      const findUser = await User.findOne({nick});
+      if (findUser && findUser.login === login) {
+        throw new UserInputError("Nick error", {
+          errors: {nickTaken: "Nick can't be the same as the old one"},
+        });
+      } else if (findUser) {
+        throw new UserInputError("Nick error", {
+          errors: {nickTaken: "Nick is already taken"},
+        });
+      }
+
+      //Update new nick
+      const user = await User.findById({_id: id});
+      user.nick = nick;
+      user.save();
+
+      return user;
     },
   },
 };

@@ -14,6 +14,7 @@ mongoose.connect(
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({req}) => ({req}),
 });
 
 server.listen(5000, () => console.log("server is running"));

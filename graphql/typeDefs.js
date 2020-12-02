@@ -25,6 +25,7 @@ const typeDefs = gql`
 
   type Mutation {
     register(registerInput: RegisterInput): User
+    updateNick(nick: String!): User
   }
 `;
 
