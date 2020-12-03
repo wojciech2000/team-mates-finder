@@ -9,6 +9,10 @@ const userSchema = new Schema({
     serverName: String,
     serverCode: String,
   },
+  position: {
+    primary: String,
+    secondary: String,
+  },
 });
 
 module.exports = model("User", userSchema);

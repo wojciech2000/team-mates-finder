@@ -164,11 +164,12 @@ const userResolver = {
       }
 
       const findUser = await User.findOne({nick});
+
       if (findUser && findUser.login === login) {
         throw new UserInputError("Nick error", {
           errors: {nickTheSame: "Nick can't be the same as the old one"},
         });
-      } else if (findUser.server.serverName === server.serverName) {
+      } else if (findUser && findUser.server.serverName === server.serverName) {
         throw new UserInputError("Nick error", {
           errors: {nickTaken: "Nick is already taken"},
         });
@@ -201,6 +202,24 @@ const userResolver = {
       user.save();
 
       return user;
+    },
+    updatePosition: async (_, {primary, secondary}, context) => {
+      const {id} = checkAuth(context);
+
+      if (primary === secondary) {
+        throw new UserInputError("Position error", {
+          errors: {positionsTheSame: "Positions can't be the same"},
+        });
+      }
+
+      const user = await User.findById({_id: id});
+
+      user.position.primary = primary;
+      user.position.secondary = secondary;
+
+      user.save();
+
+      return {primary, secondary};
     },
   },
 };
