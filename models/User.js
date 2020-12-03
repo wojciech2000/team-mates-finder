@@ -5,6 +5,10 @@ const userSchema = new Schema({
   email: String,
   password: String,
   nick: String,
+  server: {
+    serverName: String,
+    serverCode: String,
+  },
 });
 
 module.exports = model("User", userSchema);

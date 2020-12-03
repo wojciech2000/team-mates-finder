@@ -1,4 +1,10 @@
-const validateRegisterInput = (login, email, password, confirmPassword) => {
+const validateRegisterInput = (
+  login,
+  email,
+  password,
+  confirmPassword,
+  server,
+) => {
   const errors = {};
 
   //Login
@@ -22,9 +28,14 @@ const validateRegisterInput = (login, email, password, confirmPassword) => {
   if (password === "") {
     errors.password = "Password must not be empty";
   } else if (password.length < 5) {
-    errors.password = "Login must at least contains 5 characters";
+    errors.password = "Password must at least contains 5 characters";
   } else if (password !== confirmPassword) {
     errors.confirmPassword = "Passwords must match";
+  }
+
+  //Server
+  if (server === "") {
+    errors.server = "Server must not be empty";
   }
 
   return {
