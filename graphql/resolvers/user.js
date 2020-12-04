@@ -91,6 +91,7 @@ const userResolver = {
             email: user.email,
             server: user.server,
             nick: user.nick,
+            position: user.position,
           },
           process.env.SECRET_JWT,
           {expiresIn: "1h"},
@@ -142,7 +143,6 @@ const userResolver = {
 
       return {login, email, password, server: dataServer};
     },
-
     updateNick: async (_, {nick}, context) => {
       const {id, login, server} = checkAuth(context);
 
@@ -219,7 +219,72 @@ const userResolver = {
 
       user.save();
 
-      return {primary, secondary};
+      return user;
+    },
+    updateMainChampions: async (_, {champions}, context) => {
+      const {id} = checkAuth(context);
+      const user = await User.findById({_id: id});
+
+      //Champions validations
+      if (champions.length > 2 && !user.position.secondary) {
+        throw new UserInputError("Champion's name error", {
+          errors: {
+            championEmpty:
+              "You can type max 2 champions if you dont have secondary position",
+          },
+        });
+      } else if (champions.length > 4 && user.position.secondary) {
+        throw new UserInputError("Champion's name error", {
+          errors: {championEmpty: "You can type max 4"},
+        });
+      }
+
+      champions.find(champion => {
+        if (champion.trim() === "") {
+          throw new UserInputError("Champion's name error", {
+            errors: {championEmpty: "Champion's name can't be empty"},
+          });
+        }
+      });
+
+      //Check if champions exist in database
+      const championsAPI = await axios.get(
+        `http://ddragon.leagueoflegends.com/cdn/10.24.1/data/en_US/champion.json?api_key=${process.env.SECRET_RIOT_KEY}`,
+      );
+      const championsNames = await Object.keys(championsAPI.data.data);
+      let matchChampions = [];
+
+      for (let i = 0; i < championsNames.length; i++) {
+        for (let j = 0; j < champions.length; j++) {
+          if (
+            championsNames[i].toLocaleLowerCase() ===
+            champions[j].toLocaleLowerCase()
+          ) {
+            matchChampions.push(championsNames[i]);
+          }
+        }
+      }
+
+      const unMatchChampions = champions.filter(
+        champ =>
+          !matchChampions.includes(
+            champ.charAt(0).toUpperCase() + champ.slice(1).toLowerCase(),
+          ) && champ,
+      );
+
+      if (unMatchChampions.length > 0) {
+        throw new UserInputError("Champion's name error", {
+          errors: {
+            championEmpty: `Champion's name wan't found in database: ${unMatchChampions}`,
+          },
+        });
+      }
+
+      //Save champions
+      user.mainChampions = matchChampions;
+      user.save();
+
+      return user;
     },
   },
 };

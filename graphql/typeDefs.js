@@ -21,6 +21,7 @@ const typeDefs = gql`
     nick: String!
     server: ServerData!
     position: Position!
+    mainChampions: [String]!
   }
 
   #User configurations
@@ -66,7 +67,8 @@ const typeDefs = gql`
     register(registerInput: RegisterInput): User
     updateNick(nick: String!): User
     updateServer(server: Server): User
-    updatePosition(primary: Positions!, secondary: Positions!): Position
+    updatePosition(primary: Positions!, secondary: Positions): User
+    updateMainChampions(champions: [String]): User
   }
 `;
 

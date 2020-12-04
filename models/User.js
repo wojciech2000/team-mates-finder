@@ -13,6 +13,7 @@ const userSchema = new Schema({
     primary: String,
     secondary: String,
   },
+  mainChampions: [String],
 });
 
 module.exports = model("User", userSchema);
