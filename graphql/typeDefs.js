@@ -18,10 +18,11 @@ const typeDefs = gql`
     login: String!
     email: String!
     password: String!
-    nick: String!
+    nick: String
     server: ServerData!
-    position: Position!
+    position: Position
     mainChampions: [String]!
+    team: Team
   }
 
   #User configurations
@@ -57,6 +58,24 @@ const typeDefs = gql`
     secondary: String
   }
 
+  type Team {
+      name: String!
+      founder: String!
+      membersAmount: Int!
+      maxMembersAmount: Int!
+      positions: [PositionTeamType]!
+  }
+
+  type PositionTeamType {
+    nick: String
+    position: Positions!
+  }
+
+  input PositionTeamInput {
+    nick: String
+    position: Positions!
+  }
+
   # Query & Mutation
 
   type Query {
@@ -69,6 +88,7 @@ const typeDefs = gql`
     updateServer(server: Server): User
     updatePosition(primary: Positions!, secondary: Positions): User
     updateMainChampions(champions: [String]): User
+    updateTeam(name: String!, maxMembersAmount: Int!, positions:[PositionTeamInput]): User
   }
 `;
 
