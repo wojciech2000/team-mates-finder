@@ -104,7 +104,7 @@ const userResolver = {
   Mutation: {
     register: async (
       _,
-      {registerInput: {login, email, password, confirmPassword, server}},
+      {registerInput: {login, email, password, confirmPassword}},
     ) => {
       //Register validation
       const {errors, valid} = validateRegisterInput(
@@ -112,7 +112,6 @@ const userResolver = {
         email,
         password,
         confirmPassword,
-        server,
       );
 
       if (!valid) {
@@ -136,15 +135,16 @@ const userResolver = {
       }
 
       //Register user
-      const dataServer = setServer(server);
       password = await bcrypt.hash(password, 10);
-      const newUser = new User({login, email, password, server: dataServer});
+      const newUser = new User({login, email, password});
       await newUser.save();
 
-      return {login, email, password, server: dataServer};
+      return newUser;
     },
     updateNick: async (_, {nick}, context) => {
-      const {id, login, server} = checkAuth(context);
+      const {id, login} = checkAuth(context);
+
+      const user = await User.findById({ _id: id });
 
       //Nick validation
       if (nick.trim() === "") {
@@ -155,7 +155,7 @@ const userResolver = {
 
       try {
         await axios.get(
-          `https://${server.serverCode}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${nick}?api_key=${process.env.SECRET_RIOT_KEY}`,
+          `https://${user.server.serverCode}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${nick}?api_key=${process.env.SECRET_RIOT_KEY}`,
         );
       } catch (error) {
         throw new UserInputError("Nick error", {
@@ -169,14 +169,13 @@ const userResolver = {
         throw new UserInputError("Nick error", {
           errors: {nickTheSame: "Nick can't be the same as the old one"},
         });
-      } else if (findUser && findUser.server.serverName === server.serverName) {
+      } else if (findUser && findUser.server.serverName === user.server.serverName) {
         throw new UserInputError("Nick error", {
           errors: {nickTaken: "Nick is already taken"},
         });
       }
 
       //Update new nick
-      const user = await User.findById({_id: id});
       user.nick = nick;
       user.save();
 

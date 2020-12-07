@@ -7,7 +7,6 @@ const typeDefs = gql`
     email: String!
     password: String!
     confirmPassword: String!
-    server: Server!
   }
 
   type Token {
