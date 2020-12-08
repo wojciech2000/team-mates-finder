@@ -100,6 +100,9 @@ const userResolver = {
         return {token};
       }
     },
+    getUsers: async () => {
+      return await User.find();
+    },
   },
   Mutation: {
     register: async (
@@ -144,7 +147,7 @@ const userResolver = {
     updateNick: async (_, {nick}, context) => {
       const {id, login} = checkAuth(context);
 
-      const user = await User.findById({ _id: id });
+      const user = await User.findById({_id: id});
 
       //Nick validation
       if (nick.trim() === "") {
@@ -169,7 +172,10 @@ const userResolver = {
         throw new UserInputError("Nick error", {
           errors: {nickTheSame: "Nick can't be the same as the old one"},
         });
-      } else if (findUser && findUser.server.serverName === user.server.serverName) {
+      } else if (
+        findUser &&
+        findUser.server.serverName === user.server.serverName
+      ) {
         throw new UserInputError("Nick error", {
           errors: {nickTaken: "Nick is already taken"},
         });
@@ -285,64 +291,62 @@ const userResolver = {
 
       return user;
     },
-    updateTeam: async (_, { name, maxMembersAmount, positions }, context) => {
-      const { id } = checkAuth(context);
-      
+    updateTeam: async (_, {name, maxMembersAmount, positions}, context) => {
+      const {id} = checkAuth(context);
+
       //team validation
-      if(name.trim() === "" || maxMembersAmount == 0 || (!positions[0]))
-      {
+      if (name.trim() === "" || maxMembersAmount == 0 || !positions[0]) {
         throw new UserInputError("Team error", {
           errors: {
-            teamEmpty:
-              "Fields can't be empty",
+            teamEmpty: "Fields can't be empty",
           },
         });
-      } else if (maxMembersAmount <= 1)
-      {
+      } else if (maxMembersAmount <= 1) {
         throw new UserInputError("Team error", {
           errors: {
-            teamMembersAmount:
-              "Members amount must be at least 2",
+            teamMembersAmount: "Members amount must be at least 2",
           },
-        });  
-      } else if (maxMembersAmount > 5)
-      {
+        });
+      } else if (maxMembersAmount > 5) {
         throw new UserInputError("Team error", {
           errors: {
-            teamTaken:
-              "Max amount of members is 5",
+            teamTaken: "Max amount of members is 5",
           },
         });
       } else if (positions.length > maxMembersAmount) {
         throw new UserInputError("Team error", {
           errors: {
-            teamTaken:
-              "Members amount is lesser than provided positions",
+            teamTaken: "Members amount is lesser than provided positions",
           },
         });
       }
 
-      const user = await User.findById({ _id: id });
-      const findTeam = await User.findOne({"team.name": name})
+      const user = await User.findById({_id: id});
+      const findTeam = await User.findOne({"team.name": name});
 
-      if (findTeam && findTeam.nick != user.nick)
-      {
+      if (findTeam && findTeam.nick != user.nick) {
         throw new UserInputError("Team error", {
           errors: {
-            teamTaken:
-              "This team name is already taken",
+            teamTaken: "This team name is already taken",
           },
         });
-        }
+      }
 
       //save team
-      const membersAmount = positions.filter(position => position.nick && true).length
-      
-      user.team = { name, founder: user.nick,membersAmount, maxMembersAmount, positions }
-      user.save()
+      const membersAmount = positions.filter(position => position.nick && true)
+        .length;
 
-      return user
-    }
+      user.team = {
+        name,
+        founder: user.nick,
+        membersAmount,
+        maxMembersAmount,
+        positions,
+      };
+      user.save();
+
+      return user;
+    },
   },
 };
 

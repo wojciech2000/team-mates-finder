@@ -103,7 +103,7 @@ button {
       grid-column: 3 / 4; }
     .players .table__id {
       grid-column: 1 / 2; }
-    .players .table__id, .players .table__players-name, .players .table__position, .players .table__status {
+    .players .table__id, .players .table__palyer-nick, .players .table__position, .players .table__status {
       text-align: center;
       background-color: white;
       padding: 5px 0;
@@ -121,7 +121,12 @@ button {
         row-gap: 20px;
         margin: 30px 0; }
         .players .table .data__player * {
-          text-align: center; }
+          text-align: center;
+          margin: auto; }
+      .players .table .data__status-taken {
+        color: #bb0000; }
+      .players .table .data__status-free {
+        color: #00ad07; }
 
 @media (min-width: 768px) {
   .players .header-table {

@@ -1,6 +1,45 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {gql, useQuery} from "@apollo/client";
+
+const GET_USERS = gql`
+  query {
+    getUsers {
+      nick
+      position {
+        primary
+        secondary
+      }
+      team {
+        name
+      }
+    }
+  }
+`;
 
 export default function Players() {
+  const {loading, data, error} = useQuery(GET_USERS);
+
+  const [players, setPlayers] = useState([]);
+  const [filterNick, setFilterNick] = useState("");
+  const [filterPosition, setFilterPosition] = useState("");
+
+  useEffect(() => {
+    data && setPlayers(data.getUsers);
+  }, [data]);
+
+  const findNick = () => {
+    const filter = players
+      .filter(player => player.nick.includes(filterNick))
+      .filter(
+        player =>
+          (player.position.primary &&
+            player.position.primary.includes(filterPosition)) ||
+          (player.position.secondary &&
+            player.position.secondary.includes(filterPosition)),
+      );
+    return filter;
+  };
+
   return (
     <section className="players">
       <div className="header-table">
@@ -13,12 +52,15 @@ export default function Players() {
           type="text"
           className="table__find-player"
           placeholder="Search player..."
+          value={filterNick}
+          onChange={e => setFilterNick(e.target.value)}
         />
         <select
           name="cars"
           id="cars"
           form="carform"
           className="table__find-position"
+          onChange={e => setFilterPosition(e.target.value)}
         >
           <option value="">All</option>
           <option value="Top">Top</option>
@@ -28,42 +70,34 @@ export default function Players() {
           <option value="Supp">Supp</option>
         </select>
         <div className="table__id">ID</div>
-        <div className="table__players-name">Player's name</div>
+        <div className="table__palyer-nick">Player's nick</div>
         <div className="table__position">Position</div>
         <div className="table__status">Status</div>
 
         <div className="data">
           <ul>
-            <li className="data__player">
-              <span className="data__id">1</span>
-              <span className="data__players-name">Absley</span>
-              <span className="data__position">Jungle</span>
-              <span className="data__status">Free</span>
-            </li>
-            <li className="data__player">
-              <span className="data__id">1</span>
-              <span className="data__players-name">Absley</span>
-              <span className="data__position">Jungle</span>
-              <span className="data__status">Free</span>
-            </li>
-            <li className="data__player">
-              <span className="data__id">1</span>
-              <span className="data__players-name">Absley</span>
-              <span className="data__position">Jungle</span>
-              <span className="data__status">Free</span>
-            </li>
-            <li className="data__player">
-              <span className="data__id">32</span>
-              <span className="data__players-name">Absley</span>
-              <span className="data__position">Jungle</span>
-              <span className="data__status">Free</span>
-            </li>
-            <li className="data__player">
-              <span className="data__id">1</span>
-              <span className="data__players-name">Absley</span>
-              <span className="data__position">Jungle</span>
-              <span className="data__status">Free</span>
-            </li>
+            {loading
+              ? "Loading..."
+              : error
+              ? "Error..."
+              : findNick().map(({nick, position, team}, id) => (
+                  <li className="data__player" key={id}>
+                    <span className="data__id">{id + 1}</span>
+                    <span className="data__palyer-nick">{nick}</span>
+                    <span className="data__position">
+                      {position.primary}
+                      <br />
+                      {position.secondary}
+                    </span>
+                    <span className="data__status">
+                      {team.name ? (
+                        <span className="data__status-taken">Taken</span>
+                      ) : (
+                        <span className="data__status-free">Free</span>
+                      )}
+                    </span>
+                  </li>
+                ))}
           </ul>
         </div>
       </div>

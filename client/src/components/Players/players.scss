@@ -64,7 +64,7 @@ $table-shape3: 115px 432px 144px 216px;
     }
 
     &__id,
-    &__players-name,
+    &__palyer-nick,
     &__position,
     &__status {
       text-align: center;
@@ -89,7 +89,16 @@ $table-shape3: 115px 432px 144px 216px;
 
         * {
           text-align: center;
+          margin: auto;
         }
+      }
+
+      &__status-taken {
+        color: $red;
+      }
+
+      &__status-free {
+        color: $green;
       }
     }
   }
