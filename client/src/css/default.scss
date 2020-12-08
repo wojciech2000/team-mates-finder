@@ -1,0 +1,33 @@
+$default-font-family: "Merienda One", cursive;
+$title: "Permanent Marker", cursive;
+$quotes: "Comfortaa", cursive;
+$gray: #727272;
+$red: #bb0000;
+$green: #00ad07;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-image: linear-gradient(
+    to right bottom,
+    #00636b,
+    #00737c,
+    #00848e,
+    #0095a0,
+    #00a7b3
+  );
+}
+
+button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}

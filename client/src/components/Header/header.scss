@@ -1,0 +1,24 @@
+.header {
+  width: 100vw;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__title {
+    font-family: $title;
+    color: white;
+  }
+
+  .menu {
+    &__login {
+      display: flex;
+      align-items: center;
+      font-size: 35px;
+      color: $green;
+      background-color: white;
+      border-radius: 5px;
+      padding: 2px;
+    }
+  }
+}
