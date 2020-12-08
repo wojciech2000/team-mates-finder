@@ -22,3 +22,21 @@
     }
   }
 }
+
+@media (min-width: 768px) {
+  .header {
+    width: 100vw;
+    padding: 30px 50px 0;
+
+    &__title {
+      font-family: $title;
+      color: white;
+    }
+
+    .menu {
+      &__login {
+        font-size: 45px;
+      }
+    }
+  }
+}

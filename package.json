@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "sass": "cd client && npm run sass",
+    "client": "cd client && npm start",
+    "server": "nodemon server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \" npm run sass \"",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

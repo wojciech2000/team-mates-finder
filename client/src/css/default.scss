@@ -1,6 +1,6 @@
-$default-font-family: "Merienda One", cursive;
+$quotes: "Merienda One", cursive;
 $title: "Permanent Marker", cursive;
-$quotes: "Comfortaa", cursive;
+$default-font-family: "Comfortaa", cursive;
 $gray: #727272;
 $red: #bb0000;
 $green: #00ad07;
@@ -9,9 +9,11 @@ $green: #00ad07;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  list-style-type: none;
 }
 
 .App {
+  font-family: $default-font-family;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -23,6 +25,9 @@ $green: #00ad07;
     #0095a0,
     #00a7b3
   );
+  @media (min-width: 768px) {
+    background: url(../pictures/background.jpg) no-repeat center / cover;
+  }
 }
 
 button {
@@ -30,4 +35,15 @@ button {
   outline: none;
   border: none;
   cursor: pointer;
+}
+
+.main-input {
+  outline: none;
+  background-color: black;
+  border: 1px white solid;
+  border-radius: 5px;
+  color: white;
+  padding: 3px 0 3px 5px;
+  font-size: 15px;
+  font-family: $default-font-family;
 }
