@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {gql, useQuery} from "@apollo/client";
+import {Link} from "react-router-dom";
 
 const GET_USERS = gql`
   query {
@@ -44,7 +45,9 @@ export default function Players() {
     <section className="players">
       <div className="header-table">
         <h2 className="header-table__title">Players</h2>
-        <button className="header-table__subtitle">Teams</button>
+        <button className="header-table__subtitle">
+          <Link to="/teams">Teams</Link>
+        </button>
       </div>
 
       <div className="table">

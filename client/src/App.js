@@ -1,8 +1,10 @@
 import React from "react";
 import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import Header from "./components/Header/Header";
 import Players from "./components/Players/Players";
+import Teams from "./components/Teams/Teams";
 
 const client = new ApolloClient({
   uri: "http://localhost:5000/",
@@ -14,7 +16,12 @@ export default function App() {
     <ApolloProvider client={client}>
       <div className="App">
         <Header />
-        <Players />
+        <Router>
+          <Switch>
+            <Route path="/players" exact component={Players} />
+            <Route path="/teams" exact component={Teams} />
+          </Switch>
+        </Router>
       </div>
     </ApolloProvider>
   );

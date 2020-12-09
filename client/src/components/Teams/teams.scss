@@ -1,0 +1,147 @@
+$table-shape: 6vw 40vw 20vw 20vw;
+$table-shape2: 8vw 30vw 10vw 15vw;
+$table-shape3: 115px 432px 144px 216px;
+
+.teams {
+  width: 100vw;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .table {
+    display: grid;
+    grid-template-columns: $table-shape;
+    grid-template-rows: 30px auto 1fr;
+    align-content: center;
+    column-gap: 10px;
+    row-gap: 15px;
+    font-size: 14px;
+
+    &__find-teams-name {
+      @extend .main-input;
+      text-align: center;
+      font-size: 14px;
+      grid-column: 2 / 3;
+    }
+
+    &__find-founder {
+      @extend .main-input;
+      grid-column: 4 / 5;
+    }
+
+    &__id {
+      grid-column: 1 / 2;
+    }
+
+    &__id,
+    &__teams-name,
+    &__positions,
+    &__founder {
+      text-align: center;
+      background-color: white;
+      padding: 5px 0;
+      border-radius: 5px;
+    }
+
+    .data {
+      grid-column: 1 / -1;
+      background-color: white;
+      font-size: 16px;
+      border-radius: 5px;
+
+      &__teams {
+        display: grid;
+        grid-template-columns: $table-shape;
+        align-content: center;
+        column-gap: 10px;
+        row-gap: 20px;
+        margin: 30px 0;
+
+        * {
+          text-align: center;
+          margin: auto;
+        }
+      }
+
+      &__status-taken {
+        color: $red;
+      }
+
+      &__status-free {
+        color: $green;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .teams {
+    .header-table {
+      height: 100px;
+      margin-bottom: 40px;
+
+      &__title {
+        font-size: 34px;
+        width: 200px;
+      }
+
+      &__subtitle {
+        font-size: 18px;
+        width: 90px;
+      }
+    }
+
+    .table {
+      grid-template-columns: $table-shape2;
+      font-size: 18px;
+
+      &__find-player {
+        font-size: 18px;
+      }
+
+      .data {
+        background-color: rgba($color: white, $alpha: 0.95);
+        &__teams {
+          grid-template-columns: $table-shape2;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1440px) {
+  .teams {
+    .header-table {
+      height: 110px;
+
+      &__title {
+        font-size: 38px;
+        width: 220px;
+      }
+
+      &__subtitle {
+        font-size: 22px;
+        width: 110px;
+      }
+    }
+
+    .table {
+      grid-template-columns: $table-shape3;
+      font-size: 20px;
+
+      &__find-player {
+        font-size: 20px;
+      }
+
+      .data {
+        &__teams {
+          grid-template-columns: $table-shape3;
+          font-size: 22px;
+        }
+      }
+    }
+  }
+}
