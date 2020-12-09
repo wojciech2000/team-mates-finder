@@ -92,7 +92,7 @@ const typeDefs = gql`
       name: String!
       maxMembersAmount: Int!
       positions: [PositionTeamInput]
-    ): User
+    ): Team
   }
 `;
 

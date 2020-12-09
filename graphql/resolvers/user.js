@@ -1,5 +1,6 @@
 const dotenv = require("dotenv").config();
 const User = require("../../models/User");
+const Team = require("../../models/Team");
 const bcrypt = require("bcrypt");
 const {UserInputError} = require("apollo-server");
 const jwt = require("jsonwebtoken");
@@ -322,9 +323,9 @@ const userResolver = {
       }
 
       const user = await User.findById({_id: id});
-      const findTeam = await User.findOne({"team.name": name});
+      const findTeam = await Team.findOne({name});
 
-      if (findTeam && findTeam.nick != user.nick) {
+      if (findTeam && findTeam.founder != user.nick) {
         throw new UserInputError("Team error", {
           errors: {
             teamTaken: "This team name is already taken",
@@ -336,16 +337,34 @@ const userResolver = {
       const membersAmount = positions.filter(position => position.nick && true)
         .length;
 
-      user.team = {
-        name,
-        founder: user.nick,
-        membersAmount,
-        maxMembersAmount,
-        positions,
-      };
-      user.save();
+      if (user.team) {
+        const teamExists = await Team.findById({_id: user.team});
+        if (teamExists) {
+          teamExists.name = name;
+          teamExists.founder = user.nick;
+          teamExists.membersAmount = membersAmount;
+          teamExists.maxMembersAmount = maxMembersAmount;
+          teamExists.positions = positions;
 
-      return user;
+          teamExists.save();
+
+          return teamExists;
+        }
+      } else {
+        console.log("team does not exists");
+        const team = new Team({
+          name,
+          founder: user.nick,
+          membersAmount,
+          maxMembersAmount,
+          positions,
+        });
+        user.team = team._id;
+        team.save();
+        user.save();
+
+        return team;
+      }
     },
   },
 };

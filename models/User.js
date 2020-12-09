@@ -15,15 +15,9 @@ const userSchema = new Schema({
   },
   mainChampions: [String],
   team: {
-    name: String,
-    founder: String,
-    membersAmount: Number,
-    maxMembersAmount: Number,
-    positions: [{
-      nick: String,
-      position: String
-    }]
-  }
+    type: Schema.Types.ObjectId,
+    ref: "team",
+  },
 });
 
 module.exports = model("User", userSchema);
