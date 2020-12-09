@@ -28,6 +28,8 @@ $table-shape3: 115px 432px 144px 216px;
 
     &__find-founder {
       @extend .main-input;
+      text-align: center;
+      font-size: 14px;
       grid-column: 4 / 5;
     }
 
@@ -97,7 +99,11 @@ $table-shape3: 115px 432px 144px 216px;
       grid-template-columns: $table-shape2;
       font-size: 18px;
 
-      &__find-player {
+      &__find-teams-name {
+        font-size: 18px;
+      }
+
+      &__find-founder {
         font-size: 18px;
       }
 
@@ -132,7 +138,11 @@ $table-shape3: 115px 432px 144px 216px;
       grid-template-columns: $table-shape3;
       font-size: 20px;
 
-      &__find-player {
+      &__find-teams-name {
+        font-size: 20px;
+      }
+
+      &__find-founder {
         font-size: 20px;
       }
 

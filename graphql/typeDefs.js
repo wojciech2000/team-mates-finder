@@ -80,6 +80,7 @@ const typeDefs = gql`
   type Query {
     login(login: String!, password: String!): Token!
     getUsers: [User]
+    getTeams: [Team]
   }
 
   type Mutation {

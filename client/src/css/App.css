@@ -233,6 +233,8 @@ a {
       font-size: 14px;
       grid-column: 2 / 3; }
     .teams .table__find-founder {
+      text-align: center;
+      font-size: 14px;
       grid-column: 4 / 5; }
     .teams .table__id {
       grid-column: 1 / 2; }
@@ -274,7 +276,9 @@ a {
   .teams .table {
     grid-template-columns: 8vw 30vw 10vw 15vw;
     font-size: 18px; }
-    .teams .table__find-player, .teams .players .table__find-position, .players .teams .table__find-position {
+    .teams .table__find-teams-name {
+      font-size: 18px; }
+    .teams .table__find-founder {
       font-size: 18px; }
     .teams .table .data {
       background-color: rgba(255, 255, 255, 0.95); }
@@ -294,7 +298,9 @@ a {
   .teams .table {
     grid-template-columns: 115px 432px 144px 216px;
     font-size: 20px; }
-    .teams .table__find-player, .teams .players .table__find-position, .players .teams .table__find-position {
+    .teams .table__find-teams-name {
+      font-size: 20px; }
+    .teams .table__find-founder {
       font-size: 20px; }
     .teams .table .data__teams {
       grid-template-columns: 115px 432px 144px 216px;
