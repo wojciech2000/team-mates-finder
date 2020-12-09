@@ -1,7 +1,41 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {gql, useQuery} from "@apollo/client";
 import {Link} from "react-router-dom";
 
+const GET_TEAMS = gql`
+  query {
+    getTeams {
+      name
+      founder
+      membersAmount
+      maxMembersAmount
+      positions {
+        nick
+        position
+      }
+    }
+  }
+`;
+
 export default function Teams() {
+  const {loading, data, error} = useQuery(GET_TEAMS);
+
+  const [teams, setTeams] = useState([]);
+  const [teamsName, setTeamsName] = useState("");
+  const [founder, setFounder] = useState("");
+
+  useEffect(() => {
+    data && setTeams(data.getTeams);
+  }, [data]);
+
+  const findTeam = () => {
+    const filter = teams
+      .filter(team => team.name.includes(teamsName))
+      .filter(team => team.founder.includes(founder));
+
+    return filter;
+  };
+
   return (
     <section className="teams">
       <div className="header-table">
@@ -16,11 +50,15 @@ export default function Teams() {
           type="text"
           className="table__find-teams-name"
           placeholder="Search team's name..."
+          value={teamsName}
+          onChange={e => setTeamsName(e.target.value)}
         />
         <input
           type="text"
           className="table__find-founder"
           placeholder="Search founder..."
+          value={founder}
+          onChange={e => setFounder(e.target.value)}
         />
 
         <div className="table__id">ID</div>
@@ -30,36 +68,23 @@ export default function Teams() {
 
         <div className="data">
           <ul>
-            <li className="data__teams">
-              <span className="data__id">1</span>
-              <span className="data__teams-name">superteamxx</span>
-              <span className="data__positions">2/5</span>
-              <span className="data__founder">faker</span>
-            </li>
-            <li className="data__teams">
-              <span className="data__id">1</span>
-              <span className="data__teams-name">superteamxx</span>
-              <span className="data__positions">2/5</span>
-              <span className="data__founder">faker</span>
-            </li>
-            <li className="data__teams">
-              <span className="data__id">1</span>
-              <span className="data__teams-name">superteamxx</span>
-              <span className="data__positions">2/5</span>
-              <span className="data__founder">faker</span>
-            </li>
-            <li className="data__teams">
-              <span className="data__id">1</span>
-              <span className="data__teams-name">superteamxx</span>
-              <span className="data__positions">2/5</span>
-              <span className="data__founder">faker</span>
-            </li>
-            <li className="data__teams">
-              <span className="data__id">1</span>
-              <span className="data__teams-name">superteamxx</span>
-              <span className="data__positions">2/5</span>
-              <span className="data__founder">faker</span>
-            </li>
+            {loading
+              ? "Loading..."
+              : error
+              ? "Error..."
+              : data &&
+                findTeam().map(
+                  ({name, membersAmount, maxMembersAmount, founder}, id) => (
+                    <li className="data__teams" key={id}>
+                      <span className="data__id">{id + 1}</span>
+                      <span className="data__teams-name">{name}</span>
+                      <span className="data__positions">
+                        {membersAmount}/{maxMembersAmount}
+                      </span>
+                      <span className="data__founder">{founder}</span>
+                    </li>
+                  ),
+                )}
           </ul>
         </div>
       </div>

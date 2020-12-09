@@ -93,7 +93,7 @@ export default function Players() {
                       {position.secondary}
                     </span>
                     <span className="data__status">
-                      {team.name ? (
+                      {team ? (
                         <span className="data__status-taken">Taken</span>
                       ) : (
                         <span className="data__status-free">Free</span>

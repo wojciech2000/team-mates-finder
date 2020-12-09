@@ -104,6 +104,9 @@ const userResolver = {
     getUsers: async () => {
       return await User.find();
     },
+    getTeams: async () => {
+      return await Team.find();
+    },
   },
   Mutation: {
     register: async (
