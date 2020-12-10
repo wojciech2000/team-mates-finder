@@ -28,6 +28,20 @@
 
   &__content--champs {
     font-size: 18px;
+    white-space: nowrap;
+  }
+
+  &__data--button {
+    margin: 0 auto;
+  }
+
+  &__add {
+    width: 150px;
+    padding: 8px;
+    font-size: 18px;
+    color: white;
+    border-radius: 5px;
+    background-color: $green;
   }
 
   @media (min-width: 768px) {
@@ -46,6 +60,12 @@
     }
 
     &__content--champs {
+      font-size: 22px;
+    }
+
+    &__add {
+      width: 220px;
+      padding: 10px;
       font-size: 22px;
     }
   }

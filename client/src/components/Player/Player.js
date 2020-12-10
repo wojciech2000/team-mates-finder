@@ -13,6 +13,9 @@ const GET_USER = gql`
         secondary
       }
       mainChampions
+      team {
+        name
+      }
     }
   }
 `;
@@ -20,6 +23,8 @@ const GET_USER = gql`
 export default function Player(props) {
   const id = props.match.params.id;
   const {loading, data, error} = useQuery(GET_USER, {variables: {id}});
+
+  data && console.log(data.getUser.team && data.getUser.team.name);
 
   return (
     <Fragment>
@@ -56,10 +61,19 @@ export default function Player(props) {
                     )}
                   </span>
                 </div>
-                <div className="player__data">
-                  <span className="player__description">Team: </span>
-                  <span className="player__content">superteamxxx</span>
-                </div>
+
+                {data.getUser.team ? (
+                  <div className="player__data">
+                    <span className="player__description">Team: </span>
+                    <span className="player__content">
+                      {data.getUser.team.name}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="player__data player__data--button">
+                    <button className="player__add">Add to the team</button>
+                  </div>
+                )}
               </div>
             </div>
           )}

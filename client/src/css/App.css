@@ -239,7 +239,17 @@ a {
     font-size: 22px;
     font-weight: 600; }
   .player__content--champs {
-    font-size: 18px; }
+    font-size: 18px;
+    white-space: nowrap; }
+  .player__data--button {
+    margin: 0 auto; }
+  .player__add {
+    width: 150px;
+    padding: 8px;
+    font-size: 18px;
+    color: white;
+    border-radius: 5px;
+    background-color: #00ad07; }
   @media (min-width: 768px) {
     .player {
       width: 450px;
@@ -252,6 +262,10 @@ a {
         font-size: 26px;
         font-weight: 600; }
       .player__content--champs {
+        font-size: 22px; }
+      .player__add {
+        width: 220px;
+        padding: 10px;
         font-size: 22px; } }
 
 .teams {
