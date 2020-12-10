@@ -102,10 +102,10 @@ const userResolver = {
       }
     },
     getUsers: async () => {
-      return await User.find();
+      return await User.find().populate("team");
     },
     getUser: async (_, {id}) => {
-      return await User.findById({_id: id});
+      return await User.findById({_id: id}).populate("team");
     },
     getTeams: async () => {
       return await Team.find();

@@ -16,7 +16,7 @@ const userSchema = new Schema({
   mainChampions: [String],
   team: {
     type: Schema.Types.ObjectId,
-    ref: "team",
+    ref: "Team",
   },
 });
 

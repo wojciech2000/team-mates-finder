@@ -59,11 +59,11 @@ const typeDefs = gql`
   }
 
   type Team {
-    name: String
-    founder: String
-    membersAmount: Int
-    maxMembersAmount: Int
-    positions: [PositionTeamType]
+    name: String!
+    founder: String!
+    membersAmount: Int!
+    maxMembersAmount: Int!
+    positions: [PositionTeamType!]
   }
 
   type PositionTeamType {
