@@ -25,6 +25,8 @@ $green: #00ad07;
     #0095a0,
     #00a7b3
   );
+  display: flex;
+  flex-direction: column;
   @media (min-width: 768px) {
     background: url(../pictures/background.jpg) no-repeat center / cover;
   }

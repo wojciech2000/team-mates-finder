@@ -104,6 +104,9 @@ const userResolver = {
     getUsers: async () => {
       return await User.find();
     },
+    getUser: async (_, {id}) => {
+      return await User.findById({_id: id});
+    },
     getTeams: async () => {
       return await Team.find();
     },

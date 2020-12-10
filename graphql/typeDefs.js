@@ -14,6 +14,7 @@ const typeDefs = gql`
   }
 
   type User {
+    id: ID
     login: String!
     email: String!
     password: String!
@@ -80,6 +81,7 @@ const typeDefs = gql`
   type Query {
     login(login: String!, password: String!): Token!
     getUsers: [User]
+    getUser(id: ID!): User!
     getTeams: [Team]
   }
 

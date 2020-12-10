@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import Header from "./components/Header/Header";
 import Players from "./components/Players/Players";
+import Player from "./components/Player/Player";
 import Teams from "./components/Teams/Teams";
 
 const client = new ApolloClient({
@@ -15,10 +16,11 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <div className="App">
-        <Header />
         <Router>
+          <Header />
           <Switch>
             <Route path="/players" exact component={Players} />
+            <Route path="/player/:id" exact component={Player} />
             <Route path="/teams" exact component={Teams} />
           </Switch>
         </Router>

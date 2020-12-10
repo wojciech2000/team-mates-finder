@@ -1,0 +1,52 @@
+.wrapper {
+  width: 100vw;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player {
+  width: 330px;
+  height: 400px;
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 0 25px;
+
+  &__description {
+    font-size: 14px;
+    color: $gray;
+  }
+
+  &__content {
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  &__content--champs {
+    font-size: 18px;
+  }
+
+  @media (min-width: 768px) {
+    width: 450px;
+    height: 500px;
+    padding: 0 60px;
+
+    &__description {
+      font-size: 16px;
+      color: $gray;
+    }
+
+    &__content {
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    &__content--champs {
+      font-size: 22px;
+    }
+  }
+}

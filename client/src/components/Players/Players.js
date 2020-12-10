@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 const GET_USERS = gql`
   query {
     getUsers {
+      id
       nick
       position {
         primary
@@ -83,22 +84,24 @@ export default function Players() {
               ? "Loading..."
               : error
               ? "Error..."
-              : findNick().map(({nick, position, team}, id) => (
-                  <li className="data__player" key={id}>
-                    <span className="data__id">{id + 1}</span>
-                    <span className="data__palyer-nick">{nick}</span>
-                    <span className="data__position">
-                      {position.primary}
-                      <br />
-                      {position.secondary}
-                    </span>
-                    <span className="data__status">
-                      {team ? (
-                        <span className="data__status-taken">Taken</span>
-                      ) : (
-                        <span className="data__status-free">Free</span>
-                      )}
-                    </span>
+              : findNick().map(({id, nick, position, team}, key) => (
+                  <li key={key}>
+                    <Link to={`/player/${id}`} className="data__player">
+                      <span className="data__id">{key + 1}</span>
+                      <span className="data__palyer-nick">{nick}</span>
+                      <span className="data__position">
+                        {position.primary}
+                        <br />
+                        {position.secondary}
+                      </span>
+                      <span className="data__status">
+                        {team ? (
+                          <span className="data__status-taken">Taken</span>
+                        ) : (
+                          <span className="data__status-free">Free</span>
+                        )}
+                      </span>
+                    </Link>
                   </li>
                 ))}
           </ul>
