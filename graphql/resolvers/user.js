@@ -152,7 +152,8 @@ const userResolver = {
       return newUser;
     },
     updateNick: async (_, {nick}, context) => {
-      const {id, login} = checkAuth(context);
+      const {id} = checkAuth(context);
+      let dbNick;
 
       const user = await User.findById({_id: id});
 
@@ -164,7 +165,7 @@ const userResolver = {
       }
 
       try {
-        await axios.get(
+        dbNick = await axios.get(
           `https://${user.server.serverCode}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${nick}?api_key=${process.env.SECRET_RIOT_KEY}`,
         );
       } catch (error) {
@@ -173,15 +174,12 @@ const userResolver = {
         });
       }
 
-      const findUser = await User.findOne({nick});
+      const findUser = await User.findOne({nick: dbNick.data.name});
 
-      if (findUser && findUser.login === login) {
-        throw new UserInputError("Nick error", {
-          errors: {nickTheSame: "Nick can't be the same as the old one"},
-        });
-      } else if (
+      if (
         findUser &&
-        findUser.server.serverName === user.server.serverName
+        (findUser.server.serverName === user.server.serverName ||
+          findUser.id != user.id)
       ) {
         throw new UserInputError("Nick error", {
           errors: {nickTaken: "Nick is already taken"},
@@ -189,7 +187,7 @@ const userResolver = {
       }
 
       //Update new nick
-      user.nick = nick;
+      user.nick = dbNick.data.name;
       user.save();
 
       return user;
