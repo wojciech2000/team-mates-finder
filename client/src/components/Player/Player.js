@@ -24,8 +24,6 @@ export default function Player(props) {
   const id = props.match.params.id;
   const {loading, data, error} = useQuery(GET_USER, {variables: {id}});
 
-  data && console.log(data.getUser.team && data.getUser.team.name);
-
   return (
     <Fragment>
       {loading

@@ -30,8 +30,12 @@ export default function Teams() {
 
   const findTeam = () => {
     const filter = teams
-      .filter(team => team.name.includes(teamsName))
-      .filter(team => team.founder.includes(founder));
+      .filter(team =>
+        team.name.toLocaleLowerCase().includes(teamsName.toLocaleLowerCase()),
+      )
+      .filter(team =>
+        team.founder.toLocaleLowerCase().includes(founder.toLocaleLowerCase()),
+      );
 
     return filter;
   };

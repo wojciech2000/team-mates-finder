@@ -31,7 +31,11 @@ export default function Players() {
 
   const findNick = () => {
     const filter = players
-      .filter(player => player.nick.includes(filterNick))
+      .filter(player =>
+        player.nick
+          .toLocaleLowerCase()
+          .includes(filterNick.toLocaleLowerCase()),
+      )
       .filter(
         player =>
           (player.position.primary &&
