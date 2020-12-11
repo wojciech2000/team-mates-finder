@@ -1,0 +1,133 @@
+.team {
+  width: 320px;
+  height: 500px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    margin-bottom: 50px;
+  }
+
+  &__name,
+  &__founder {
+    padding: 10px 0;
+  }
+
+  &__description {
+    @extend .player__description;
+  }
+
+  &__content {
+    @extend .player__content;
+  }
+
+  .positions {
+    overflow: auto;
+    padding: 20px 0;
+
+    &__free {
+      .positions__position {
+        margin: 20px 0;
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+    }
+
+    &__title--free {
+      color: $green;
+      margin-bottom: 20px;
+    }
+
+    &__data {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__apply {
+      background-color: $green;
+      color: white;
+      font-size: 20px;
+      border-radius: 5px;
+      padding: 2px 8px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &__position {
+      margin: 20px 0;
+    }
+
+    &__title--taken {
+      color: $red;
+      margin: 20px 0;
+    }
+
+    &__description {
+      @extend .player__description;
+    }
+
+    &__content {
+      @extend .player__content;
+    }
+  }
+
+  @media (min-width: 768px) {
+    width: 700px;
+    height: 450px;
+    padding: 5px 60px;
+
+    &__header {
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+
+    .positions {
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+
+      &__free {
+        border-right: 2px solid black;
+      }
+
+      & section {
+        flex: 1;
+        padding: 30px 10px;
+      }
+
+      &__title--free {
+        font-size: 24px;
+        text-align: center;
+      }
+
+      &__data {
+        padding: 0 15px;
+      }
+
+      &__apply {
+        font-size: 22px;
+        padding: 5px 12px;
+      }
+
+      &__title--taken {
+        margin: 0 0 20px 0;
+        font-size: 24px;
+        text-align: center;
+      }
+
+      //   &__description {
+      //     @extend .player__description;
+      //   }
+
+      //   &__content {
+      //     @extend .player__content;
+      //   }
+    }
+  }
+}

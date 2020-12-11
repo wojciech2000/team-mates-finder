@@ -6,6 +6,7 @@ import Header from "./components/Header/Header";
 import Players from "./components/Players/Players";
 import Player from "./components/Player/Player";
 import Teams from "./components/Teams/Teams";
+import Team from "./components/Team/Team";
 
 const client = new ApolloClient({
   uri: "http://localhost:5000/",
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="/players" exact component={Players} />
             <Route path="/player/:id" exact component={Player} />
             <Route path="/teams" exact component={Teams} />
+            <Route path="/team/:id" exact component={Team} />
           </Switch>
         </Router>
       </div>

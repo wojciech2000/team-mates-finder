@@ -16,6 +16,21 @@
     .App {
       background: url(../pictures/background.jpg) no-repeat center/cover; } }
 
+.wrapper {
+  width: 100vw;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+::-webkit-scrollbar {
+  background-color: #ebebeb;
+  border-radius: 20px; }
+
+::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 20px; }
+
 button {
   background-color: transparent;
   outline: none;
@@ -220,13 +235,6 @@ a {
       grid-template-columns: 115px 432px 144px 216px;
       font-size: 22px; } }
 
-.wrapper {
-  width: 100vw;
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center; }
-
 .player {
   width: 330px;
   height: 400px;
@@ -236,10 +244,10 @@ a {
   flex-direction: column;
   justify-content: space-evenly;
   padding: 0 25px; }
-  .player__description {
+  .player__description, .team__description, .team .positions__description {
     font-size: 14px;
     color: #727272; }
-  .player__content {
+  .player__content, .team__content, .team .positions__content {
     font-size: 22px;
     font-weight: 600; }
   .player__content--champs {
@@ -259,10 +267,10 @@ a {
       width: 450px;
       height: 500px;
       padding: 0 60px; }
-      .player__description {
+      .player__description, .team__description, .team .positions__description {
         font-size: 16px;
         color: #727272; }
-      .player__content {
+      .player__content, .team__content, .team .positions__content {
         font-size: 26px;
         font-weight: 600; }
       .player__content--champs {
@@ -307,7 +315,7 @@ a {
       background-color: white;
       font-size: 16px;
       border-radius: 5px; }
-      .teams .table .data__teams {
+      .teams .table .data__team {
         display: grid;
         grid-template-columns: 6vw 40vw 20vw 20vw;
         align-content: center;
@@ -315,10 +323,11 @@ a {
         row-gap: 20px;
         margin: 30px 0;
         padding: 10px;
+        color: black;
         transition: background-color 0.2s ease-in; }
-        .teams .table .data__teams:hover {
+        .teams .table .data__team:hover {
           background-color: #e2e2e2; }
-        .teams .table .data__teams * {
+        .teams .table .data__team * {
           text-align: center;
           margin: auto; }
       .teams .table .data__status-taken {
@@ -345,26 +354,97 @@ a {
       font-size: 18px; }
     .teams .table .data {
       background-color: rgba(255, 255, 255, 0.95); }
-      .teams .table .data__teams {
+      .teams .table .data__team {
         grid-template-columns: 8vw 30vw 10vw 15vw;
         font-size: 20px; } }
 
 @media (min-width: 1440px) {
-  .teams .header-table {
+  .team .header-table {
     height: 110px; }
-    .teams .header-table__title {
+    .team .header-table__title {
       font-size: 38px;
       width: 220px; }
-    .teams .header-table__subtitle {
+    .team .header-table__subtitle {
       font-size: 22px;
       width: 110px; }
-  .teams .table {
+  .team .table {
     grid-template-columns: 115px 432px 144px 216px;
     font-size: 20px; }
-    .teams .table__find-teams-name {
+    .team .table__find-teams-name {
       font-size: 20px; }
-    .teams .table__find-founder {
+    .team .table__find-founder {
       font-size: 20px; }
-    .teams .table .data__teams {
+    .team .table .data__teams {
       grid-template-columns: 115px 432px 144px 216px;
       font-size: 22px; } }
+
+.team {
+  width: 320px;
+  height: 500px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column; }
+  .team__header {
+    margin-bottom: 50px; }
+  .team__name, .team__founder {
+    padding: 10px 0; }
+  .team .positions {
+    overflow: auto;
+    padding: 20px 0; }
+    .team .positions__free .positions__position {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      position: relative; }
+    .team .positions__title--free {
+      color: #00ad07;
+      margin-bottom: 20px; }
+    .team .positions__data {
+      display: flex;
+      flex-direction: column; }
+    .team .positions__apply {
+      background-color: #00ad07;
+      color: white;
+      font-size: 20px;
+      border-radius: 5px;
+      padding: 2px 8px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%); }
+    .team .positions__position {
+      margin: 20px 0; }
+    .team .positions__title--taken {
+      color: #bb0000;
+      margin: 20px 0; }
+  @media (min-width: 768px) {
+    .team {
+      width: 700px;
+      height: 450px;
+      padding: 5px 60px; }
+      .team__header {
+        margin-top: 20px;
+        margin-bottom: 30px; }
+      .team .positions {
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between; }
+        .team .positions__free {
+          border-right: 2px solid black; }
+        .team .positions section {
+          flex: 1;
+          padding: 30px 10px; }
+        .team .positions__title--free {
+          font-size: 24px;
+          text-align: center; }
+        .team .positions__data {
+          padding: 0 15px; }
+        .team .positions__apply {
+          font-size: 22px;
+          padding: 5px 12px; }
+        .team .positions__title--taken {
+          margin: 0 0 20px 0;
+          font-size: 24px;
+          text-align: center; } }

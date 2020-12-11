@@ -32,6 +32,24 @@ $green: #00ad07;
   }
 }
 
+.wrapper {
+  width: 100vw;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+::-webkit-scrollbar {
+  background-color: #ebebeb;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 20px;
+}
+
 button {
   background-color: transparent;
   outline: none;

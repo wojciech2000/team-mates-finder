@@ -59,6 +59,7 @@ const typeDefs = gql`
   }
 
   type Team {
+    id: ID!
     name: String!
     founder: String!
     membersAmount: Int!
@@ -83,6 +84,7 @@ const typeDefs = gql`
     getUsers: [User]
     getUser(id: ID!): User!
     getTeams: [Team]
+    getTeam(id: ID!): Team!
   }
 
   type Mutation {

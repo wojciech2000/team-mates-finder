@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 const GET_TEAMS = gql`
   query {
     getTeams {
+      id
       name
       founder
       membersAmount
@@ -78,14 +79,19 @@ export default function Teams() {
               ? "Error..."
               : data &&
                 findTeam().map(
-                  ({name, membersAmount, maxMembersAmount, founder}, id) => (
-                    <li className="data__teams" key={id}>
-                      <span className="data__id">{id + 1}</span>
-                      <span className="data__teams-name">{name}</span>
-                      <span className="data__positions">
-                        {membersAmount}/{maxMembersAmount}
-                      </span>
-                      <span className="data__founder">{founder}</span>
+                  (
+                    {id, name, membersAmount, maxMembersAmount, founder},
+                    key,
+                  ) => (
+                    <li key={key}>
+                      <Link to={`/team/${id}`} className="data__team">
+                        <span className="data__id">{key + 1}</span>
+                        <span className="data__teams-name">{name}</span>
+                        <span className="data__positions">
+                          {membersAmount}/{maxMembersAmount}
+                        </span>
+                        <span className="data__founder">{founder}</span>
+                      </Link>
                     </li>
                   ),
                 )}
