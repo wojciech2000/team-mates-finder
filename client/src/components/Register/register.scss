@@ -1,0 +1,39 @@
+.register {
+  @extend .login;
+  height: 550px;
+
+  &__header {
+    @extend .login__header;
+  }
+
+  &__form {
+    @extend .login__form;
+  }
+
+  &__inputs {
+    @extend .login__inputs;
+  }
+
+  &__input {
+    @extend .login__input;
+    font-size: 16px;
+  }
+
+  &__submit {
+    @extend .login__submit;
+    width: 140px;
+  }
+
+  &__redirect {
+    @extend .login__redirect;
+    width: 100px;
+  }
+
+  @media (min-width: 768px) {
+    height: 550px;
+
+    &__input {
+      font-size: 20px;
+    }
+  }
+}

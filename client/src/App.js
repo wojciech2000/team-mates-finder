@@ -7,6 +7,8 @@ import Players from "./components/Players/Players";
 import Player from "./components/Player/Player";
 import Teams from "./components/Teams/Teams";
 import Team from "./components/Team/Team";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 
 const client = new ApolloClient({
   uri: "http://localhost:5000/",
@@ -24,6 +26,8 @@ export default function App() {
             <Route path="/player/:id" exact component={Player} />
             <Route path="/teams" exact component={Teams} />
             <Route path="/team/:id" exact component={Team} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/register" exact component={Register} />
           </Switch>
         </Router>
       </div>

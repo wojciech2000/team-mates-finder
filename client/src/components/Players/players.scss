@@ -109,10 +109,7 @@ $table-shape3: 115px 432px 144px 216px;
       }
     }
   }
-}
-
-@media (min-width: 768px) {
-  .players {
+  @media (min-width: 768px) {
     .header-table {
       height: 100px;
       margin-bottom: 40px;
@@ -145,10 +142,8 @@ $table-shape3: 115px 432px 144px 216px;
       }
     }
   }
-}
 
-@media (min-width: 1440px) {
-  .players {
+  @media (min-width: 1440px) {
     .header-table {
       height: 110px;
 

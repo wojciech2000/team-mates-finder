@@ -83,10 +83,8 @@ $table-shape3: 115px 432px 144px 216px;
       }
     }
   }
-}
 
-@media (min-width: 768px) {
-  .teams {
+  @media (min-width: 768px) {
     .header-table {
       height: 100px;
       margin-bottom: 40px;
@@ -123,10 +121,8 @@ $table-shape3: 115px 432px 144px 216px;
       }
     }
   }
-}
 
-@media (min-width: 1440px) {
-  .team {
+  @media (min-width: 1440px) {
     .header-table {
       height: 110px;
 
@@ -154,7 +150,7 @@ $table-shape3: 115px 432px 144px 216px;
       }
 
       .data {
-        &__teams {
+        &__team {
           grid-template-columns: $table-shape3;
           font-size: 22px;
         }
