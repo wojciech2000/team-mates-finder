@@ -1,22 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {gql, useQuery} from "@apollo/client";
+import {useQuery} from "@apollo/client";
 import {Link} from "react-router-dom";
 
-const GET_TEAMS = gql`
-  query {
-    getTeams {
-      id
-      name
-      founder
-      membersAmount
-      maxMembersAmount
-      positions {
-        nick
-        position
-      }
-    }
-  }
-`;
+import {GET_TEAMS} from "../../queries";
 
 export default function Teams() {
   const {loading, data, error} = useQuery(GET_TEAMS);

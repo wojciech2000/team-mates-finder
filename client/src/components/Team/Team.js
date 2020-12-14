@@ -1,19 +1,7 @@
-import {gql, useQuery} from "@apollo/client";
+import {useQuery} from "@apollo/client";
 import React, {Fragment} from "react";
 
-const GET_TEAM = gql`
-  query getTeam($id: ID!) {
-    getTeam(id: $id) {
-      id
-      name
-      founder
-      positions {
-        nick
-        position
-      }
-    }
-  }
-`;
+import {GET_TEAM} from "../../queries";
 
 export default function Team(props) {
   const id = props.match.params.id;

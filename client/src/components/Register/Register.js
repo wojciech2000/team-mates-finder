@@ -1,40 +1,12 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
-import {gql, useMutation} from "@apollo/client";
+import {useMutation} from "@apollo/client";
 
 import InfoModel from "../InfoModel/InfoModel";
 import loadingGif from "../../pictures/loading.gif";
-import {GET_USERS} from "../../queries";
+import {GET_USERS, REGISTER_USER} from "../../queries";
 
-const REGISTER_USER = gql`
-  mutation register(
-    $login: String!
-    $email: String!
-    $password: String!
-    $confirmPassword: String!
-    $server: Server!
-    $nick: String!
-    $primary: Positions!
-    $secondary: Positions!
-  ) {
-    register(
-      registerInput: {
-        login: $login
-        email: $email
-        password: $password
-        confirmPassword: $confirmPassword
-        server: $server
-        nick: $nick
-        position: {primary: $primary, secondary: $secondary}
-      }
-    ) {
-      login
-      email
-    }
-  }
-`;
-
-export default function Register() {
+export default function Register(props) {
   const [values, setValues] = useState({
     login: "",
     email: "",
@@ -50,7 +22,15 @@ export default function Register() {
   const [correctValidation, setCorrectValidation] = useState("");
 
   const [addUser, {loading}] = useMutation(REGISTER_USER, {
-    update: (proxy, result) => {
+    update: () => {
+      //disable all inputs so user can't type  and click anything
+      Array.from(document.querySelectorAll("input")).forEach(
+        input => (input.disabled = true),
+      );
+      setTimeout(() => {
+        props.history.push("/login");
+      }, 3000);
+
       setCorrectValidation("User has been added");
     },
     refetchQueries: [{query: GET_USERS}],
@@ -72,8 +52,8 @@ export default function Register() {
   return (
     <div className="wrapper">
       <section className="register">
-        {loading && (
-          <div className="register__loading">
+        {(loading || correctValidation) && (
+          <div className="loading">
             <img src={loadingGif} alt="loading" />
           </div>
         )}

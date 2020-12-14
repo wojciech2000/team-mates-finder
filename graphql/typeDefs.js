@@ -88,7 +88,6 @@ const typeDefs = gql`
   # Query & Mutation
 
   type Query {
-    login(login: String!, password: String!): Token!
     getUsers: [User]
     getUser(id: ID!): User!
     getTeams: [Team]
@@ -96,6 +95,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    login(login: String!, password: String!): Token!
     register(registerInput: RegisterInput): User
     updateNick(nick: String!): User
     updateServer(server: Server): User

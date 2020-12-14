@@ -60,6 +60,20 @@ const setServer = server => {
 
 const userResolver = {
   Query: {
+    getUsers: async () => {
+      return await User.find().populate("team");
+    },
+    getUser: async (_, {id}) => {
+      return await User.findById({_id: id}).populate("team");
+    },
+    getTeams: async () => {
+      return await Team.find();
+    },
+    getTeam: async (_, {id}) => {
+      return await Team.findById({_id: id});
+    },
+  },
+  Mutation: {
     login: async (_, {login, password}) => {
       //Login validation
       const {errors, valid} = validateLoginInput(login, password);
@@ -101,20 +115,6 @@ const userResolver = {
         return {token};
       }
     },
-    getUsers: async () => {
-      return await User.find().populate("team");
-    },
-    getUser: async (_, {id}) => {
-      return await User.findById({_id: id}).populate("team");
-    },
-    getTeams: async () => {
-      return await Team.find();
-    },
-    getTeam: async (_, {id}) => {
-      return await Team.findById({_id: id});
-    },
-  },
-  Mutation: {
     register: async (
       _,
       {

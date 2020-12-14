@@ -1,24 +1,7 @@
-import {gql, useQuery} from "@apollo/client";
+import {useQuery} from "@apollo/client";
 import React, {Fragment} from "react";
 
-const GET_USER = gql`
-  query getUser($id: ID!) {
-    getUser(id: $id) {
-      nick
-      server {
-        serverName
-      }
-      position {
-        primary
-        secondary
-      }
-      mainChampions
-      team {
-        name
-      }
-    }
-  }
-`;
+import {GET_USER} from "../../queries";
 
 export default function Player(props) {
   const id = props.match.params.id;

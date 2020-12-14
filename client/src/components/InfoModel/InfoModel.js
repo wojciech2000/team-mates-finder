@@ -22,7 +22,7 @@ export default memo(function InfoModel({error = [], info = ""}) {
 
     const hide = setTimeout(() => {
       setMessage("");
-    }, 5000);
+    }, 2500);
 
     return () => {
       clearTimeout(hide);
