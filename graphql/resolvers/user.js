@@ -117,7 +117,17 @@ const userResolver = {
   Mutation: {
     register: async (
       _,
-      {registerInput: {login, email, password, confirmPassword}},
+      {
+        registerInput: {
+          login,
+          email,
+          password,
+          confirmPassword,
+          server,
+          nick,
+          position,
+        },
+      },
     ) => {
       //Register validation
       const {errors, valid} = validateRegisterInput(
@@ -134,7 +144,7 @@ const userResolver = {
       //Check if user is unique
       const userLogin = await User.findOne({login});
       if (userLogin) {
-        throw new UserInputError("Username is taken", {
+        throw new UserInputError("Username error", {
           errors: {username: "This username is taken"},
         });
       }
@@ -142,14 +152,54 @@ const userResolver = {
       //check if emial is unique
       const userEmail = await User.findOne({email});
       if (userEmail) {
-        throw new UserInputError("Email is taken", {
+        throw new UserInputError("Email error", {
           errors: {username: "This email is taken"},
+        });
+      }
+
+      //check if positions aren't the same
+      if (position.primary === position.secondary) {
+        throw new UserInputError("Position error", {
+          errors: {username: "Positions can't be the same"},
+        });
+      }
+
+      //check if nick is unique
+      const dataServer = setServer(server);
+      let dbNick;
+
+      try {
+        dbNick = await axios.get(
+          `https://${dataServer.serverCode}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${nick}?api_key=${process.env.SECRET_RIOT_KEY}`,
+        );
+      } catch (error) {
+        throw new UserInputError("Nick error", {
+          errors: {nickNotFound: "Nick wasn't found in database"},
+        });
+      }
+
+      const userNick = await User.findOne({
+        nick: dbNick.data.name,
+      });
+
+      if (userNick && userNick.server.serverName === server) {
+        throw new UserInputError("Nick error", {
+          errors: {username: "This nick is taken"},
         });
       }
 
       //Register user
       password = await bcrypt.hash(password, 10);
-      const newUser = new User({login, email, password});
+
+      const newUser = await new User({
+        login,
+        email,
+        password,
+        server: dataServer,
+        nick: dbNick.data.name,
+        position,
+      });
+
       await newUser.save();
 
       return newUser;

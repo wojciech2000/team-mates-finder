@@ -20,8 +20,6 @@ export default function Team(props) {
 
   const {loading, data, error} = useQuery(GET_TEAM, {variables: {id}});
 
-  data && console.log(data);
-
   return (
     <Fragment>
       {loading

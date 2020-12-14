@@ -9,7 +9,7 @@ export default function Header() {
         <Link to="/players">TMF</Link>
       </h1>
       <div className="menu">
-        <Link to="login" className="menu__login">
+        <Link to="/login" className="menu__login">
           <BiLogIn />
         </Link>
       </div>

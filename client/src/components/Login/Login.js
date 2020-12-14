@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-export default function Login(props) {
+export default function Login() {
   return (
     <div className="wrapper">
       <section className="login">

@@ -25,7 +25,8 @@
 
 ::-webkit-scrollbar {
   background-color: #ebebeb;
-  border-radius: 20px; }
+  border-radius: 20px;
+  width: 10px; }
 
 ::-webkit-scrollbar-thumb {
   background-color: black;
@@ -175,7 +176,9 @@ a {
       grid-column: 1 / -1;
       background-color: white;
       font-size: 16px;
-      border-radius: 5px; }
+      border-radius: 5px;
+      overflow: auto;
+      max-height: 50vh; }
       .players .table .data__player {
         display: grid;
         grid-template-columns: 6vw 40vw 20vw 20vw;
@@ -312,7 +315,9 @@ a {
       grid-column: 1 / -1;
       background-color: white;
       font-size: 16px;
-      border-radius: 5px; }
+      border-radius: 5px;
+      overflow: auto;
+      max-height: 50vh; }
       .teams .table .data__team {
         display: grid;
         grid-template-columns: 6vw 40vw 20vw 20vw;
@@ -509,10 +514,28 @@ a {
       width: 450px;
       height: 400px; }
       .login__header, .register__header {
-        font-size: 38px; } }
+        font-size: 38px; }
+      .login__input, .register__input {
+        font-size: 20px; } }
 
 .register {
   height: 550px; }
+  .register__inputs-wrapper {
+    height: 350px;
+    width: 100%;
+    overflow: auto; }
+  .register .inputs-position {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: space-evenly;
+    height: auto; }
+  .register .inputs-position__input {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    flex: 1; }
   .register__input {
     font-size: 16px; }
   .register__submit {

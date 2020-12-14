@@ -11,7 +11,7 @@ import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 
 const client = new ApolloClient({
-  uri: "http://localhost:5000/",
+  uri: "http://localhost:5000",
   cache: new InMemoryCache(),
 });
 
@@ -22,12 +22,12 @@ export default function App() {
         <Router>
           <Header />
           <Switch>
-            <Route path="/players" exact component={Players} />
-            <Route path="/player/:id" exact component={Player} />
-            <Route path="/teams" exact component={Teams} />
-            <Route path="/team/:id" exact component={Team} />
-            <Route path="/login" exact component={Login} />
-            <Route path="/register" exact component={Register} />
+            <Route path="/players" component={Players} />
+            <Route path="/player/:id" component={Player} />
+            <Route path="/teams" component={Teams} />
+            <Route path="/team/:id" component={Team} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
           </Switch>
         </Router>
       </div>

@@ -7,6 +7,14 @@ const typeDefs = gql`
     email: String!
     password: String!
     confirmPassword: String!
+    server: Server!
+    nick: String!
+    position: PositionInput
+  }
+
+  input PositionInput {
+    primary: Positions
+    secondary: Positions
   }
 
   type Token {
@@ -17,7 +25,7 @@ const typeDefs = gql`
     id: ID
     login: String!
     email: String!
-    password: String!
+    password: String
     nick: String
     server: ServerData
     position: Position
