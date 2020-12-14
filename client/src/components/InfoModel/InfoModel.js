@@ -1,14 +1,27 @@
 import React, {memo, useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 
-export default memo(function InfoModel({info}) {
-  const [messages, setMessage] = useState([]);
+export default memo(function InfoModel({error = [], info = ""}) {
+  const [errors, setErrors] = useState([]);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    setMessage(Object.values(info));
+    Object.values(error).length > 0 && setErrors(Object.values(error));
 
     const hide = setTimeout(() => {
-      setMessage([]);
+      setErrors([]);
+    }, 5000);
+
+    return () => {
+      clearTimeout(hide);
+    };
+  }, [error]);
+
+  useEffect(() => {
+    setMessage(info);
+
+    const hide = setTimeout(() => {
+      setMessage("");
     }, 5000);
 
     return () => {
@@ -18,18 +31,26 @@ export default memo(function InfoModel({info}) {
 
   return (
     <AnimatePresence>
-      {messages.length > 0 && (
+      {errors.length > 0 && (
         <motion.aside
           className="info"
-          initial={{y: 100, opacity: 0.5}}
-          animate={{y: 0, opacity: 1}}
-          exit={{y: 100, opacity: 0}}
+          initial={{y: 100}}
+          animate={{y: 0}}
+          exit={{opacity: 0}}
         >
-          <ul>
-            {messages.map((message, id) => (
-              <li key={id}>{message}</li>
-            ))}
-          </ul>
+          {errors.map((error, id) => (
+            <span key={id}>{error}</span>
+          ))}
+        </motion.aside>
+      )}
+      {message.length > 0 && (
+        <motion.aside
+          className="info--green"
+          initial={{y: 100}}
+          animate={{y: 0}}
+          exit={{opacity: 0}}
+        >
+          <span>{message}</span>
         </motion.aside>
       )}
     </AnimatePresence>

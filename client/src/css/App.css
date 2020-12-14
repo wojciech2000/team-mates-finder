@@ -97,9 +97,9 @@ a {
         font-size: 22px;
         width: 110px; } }
 
-.info {
+.info, .info--green {
   position: absolute;
-  padding: 10px 25px 10px 55px;
+  padding: 10px 25px;
   background-color: #bb0000;
   right: 0;
   bottom: 0;
@@ -109,9 +109,11 @@ a {
   display: flex;
   align-items: center;
   flex-direction: column; }
-  .info ul li {
-    list-style-type: disc;
-    margin: 15px 0; }
+  .info span, .info--green span {
+    margin: 10px 0; }
+
+.info--green {
+  background-color: #00ad07; }
 
 .header {
   width: 100vw;

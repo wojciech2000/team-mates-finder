@@ -1,6 +1,6 @@
 .info {
   position: absolute;
-  padding: 10px 25px 10px 55px;
+  padding: 10px 25px;
   background-color: $red;
   right: 0;
   bottom: 0;
@@ -11,10 +11,12 @@
   align-items: center;
   flex-direction: column;
 
-  ul {
-    li {
-      list-style-type: disc;
-      margin: 15px 0;
-    }
+  span {
+    margin: 10px 0;
   }
+}
+
+.info--green {
+  @extend .info;
+  background-color: $green;
 }

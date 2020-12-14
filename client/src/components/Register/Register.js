@@ -3,6 +3,8 @@ import {Link} from "react-router-dom";
 import {gql, useMutation} from "@apollo/client";
 
 import InfoModel from "../InfoModel/InfoModel";
+import loadingGif from "../../pictures/loading.gif";
+import {GET_USERS} from "../../queries";
 
 const REGISTER_USER = gql`
   mutation register(
@@ -45,11 +47,13 @@ export default function Register() {
   });
 
   const [errors, setErrors] = useState({});
+  const [correctValidation, setCorrectValidation] = useState("");
 
   const [addUser, {loading}] = useMutation(REGISTER_USER, {
     update: (proxy, result) => {
-      console.log(result);
+      setCorrectValidation("User has been added");
     },
+    refetchQueries: [{query: GET_USERS}],
     variables: values,
     onError: error => {
       setErrors(error.graphQLErrors[0].extensions.exception.errors);
@@ -70,7 +74,7 @@ export default function Register() {
       <section className="register">
         {loading && (
           <div className="register__loading">
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif" />
+            <img src={loadingGif} alt="loading" />
           </div>
         )}
         <div className="register__header">Register</div>
@@ -175,7 +179,8 @@ export default function Register() {
           </Link>
         </form>
       </section>
-      {Object.keys(errors).length > 0 && <InfoModel info={errors} />}
+      {Object.keys(errors).length > 0 && <InfoModel error={errors} />}
+      {correctValidation && <InfoModel info={correctValidation} />}
     </div>
   );
 }

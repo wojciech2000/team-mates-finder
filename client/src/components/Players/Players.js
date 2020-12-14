@@ -1,22 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {gql, useQuery} from "@apollo/client";
+import {useQuery} from "@apollo/client";
 import {Link} from "react-router-dom";
 
-const GET_USERS = gql`
-  query {
-    getUsers {
-      id
-      nick
-      position {
-        primary
-        secondary
-      }
-      team {
-        name
-      }
-    }
-  }
-`;
+import {GET_USERS} from "../../queries";
 
 export default function Players() {
   const {loading, data, error} = useQuery(GET_USERS);
