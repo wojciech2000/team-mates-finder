@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import {gql, useMutation} from "@apollo/client";
 
+import InfoModel from "../InfoModel/InfoModel";
+
 const REGISTER_USER = gql`
   mutation register(
     $login: String!
@@ -36,7 +38,7 @@ export default function Register() {
     email: "",
     password: "",
     confirmPassword: "",
-    server: "Brazil",
+    server: "BR",
     nick: "",
     primary: "Top",
     secondary: "Top",
@@ -50,7 +52,7 @@ export default function Register() {
     },
     variables: values,
     onError: error => {
-      console.log(error.graphQLErrors[0].extensions.exception);
+      setErrors(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
@@ -60,13 +62,17 @@ export default function Register() {
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log(values);
     addUser();
   };
 
   return (
     <div className="wrapper">
       <section className="register">
+        {loading && (
+          <div className="register__loading">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif" />
+          </div>
+        )}
         <div className="register__header">Register</div>
         <form className="register__form" onSubmit={onSubmit}>
           <div className="register__inputs-wrapper">
@@ -169,6 +175,7 @@ export default function Register() {
           </Link>
         </form>
       </section>
+      {Object.keys(errors).length > 0 && <InfoModel info={errors} />}
     </div>
   );
 }

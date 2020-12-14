@@ -157,13 +157,6 @@ const userResolver = {
         });
       }
 
-      //check if positions aren't the same
-      if (position.primary === position.secondary) {
-        throw new UserInputError("Position error", {
-          errors: {username: "Positions can't be the same"},
-        });
-      }
-
       //check if nick is unique
       const dataServer = setServer(server);
       let dbNick;
@@ -185,6 +178,13 @@ const userResolver = {
       if (userNick && userNick.server.serverName === server) {
         throw new UserInputError("Nick error", {
           errors: {username: "This nick is taken"},
+        });
+      }
+
+      //check if positions aren't the same
+      if (position.primary === position.secondary) {
+        throw new UserInputError("Position error", {
+          errors: {username: "Positions can't be the same"},
         });
       }
 
