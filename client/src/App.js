@@ -10,6 +10,8 @@ import Team from "./components/Team/Team";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 
+import {AuthProvider} from "./context/auth";
+
 const client = new ApolloClient({
   uri: "http://localhost:5000",
   cache: new InMemoryCache(),
@@ -18,19 +20,21 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-        <Router>
-          <Header />
-          <Switch>
-            <Route path="/players" component={Players} />
-            <Route path="/player/:id" component={Player} />
-            <Route path="/teams" component={Teams} />
-            <Route path="/team/:id" component={Team} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-          </Switch>
-        </Router>
-      </div>
+      <AuthProvider>
+        <div className="App">
+          <Router>
+            <Header />
+            <Switch>
+              <Route path="/players" component={Players} />
+              <Route path="/player/:id" component={Player} />
+              <Route path="/teams" component={Teams} />
+              <Route path="/team/:id" component={Team} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+            </Switch>
+          </Router>
+        </div>
+      </AuthProvider>
     </ApolloProvider>
   );
 }

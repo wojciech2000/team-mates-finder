@@ -11,6 +11,9 @@
   }
 
   .menu {
+    display: flex;
+    align-items: space-between;
+
     &__login {
       display: flex;
       align-items: center;
@@ -18,7 +21,24 @@
       color: $green;
       background-color: white;
       border-radius: 5px;
-      padding: 2px;
+      padding: 5px;
+    }
+
+    &__user {
+      @extend .menu__login;
+      color: black;
+      font-size: 30px;
+      margin-right: 20px;
+    }
+
+    &__username {
+      font-size: 18px;
+      padding: 0 5px;
+    }
+
+    &__logout {
+      @extend .menu__login;
+      color: $red;
     }
   }
 }
@@ -36,6 +56,10 @@
     .menu {
       &__login {
         font-size: 45px;
+      }
+
+      &__user {
+        font-size: 40px;
       }
     }
   }

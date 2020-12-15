@@ -137,14 +137,26 @@ a {
   .header__title {
     font-family: "Permanent Marker", cursive;
     color: white; }
-  .header .menu__login {
+  .header .menu {
     display: flex;
-    align-items: center;
-    font-size: 35px;
-    color: #00ad07;
-    background-color: white;
-    border-radius: 5px;
-    padding: 2px; }
+    align-items: space-between; }
+    .header .menu__login, .header .menu__user, .header .menu__logout {
+      display: flex;
+      align-items: center;
+      font-size: 35px;
+      color: #00ad07;
+      background-color: white;
+      border-radius: 5px;
+      padding: 5px; }
+    .header .menu__user {
+      color: black;
+      font-size: 30px;
+      margin-right: 20px; }
+    .header .menu__username {
+      font-size: 18px;
+      padding: 0 5px; }
+    .header .menu__logout {
+      color: #bb0000; }
 
 @media (min-width: 768px) {
   .header {
@@ -153,8 +165,10 @@ a {
     .header__title {
       font-family: "Permanent Marker", cursive;
       color: white; }
-    .header .menu__login {
-      font-size: 45px; } }
+    .header .menu__login, .header .menu__user, .header .menu__logout {
+      font-size: 45px; }
+    .header .menu__user {
+      font-size: 40px; } }
 
 .players {
   width: 100vw;

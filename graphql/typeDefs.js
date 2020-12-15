@@ -85,6 +85,11 @@ const typeDefs = gql`
     position: Positions!
   }
 
+  type userLogged {
+    token: String!
+    login: String!
+  }
+
   # Query & Mutation
 
   type Query {
@@ -95,7 +100,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    login(login: String!, password: String!): Token!
+    login(login: String!, password: String!): userLogged!
     register(registerInput: RegisterInput): User
     updateNick(nick: String!): User
     updateServer(server: Server): User

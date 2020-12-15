@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {Link} from "react-router-dom";
 import {useMutation} from "@apollo/client";
 
@@ -6,18 +6,28 @@ import {LOGIN_USER} from "../../queries";
 import InfoModel from "../InfoModel/InfoModel";
 import loadingGif from "../../pictures/loading.gif";
 
+import {AuthContext} from "../../context/auth";
+
 export default function Login(props) {
+  const context = useContext(AuthContext);
+
   const [values, setValues] = useState({
     login: "",
     password: "",
   });
-
   const [errors, setErrors] = useState({});
   const [correctValidation, setCorrectValidation] = useState("");
 
   const [loginUser] = useMutation(LOGIN_USER, {
     variables: values,
-    update: () => {
+    update: (
+      proxy,
+      {
+        data: {
+          login: {token, login},
+        },
+      },
+    ) => {
       //disable all inputs so user can't type  and click anything
       Array.from(document.querySelectorAll("input")).forEach(
         input => (input.disabled = true),
@@ -25,6 +35,8 @@ export default function Login(props) {
       setCorrectValidation("Logged in");
       setTimeout(() => {
         props.history.push("/players");
+        context.login(login);
+        localStorage.setItem("jwtToken", token);
       }, 3000);
     },
     onError: error => {
@@ -38,7 +50,6 @@ export default function Login(props) {
 
   const login = e => {
     e.preventDefault();
-
     loginUser();
   };
 

@@ -112,7 +112,7 @@ const userResolver = {
           {expiresIn: "1h"},
         );
 
-        return {token};
+        return {token, login: user.login};
       }
     },
     register: async (
