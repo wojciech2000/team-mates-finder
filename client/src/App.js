@@ -10,6 +10,7 @@ import Team from "./components/Team/Team";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 
+import AuthRoute from "./components/AuthRoute";
 import {AuthProvider} from "./context/auth";
 
 const client = new ApolloClient({
@@ -29,8 +30,8 @@ export default function App() {
               <Route path="/player/:id" component={Player} />
               <Route path="/teams" component={Teams} />
               <Route path="/team/:id" component={Team} />
-              <Route path="/login" component={Login} />
-              <Route path="/register" component={Register} />
+              <AuthRoute path="/login" component={Login} />
+              <AuthRoute path="/register" component={Register} />
             </Switch>
           </Router>
         </div>
