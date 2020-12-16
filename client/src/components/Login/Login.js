@@ -24,7 +24,7 @@ export default function Login(props) {
       proxy,
       {
         data: {
-          login: {token, login},
+          login: {token, login, id},
         },
       },
     ) => {
@@ -35,7 +35,7 @@ export default function Login(props) {
       setCorrectValidation("Logged in");
       setTimeout(() => {
         props.history.push("/players");
-        context.login(login);
+        context.login({login, id});
         localStorage.setItem("jwtToken", token);
       }, 3000);
     },

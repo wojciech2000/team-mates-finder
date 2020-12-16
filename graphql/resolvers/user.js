@@ -112,7 +112,7 @@ const userResolver = {
           {expiresIn: "1h"},
         );
 
-        return {token, login: user.login};
+        return {token, login: user.login, id: user.id};
       }
     },
     register: async (
@@ -289,14 +289,7 @@ const userResolver = {
       const user = await User.findById({_id: id});
 
       //Champions validations
-      if (champions.length > 2 && !user.position.secondary) {
-        throw new UserInputError("Champion's name error", {
-          errors: {
-            championEmpty:
-              "You can type max 2 champions if you dont have secondary position",
-          },
-        });
-      } else if (champions.length > 4 && user.position.secondary) {
+      if (champions.length > 4 && user.position.secondary) {
         throw new UserInputError("Champion's name error", {
           errors: {championEmpty: "You can type max 4"},
         });

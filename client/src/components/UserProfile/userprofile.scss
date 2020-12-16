@@ -1,0 +1,21 @@
+.profile {
+  @extend .player;
+
+  &__description {
+    @extend .player__description;
+  }
+
+  &__content {
+    @extend .player__content;
+  }
+
+  &__content--champs {
+    @extend .player__content--champs;
+  }
+
+  &__edit {
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+}

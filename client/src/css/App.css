@@ -284,7 +284,7 @@ a {
         grid-template-columns: 115px 432px 144px 216px;
         font-size: 22px; } }
 
-.player {
+.player, .profile {
   width: 330px;
   height: 400px;
   background-color: white;
@@ -293,13 +293,13 @@ a {
   flex-direction: column;
   justify-content: space-evenly;
   padding: 0 25px; }
-  .player__description, .team__description, .team .positions__description {
+  .player__description, .team__description, .team .positions__description, .profile__description {
     font-size: 14px;
     color: #727272; }
-  .player__content, .team__content, .team .positions__content {
+  .player__content, .team__content, .team .positions__content, .profile__content {
     font-size: 22px;
     font-weight: 600; }
-  .player__content--champs {
+  .player__content--champs, .profile__content--champs {
     font-size: 18px;
     white-space: nowrap; }
   .player__data--button {
@@ -312,17 +312,17 @@ a {
     border-radius: 5px;
     background-color: #00ad07; }
   @media (min-width: 768px) {
-    .player {
+    .player, .profile {
       width: 450px;
       height: 500px;
       padding: 0 60px; }
-      .player__description, .team__description, .team .positions__description {
+      .player__description, .team__description, .team .positions__description, .profile__description {
         font-size: 16px;
         color: #727272; }
-      .player__content, .team__content, .team .positions__content {
+      .player__content, .team__content, .team .positions__content, .profile__content {
         font-size: 26px;
         font-weight: 600; }
-      .player__content--champs {
+      .player__content--champs, .profile__content--champs {
         font-size: 22px; }
       .player__add {
         width: 220px;
@@ -597,3 +597,8 @@ a {
       height: 550px; }
       .register__input {
         font-size: 20px; } }
+
+.profile__edit {
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none; }

@@ -88,6 +88,7 @@ const typeDefs = gql`
   type userLogged {
     token: String!
     login: String!
+    id: ID!
   }
 
   # Query & Mutation

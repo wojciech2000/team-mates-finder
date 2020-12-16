@@ -7,7 +7,7 @@ import {FaUser} from "react-icons/fa";
 import {AuthContext} from "../../context/auth";
 
 export default function Header() {
-  const {user, logout} = useContext(AuthContext);
+  const {user, id, logout} = useContext(AuthContext);
 
   return (
     <header className="header">
@@ -21,7 +21,7 @@ export default function Header() {
           </Link>
         ) : (
           <Fragment>
-            <Link to="/players" className="menu__user">
+            <Link to={`/user/${id}`} className="menu__user">
               <span className="menu__username">{user}</span>
 
               <FaUser />

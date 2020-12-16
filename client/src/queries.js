@@ -68,6 +68,7 @@ export const LOGIN_USER = gql`
     login(login: $login, password: $password) {
       token
       login
+      id
     }
   }
 `;
@@ -97,6 +98,25 @@ export const GET_TEAMS = gql`
       positions {
         nick
         position
+      }
+    }
+  }
+`;
+
+export const GET_USER_PROFILE = gql`
+  query getUserProfile($id: ID!) {
+    getUser(id: $id) {
+      nick
+      server {
+        serverName
+      }
+      position {
+        primary
+        secondary
+      }
+      mainChampions
+      team {
+        name
       }
     }
   }
