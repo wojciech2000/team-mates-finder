@@ -5,16 +5,23 @@ import {useMutation} from "@apollo/client";
 import {LOGIN_USER} from "../../queries";
 import InfoModel from "../InfoModel/InfoModel";
 import loadingGif from "../../pictures/loading.gif";
+import useUpdate from "../../utils/useUpdate";
 
 import {AuthContext} from "../../context/auth";
 
 export default function Login(props) {
   const context = useContext(AuthContext);
 
-  const [values, setValues] = useState({
+  const initialState = {
     login: "",
     password: "",
-  });
+  };
+
+  const {onChangeInput, onSubmitForm, values} = useUpdate(
+    loginUserHoist,
+    initialState,
+  );
+
   const [errors, setErrors] = useState({});
   const [correctValidation, setCorrectValidation] = useState("");
 
@@ -44,14 +51,9 @@ export default function Login(props) {
     },
   });
 
-  const onChangeInput = e => {
-    setValues({...values, [e.target.name]: e.target.value});
-  };
-
-  const login = e => {
-    e.preventDefault();
+  function loginUserHoist() {
     loginUser();
-  };
+  }
 
   return (
     <div className="wrapper">
@@ -62,7 +64,7 @@ export default function Login(props) {
           </div>
         )}
         <div className="login__header">Log in</div>
-        <form className="login__form" onSubmit={login}>
+        <form className="login__form" onSubmit={onSubmitForm}>
           <div className="login__inputs">
             <input
               type="text"

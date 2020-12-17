@@ -5,9 +5,10 @@ import {useMutation} from "@apollo/client";
 import InfoModel from "../InfoModel/InfoModel";
 import loadingGif from "../../pictures/loading.gif";
 import {GET_USERS, REGISTER_USER} from "../../queries";
+import useUpdate from "../../utils/useUpdate";
 
 export default function Register(props) {
-  const [values, setValues] = useState({
+  const initialState = {
     login: "",
     email: "",
     password: "",
@@ -16,7 +17,12 @@ export default function Register(props) {
     nick: "",
     primary: "Top",
     secondary: "Top",
-  });
+  };
+
+  const {onChangeInput, onSubmitForm, values} = useUpdate(
+    addUserHoist,
+    initialState,
+  );
 
   const [errors, setErrors] = useState({});
   const [correctValidation, setCorrectValidation] = useState("");
@@ -40,14 +46,9 @@ export default function Register(props) {
     },
   });
 
-  const onChangeInput = e => {
-    setValues({...values, [e.target.name]: e.target.value});
-  };
-
-  const onSubmit = e => {
-    e.preventDefault();
+  function addUserHoist() {
     addUser();
-  };
+  }
 
   return (
     <div className="wrapper">
@@ -58,7 +59,7 @@ export default function Register(props) {
           </div>
         )}
         <div className="register__header">Register</div>
-        <form className="register__form" onSubmit={onSubmit}>
+        <form className="register__form" onSubmit={onSubmitForm}>
           <div className="register__inputs-wrapper">
             <div className="register__inputs">
               <input
