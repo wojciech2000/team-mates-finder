@@ -1,5 +1,12 @@
 .profile {
   @extend .player;
+  height: 500px;
+
+  &__data {
+    display: flex;
+    align-items: flex-end;
+    height: 40px;
+  }
 
   &__description {
     @extend .player__description;
@@ -13,9 +20,86 @@
     @extend .player__content--champs;
   }
 
+  &__inputs-champs-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__inputs-champs {
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  &__inputs-champs-edit-delete-wrapper {
+    position: relative;
+  }
+
+  &__button-delete-champ {
+    position: absolute;
+    right: 0;
+    height: 10px;
+    color: white;
+    height: 30px;
+    background-color: $red;
+    font-size: 30px;
+    border-radius: 5px;
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
+    margin: 2px 0;
+    line-height: 25px;
+  }
+
+  &__button-add-champ {
+    width: 30px;
+    height: 30px;
+    color: white;
+    font-size: 30px;
+    background-color: $green;
+    margin-left: 10px;
+    border-radius: 5px;
+  }
+
+  &__input {
+    @extend .main-input;
+    font-size: 20px;
+    width: 200px;
+  }
+
+  &__input--position {
+    width: 100px;
+  }
+
+  &_inputs-positions {
+    display: flex;
+  }
+
+  &__edit-wrapper {
+    margin-top: 5px;
+    width: 90px;
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__edit {
+    padding: 2px 5px;
+    border-radius: 5px;
+    background-color: $gray;
+    color: white;
     font-size: 12px;
     cursor: pointer;
     user-select: none;
+  }
+
+  &__cancel {
+    @extend .profile__edit;
+    background-color: $red;
+  }
+
+  &__save {
+    @extend .profile__edit;
+    background-color: $green;
   }
 }

@@ -58,7 +58,7 @@ a {
   text-decoration: none;
   color: white; }
 
-.main-input, .players .table__find-player, .players .table__find-position, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input {
+.main-input, .players .table__find-player, .players .table__find-position, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input, .profile__input {
   outline: none;
   background-color: black;
   border: 1px white solid;
@@ -598,7 +598,65 @@ a {
       .register__input {
         font-size: 20px; } }
 
-.profile__edit {
-  font-size: 12px;
-  cursor: pointer;
-  user-select: none; }
+.profile {
+  height: 500px; }
+  .profile__data {
+    display: flex;
+    align-items: flex-end;
+    height: 40px; }
+  .profile__inputs-champs-wrapper {
+    display: flex;
+    align-items: center; }
+  .profile__inputs-champs {
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto; }
+  .profile__inputs-champs-edit-delete-wrapper {
+    position: relative; }
+  .profile__button-delete-champ {
+    position: absolute;
+    right: 0;
+    height: 10px;
+    color: white;
+    height: 30px;
+    background-color: #bb0000;
+    font-size: 30px;
+    border-radius: 5px;
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
+    margin: 2px 0;
+    line-height: 25px; }
+  .profile__button-add-champ {
+    width: 30px;
+    height: 30px;
+    color: white;
+    font-size: 30px;
+    background-color: #00ad07;
+    margin-left: 10px;
+    border-radius: 5px; }
+  .profile__input {
+    font-size: 20px;
+    width: 200px; }
+  .profile__input--position {
+    width: 100px; }
+  .profile_inputs-positions {
+    display: flex; }
+  .profile__edit-wrapper {
+    margin-top: 5px;
+    width: 90px;
+    display: flex;
+    justify-content: space-between; }
+  .profile__edit, .profile__cancel, .profile__save {
+    padding: 2px 5px;
+    border-radius: 5px;
+    background-color: #727272;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none; }
+  .profile__cancel {
+    background-color: #bb0000; }
+  .profile__save {
+    background-color: #00ad07; }
