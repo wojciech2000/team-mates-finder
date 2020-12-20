@@ -25,7 +25,7 @@ export default function Register(props) {
   );
 
   const [errors, setErrors] = useState({});
-  const [correctValidation, setCorrectValidation] = useState("");
+  const [correctValidation, setCorrectValidation] = useState({});
 
   const [addUser, {loading}] = useMutation(REGISTER_USER, {
     update: () => {
@@ -37,7 +37,7 @@ export default function Register(props) {
         props.history.push("/login");
       }, 3000);
 
-      setCorrectValidation("User has been added");
+      setCorrectValidation({message: "User has been added"});
     },
     refetchQueries: [{query: GET_USERS}],
     variables: values,
@@ -53,7 +53,7 @@ export default function Register(props) {
   return (
     <div className="wrapper">
       <section className="register">
-        {(loading || correctValidation) && (
+        {(loading || Object.keys(correctValidation).length > 0) && (
           <div className="loading">
             <img src={loadingGif} alt="loading" />
           </div>
@@ -161,7 +161,9 @@ export default function Register(props) {
         </form>
       </section>
       {Object.keys(errors).length > 0 && <InfoModel error={errors} />}
-      {correctValidation && <InfoModel info={correctValidation} />}
+      {Object.keys(correctValidation).length > 0 && (
+        <InfoModel info={correctValidation} />
+      )}
     </div>
   );
 }

@@ -121,3 +121,42 @@ export const GET_USER_PROFILE = gql`
     }
   }
 `;
+
+export const UPDATE_NICK = gql`
+  mutation updateNick($nick: String!) {
+    updateNick(nick: $nick) {
+      id
+      nick
+    }
+  }
+`;
+
+export const UPDATE_SERVER = gql`
+  mutation updateServer($server: Server!) {
+    updateServer(server: $server) {
+      server {
+        serverName
+        serverCode
+      }
+    }
+  }
+`;
+
+export const UPDATE_MAIN_CHAMPIONS = gql`
+  mutation updateMainChampions($champions: [String]) {
+    updateMainChampions(champions: $champions) {
+      mainChampions
+    }
+  }
+`;
+
+export const UPDATE_POSITION = gql`
+  mutation updatePosition($primary: Positions!, $secondary: Positions!) {
+    updatePosition(primary: $primary, secondary: $secondary) {
+      position {
+        primary
+        secondary
+      }
+    }
+  }
+`;

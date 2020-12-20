@@ -1,9 +1,9 @@
 import React, {memo, useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 
-export default memo(function InfoModel({error = [], info = ""}) {
+export default memo(function InfoModel({error = [], info = []}) {
   const [errors, setErrors] = useState([]);
-  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState("");
 
   useEffect(() => {
     Object.values(error).length > 0 && setErrors(Object.values(error));
@@ -18,10 +18,10 @@ export default memo(function InfoModel({error = [], info = ""}) {
   }, [error]);
 
   useEffect(() => {
-    setMessage(info);
+    Object.values(info).length > 0 && setMessages(Object.values(info));
 
     const hide = setTimeout(() => {
-      setMessage("");
+      setMessages("");
     }, 2500);
 
     return () => {
@@ -43,14 +43,16 @@ export default memo(function InfoModel({error = [], info = ""}) {
           ))}
         </motion.aside>
       )}
-      {message.length > 0 && (
+      {messages.length > 0 && (
         <motion.aside
           className="info--green"
           initial={{y: 100}}
           animate={{y: 0}}
           exit={{opacity: 0}}
         >
-          <span>{message}</span>
+          {messages.map((message, id) => (
+            <span key={id}>{message}</span>
+          ))}
         </motion.aside>
       )}
     </AnimatePresence>

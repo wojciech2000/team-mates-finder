@@ -1,6 +1,7 @@
 .profile {
   @extend .player;
   height: 500px;
+  position: relative;
 
   &__data {
     display: flex;

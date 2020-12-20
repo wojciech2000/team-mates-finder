@@ -1,7 +1,16 @@
 import React, {Fragment, useState} from "react";
-import {useQuery} from "@apollo/client";
+import {useQuery, useMutation} from "@apollo/client";
 
-import {GET_USER_PROFILE} from "../../queries";
+import {
+  GET_USER_PROFILE,
+  GET_USERS,
+  UPDATE_NICK,
+  UPDATE_SERVER,
+  UPDATE_POSITION,
+  UPDATE_MAIN_CHAMPIONS,
+} from "../../queries";
+import loadingGif from "../../pictures/loading.gif";
+import InfoModel from "../InfoModel/InfoModel";
 
 export default function UserProfile(props) {
   const id = props.match.params.id;
@@ -16,6 +25,9 @@ export default function UserProfile(props) {
     team: false,
   });
 
+  const [errors, setErrors] = useState({});
+  const [correctValidation, setCorrectValidation] = useState({});
+
   const [editValue, setEditValue] = useState({
     // nick: data.getUser.nick,
     // server: data.getUser.server.serverName,
@@ -25,6 +37,7 @@ export default function UserProfile(props) {
     // team: data.getUser.team ? data.getUser.team.name : "",
   });
 
+  //UPDATE LOCAL STATE
   const restEditValue = () => {
     setEditValue({
       nick: data.getUser.nick,
@@ -88,6 +101,87 @@ export default function UserProfile(props) {
     });
   };
 
+  //UPDATE DATA IN THE SERVER
+  const [updateNick, {loading: loadingMutation}] = useMutation(UPDATE_NICK, {
+    variables: {nick: editValue.nick},
+    update: (proxy, result) => {
+      setCorrectValidation({message: "Nick has been changed"});
+    },
+    refetchQueries: [
+      {query: GET_USER_PROFILE, variables: {id}},
+      {query: GET_USERS},
+    ],
+    awaitRefetchQueries: true,
+    onError: error => {
+      setErrors(error.graphQLErrors[0].extensions.exception.errors);
+    },
+  });
+
+  const saveDataNick = e => {
+    setEditInput({...editInput, [e.target.id]: false});
+    updateNick();
+  };
+
+  const [updateServer] = useMutation(UPDATE_SERVER, {
+    variables: {server: editValue.server},
+    update: (proxy, result) => {
+      setCorrectValidation({message: "Server has been changed"});
+    },
+    refetchQueries: [
+      {query: GET_USER_PROFILE, variables: {id}},
+      {query: GET_USERS},
+    ],
+    awaitRefetchQueries: true,
+    onError: error => {
+      setErrors(error.graphQLErrors[0].extensions.exception.errors);
+    },
+  });
+
+  const saveDataServer = e => {
+    setEditInput({...editInput, [e.target.id]: false});
+    updateServer();
+  };
+
+  const [updatePositons] = useMutation(UPDATE_POSITION, {
+    variables: {primary: editValue.primary, secondary: editValue.secondary},
+    update: (proxy, result) => {
+      setCorrectValidation({message: "Position have been changed"});
+    },
+    refetchQueries: [
+      {query: GET_USER_PROFILE, variables: {id}},
+      {query: GET_USERS},
+    ],
+    awaitRefetchQueries: true,
+    onError: error => {
+      setErrors(error.graphQLErrors[0].extensions.exception.errors);
+    },
+  });
+
+  const saveDataPosition = e => {
+    setEditInput({...editInput, [e.target.id]: false});
+    updatePositons();
+  };
+
+  const [updateChampions] = useMutation(UPDATE_MAIN_CHAMPIONS, {
+    variables: {champions: editValue.champions},
+    update: (proxy, result) => {
+      setCorrectValidation({message: "Mains have been changed"});
+    },
+    refetchQueries: [
+      {query: GET_USER_PROFILE, variables: {id}},
+      {query: GET_USERS},
+    ],
+    awaitRefetchQueries: true,
+    onError: error => {
+      setErrors(error.graphQLErrors[0].extensions.exception.errors);
+    },
+  });
+
+  const saveDataChampions = e => {
+    setEditInput({...editInput, [e.target.id]: false});
+    updateChampions();
+  };
+
   return (
     <Fragment>
       {loading
@@ -97,6 +191,11 @@ export default function UserProfile(props) {
         : data && (
             <div className="wrapper">
               <div className="profile">
+                {loadingMutation && (
+                  <div className="loading">
+                    <img src={loadingGif} alt="loading" />
+                  </div>
+                )}
                 <div className="profile__data-wrapper">
                   <div className="profile__data">
                     <span className="profile__description">Nick: </span>
@@ -124,7 +223,13 @@ export default function UserProfile(props) {
                         >
                           cancel
                         </button>
-                        <button className="profile__save">save</button>
+                        <button
+                          className="profile__save"
+                          id="nick"
+                          onClick={e => saveDataNick(e)}
+                        >
+                          save
+                        </button>
                       </Fragment>
                     ) : (
                       <button
@@ -176,7 +281,13 @@ export default function UserProfile(props) {
                         >
                           cancel
                         </button>
-                        <button className="profile__save">save</button>
+                        <button
+                          className="profile__save"
+                          id="server"
+                          onClick={e => saveDataServer(e)}
+                        >
+                          save
+                        </button>
                       </Fragment>
                     ) : (
                       <button
@@ -240,7 +351,13 @@ export default function UserProfile(props) {
                         >
                           cancel
                         </button>
-                        <button className="profile__save">save</button>
+                        <button
+                          className="profile__save"
+                          id="positions"
+                          onClick={saveDataPosition}
+                        >
+                          save
+                        </button>
                       </Fragment>
                     ) : (
                       <button
@@ -308,7 +425,13 @@ export default function UserProfile(props) {
                         >
                           cancel
                         </button>
-                        <button className="profile__save">save</button>
+                        <button
+                          className="profile__save"
+                          id="champions"
+                          onClick={e => saveDataChampions(e)}
+                        >
+                          save
+                        </button>
                       </Fragment>
                     ) : (
                       <button
@@ -334,6 +457,10 @@ export default function UserProfile(props) {
               </div>
             </div>
           )}
+      {Object.keys(errors).length > 0 && <InfoModel error={errors} />}
+      {Object.keys(correctValidation).length > 0 && (
+        <InfoModel info={correctValidation} />
+      )}
     </Fragment>
   );
 }

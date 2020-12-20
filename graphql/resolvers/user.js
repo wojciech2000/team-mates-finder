@@ -16,6 +16,7 @@ const setServer = server => {
   const dataServer = {};
   dataServer.serverName = server;
 
+  //server hotkey in riot api
   switch (server) {
     case "BR":
       dataServer.serverCode = "br1";
@@ -223,7 +224,7 @@ const userResolver = {
         );
       } catch (error) {
         throw new UserInputError("Nick error", {
-          errors: {nickNotFound: "Nick wasn't found in database"},
+          errors: {nickNotFound: "Nick wasn't found in this server"},
         });
       }
 
@@ -231,8 +232,8 @@ const userResolver = {
 
       if (
         findUser &&
-        (findUser.server.serverName === user.server.serverName ||
-          findUser.id != user.id)
+        findUser.server.serverName === user.server.serverName &&
+        findUser.id != user.id
       ) {
         throw new UserInputError("Nick error", {
           errors: {nickTaken: "Nick is already taken"},
@@ -255,10 +256,24 @@ const userResolver = {
         });
       }
 
-      //Update new server
       const user = await User.findById({_id: id});
 
+      //check if user's nick is in this server
       const dataServer = setServer(server);
+
+      try {
+        await axios.get(
+          `https://${dataServer.serverCode}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${user.nick}?api_key=${process.env.SECRET_RIOT_KEY}`,
+        );
+      } catch (error) {
+        throw new UserInputError("Nick error", {
+          errors: {
+            nickNotFound: `Nick wasn't found in server: ${dataServer.serverName}`,
+          },
+        });
+      }
+
+      //Update new server
       user.server.serverName = dataServer.serverName;
       user.server.serverCode = dataServer.serverCode;
 
@@ -331,7 +346,7 @@ const userResolver = {
       if (unMatchChampions.length > 0) {
         throw new UserInputError("Champion's name error", {
           errors: {
-            championEmpty: `Champion's name wan't found in database: ${unMatchChampions}`,
+            championEmpty: `Champion's name didn't found in database: ${unMatchChampions}`,
           },
         });
       }

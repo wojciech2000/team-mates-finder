@@ -23,7 +23,7 @@ export default function Login(props) {
   );
 
   const [errors, setErrors] = useState({});
-  const [correctValidation, setCorrectValidation] = useState("");
+  const [correctValidation, setCorrectValidation] = useState({});
 
   const [loginUser] = useMutation(LOGIN_USER, {
     variables: values,
@@ -39,7 +39,7 @@ export default function Login(props) {
       Array.from(document.querySelectorAll("input")).forEach(
         input => (input.disabled = true),
       );
-      setCorrectValidation("Logged in");
+      setCorrectValidation({message: "Logged in"});
       setTimeout(() => {
         props.history.push("/players");
         context.login({login, id});
@@ -58,7 +58,7 @@ export default function Login(props) {
   return (
     <div className="wrapper">
       <section className="login">
-        {correctValidation.length > 0 && (
+        {Object.keys(correctValidation).length > 0 && (
           <div className="loading">
             <img src={loadingGif} alt="loading" />
           </div>
@@ -90,7 +90,9 @@ export default function Login(props) {
         </form>
       </section>
       {Object.keys(errors).length > 0 && <InfoModel error={errors} />}
-      {correctValidation && <InfoModel info={correctValidation} />}
+      {Object.keys(correctValidation).length > 0 && (
+        <InfoModel info={correctValidation} />
+      )}
     </div>
   );
 }

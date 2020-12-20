@@ -104,7 +104,7 @@ const typeDefs = gql`
     login(login: String!, password: String!): userLogged!
     register(registerInput: RegisterInput): User
     updateNick(nick: String!): User
-    updateServer(server: Server): User
+    updateServer(server: Server!): User
     updatePosition(primary: Positions!, secondary: Positions): User
     updateMainChampions(champions: [String]): User
     updateTeam(

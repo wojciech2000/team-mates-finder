@@ -1,5 +1,11 @@
 import React from "react";
-import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
+import {setContext} from "apollo-link-context";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import Header from "./components/Header/Header";
@@ -14,8 +20,21 @@ import UserProfile from "./components/UserProfile/UserProfile";
 import AuthRoute from "./context/AuthRoute";
 import {AuthProvider} from "./context/auth";
 
-const client = new ApolloClient({
+const httpLink = new createHttpLink({
   uri: "http://localhost:5000",
+});
+
+const authLink = setContext(() => {
+  const token = localStorage.getItem("jwtToken");
+  return {
+    headers: {
+      authorization: token ? token : "",
+    },
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
