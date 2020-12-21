@@ -663,3 +663,67 @@ a {
     background-color: #bb0000; }
   .profile__save {
     background-color: #00ad07; }
+
+.wrapper-userhome {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly; }
+  .wrapper-userhome .find-team, .wrapper-userhome .find-players {
+    width: 350px;
+    height: 250px;
+    background: url("../pictures/find-team.png") no-repeat center/cover;
+    margin: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    filter: grayscale(1);
+    position: relative;
+    pointer-events: none;
+    transition: filter 0.1s ease-in; }
+    .wrapper-userhome .find-team aside, .wrapper-userhome .find-players aside {
+      color: white;
+      margin-top: 30px;
+      margin-left: -100px;
+      font-size: 22px;
+      font-family: "Merienda One", cursive; }
+    .wrapper-userhome .find-team:hover, .wrapper-userhome .find-players:hover {
+      filter: grayscale(0); }
+  .wrapper-userhome .find-team__button, .wrapper-userhome .find-players__button {
+    width: 180px;
+    padding: 8px 0;
+    font-size: 20px;
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    pointer-events: auto; }
+    .wrapper-userhome .find-team__button a, .wrapper-userhome .find-players__button a {
+      color: black; }
+  .wrapper-userhome .find-players {
+    background: url("../pictures/find-players.png") no-repeat center/cover;
+    flex-direction: column-reverse; }
+    .wrapper-userhome .find-players aside {
+      color: #ffffff;
+      margin: 0 auto 30px;
+      font-size: 22px;
+      font-family: "Merienda One", cursive; }
+  .wrapper-userhome .find-players__button {
+    margin-top: 20px;
+    color: white;
+    background-color: black; }
+    .wrapper-userhome .find-players__button a {
+      color: white; }
+  @media (min-width: 1100px) {
+    .wrapper-userhome .find-team, .wrapper-userhome .find-players {
+      width: 500px;
+      height: 350px; }
+      .wrapper-userhome .find-team aside, .wrapper-userhome .find-players aside {
+        font-size: 34px; }
+    .wrapper-userhome .find-team__button, .wrapper-userhome .find-players__button {
+      width: 240px;
+      padding: 8px 0;
+      font-size: 28px;
+      margin-bottom: 30px; }
+    .wrapper-userhome .find-players__button {
+      margin-top: 30px; } }

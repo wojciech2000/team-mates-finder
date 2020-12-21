@@ -16,6 +16,7 @@ import Team from "./components/Team/Team";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import UserProfile from "./components/UserProfile/UserProfile";
+import UserHome from "./components/UserHome/UserHome";
 
 import AuthRoute from "./context/AuthRoute";
 import {AuthProvider} from "./context/auth";
@@ -53,6 +54,7 @@ export default function App() {
               <AuthRoute path="/login" component={Login} />
               <AuthRoute path="/register" component={Register} />
               <Route path="/user/:id" component={UserProfile} />
+              <Route path="/home" component={UserHome} />
             </Switch>
           </Router>
         </div>

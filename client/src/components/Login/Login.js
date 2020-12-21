@@ -41,7 +41,7 @@ export default function Login(props) {
       );
       setCorrectValidation({message: "Logged in"});
       setTimeout(() => {
-        props.history.push("/players");
+        props.history.push("/home");
         context.login({login, id});
         localStorage.setItem("jwtToken", token);
       }, 3000);

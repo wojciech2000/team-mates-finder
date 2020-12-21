@@ -102,7 +102,7 @@ export default function UserProfile(props) {
   };
 
   //UPDATE DATA IN THE SERVER
-  const [updateNick, {loading: loadingMutation}] = useMutation(UPDATE_NICK, {
+  const [updateNick] = useMutation(UPDATE_NICK, {
     variables: {nick: editValue.nick},
     update: (proxy, result) => {
       setCorrectValidation({message: "Nick has been changed"});
@@ -191,11 +191,6 @@ export default function UserProfile(props) {
         : data && (
             <div className="wrapper">
               <div className="profile">
-                {loadingMutation && (
-                  <div className="loading">
-                    <img src={loadingGif} alt="loading" />
-                  </div>
-                )}
                 <div className="profile__data-wrapper">
                   <div className="profile__data">
                     <span className="profile__description">Nick: </span>

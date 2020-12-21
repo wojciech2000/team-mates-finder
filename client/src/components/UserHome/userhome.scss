@@ -1,0 +1,93 @@
+.wrapper-userhome {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  .find-team {
+    width: 350px;
+    height: 250px;
+    background: url("../pictures/find-team.png") no-repeat center / cover;
+    margin: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    filter: grayscale(1);
+    position: relative;
+    pointer-events: none;
+    transition: filter 0.1s ease-in;
+
+    aside {
+      color: rgb(255, 255, 255);
+      margin-top: 30px;
+      margin-left: -100px;
+      font-size: 22px;
+      font-family: $quotes;
+    }
+
+    &:hover {
+      filter: grayscale(0);
+    }
+  }
+
+  .find-team__button {
+    width: 180px;
+    padding: 8px 0;
+    font-size: 20px;
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    pointer-events: auto;
+
+    & a {
+      color: black;
+    }
+  }
+
+  .find-players {
+    @extend .find-team;
+    background: url("../pictures/find-players.png") no-repeat center / cover;
+    flex-direction: column-reverse;
+
+    aside {
+      color: #ffffff;
+      margin: 0 auto 30px;
+      font-size: 22px;
+      font-family: $quotes;
+    }
+  }
+
+  .find-players__button {
+    @extend .find-team__button;
+    margin-top: 20px;
+    color: white;
+    background-color: black;
+
+    & a {
+      color: white;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .find-team {
+      width: 500px;
+      height: 350px;
+
+      aside {
+        font-size: 34px;
+      }
+    }
+
+    .find-team__button {
+      width: 240px;
+      padding: 8px 0;
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    .find-players__button {
+      margin-top: 30px;
+    }
+  }
+}
