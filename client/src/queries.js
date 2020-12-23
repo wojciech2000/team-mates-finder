@@ -69,6 +69,7 @@ export const LOGIN_USER = gql`
       token
       login
       id
+      nick
     }
   }
 `;
@@ -156,6 +157,28 @@ export const UPDATE_POSITION = gql`
       position {
         primary
         secondary
+      }
+    }
+  }
+`;
+
+export const CREATE_TEAM = gql`
+  mutation createTeam(
+    $name: String!
+    $maxMembersAmount: Int!
+    $positions: [PositionTeamInput!]
+  ) {
+    updateTeam(
+      name: $name
+      maxMembersAmount: $maxMembersAmount
+      positions: $positions
+    ) {
+      name
+      membersAmount
+      maxMembersAmount
+      positions {
+        nick
+        position
       }
     }
   }

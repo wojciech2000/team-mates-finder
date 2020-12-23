@@ -31,7 +31,7 @@ export default function Login(props) {
       proxy,
       {
         data: {
-          login: {token, login, id},
+          login: {token, login, id, nick},
         },
       },
     ) => {
@@ -42,7 +42,7 @@ export default function Login(props) {
       setCorrectValidation({message: "Logged in"});
       setTimeout(() => {
         props.history.push("/home");
-        context.login({login, id});
+        context.login({login, id, nick});
         localStorage.setItem("jwtToken", token);
       }, 3000);
     },

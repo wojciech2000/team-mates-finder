@@ -3,6 +3,7 @@ import jwtDecode from "jwt-decode";
 
 const initialState = {
   user: null,
+  nick: null,
   id: null,
 };
 
@@ -11,6 +12,9 @@ if (localStorage.getItem("jwtToken")) {
   if (decodedToken) {
     initialState.user = decodedToken.login;
     initialState.id = decodedToken.id;
+    initialState.nick = localStorage.getItem("nick")
+      ? localStorage.getItem("nick")
+      : decodedToken.nick;
   }
 }
 
@@ -19,6 +23,7 @@ const AuthContext = createContext({
   id: null,
   login: data => {},
   logout: () => {},
+  updateNick: newNick => {},
 });
 
 const authReducer = (state, action) => {
@@ -28,10 +33,17 @@ const authReducer = (state, action) => {
         ...state,
         user: action.payload.login,
         id: action.payload.id,
+        nick: action.payload.nick,
+      };
+    case "UPDATE_NICK":
+      return {
+        ...state,
+        nick: action.payload,
       };
     case "LOGOUT":
       return {
         ...state,
+        nick: null,
         user: null,
         id: null,
       };
@@ -48,6 +60,11 @@ const AuthProvider = props => {
     dispatch({type: "LOGIN", payload: data});
   };
 
+  const updateNick = newNick => {
+    localStorage.setItem("nick", newNick);
+    dispatch({type: "UPDATE_NICK", payload: newNick});
+  };
+
   const logout = () => {
     localStorage.clear("jwtToken");
     dispatch({type: "LOGOUT"});
@@ -55,7 +72,14 @@ const AuthProvider = props => {
 
   return (
     <AuthContext.Provider
-      value={{user: state.user, id: state.id, login, logout}}
+      value={{
+        user: state.user,
+        id: state.id,
+        nick: state.nick,
+        login,
+        updateNick,
+        logout,
+      }}
       {...props}
     />
   );

@@ -12,8 +12,8 @@ export default function Header() {
   return (
     <header className="header">
       <h1 className="header__title">
-        <Redirect to={user ? "/home" : "players"} />
-        <Link to={user ? "/home" : "players"}>TMF</Link>
+        <Redirect to={user ? "/home" : "/players"} />
+        <Link to={user ? "/home" : "/players"}>TMF</Link>
       </h1>
       <div className="menu">
         {!user ? (

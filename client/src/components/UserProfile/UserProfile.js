@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useContext, useState} from "react";
 import {useQuery, useMutation} from "@apollo/client";
 
 import {
@@ -9,10 +9,14 @@ import {
   UPDATE_POSITION,
   UPDATE_MAIN_CHAMPIONS,
 } from "../../queries";
-import loadingGif from "../../pictures/loading.gif";
+
+import {Link} from "react-router-dom";
 import InfoModel from "../InfoModel/InfoModel";
+import {AuthContext} from "../../context/auth";
 
 export default function UserProfile(props) {
+  const {updateNick: updateNickContext} = useContext(AuthContext);
+
   const id = props.match.params.id;
 
   const {loading, data, error} = useQuery(GET_USER_PROFILE, {variables: {id}});
@@ -105,6 +109,7 @@ export default function UserProfile(props) {
   const [updateNick] = useMutation(UPDATE_NICK, {
     variables: {nick: editValue.nick},
     update: (proxy, result) => {
+      updateNickContext(result.data.updateNick.nick);
       setCorrectValidation({message: "Nick has been changed"});
     },
     refetchQueries: [
@@ -402,7 +407,7 @@ export default function UserProfile(props) {
                           </button>
                         </div>
                       ) : data.getUser.mainChampions.length === 0 ? (
-                        "(empty)"
+                        "none..."
                       ) : (
                         data.getUser.mainChampions.map((champ, id) =>
                           id === 0 ? champ + " " : " | " + champ,
@@ -444,10 +449,16 @@ export default function UserProfile(props) {
                   <div className="profile__data">
                     <span className="profile__description">Team: </span>
                     <span className="profile__content">
-                      {!data.getUser.team ? "(none)" : data.getUser.team.name}
+                      {!data.getUser.team ? "none..." : data.getUser.team.name}
                     </span>
                   </div>
-                  <button className="profile__edit">edit</button>
+                  <button className="profile__edit">
+                    {!data.getUser.team ? (
+                      <Link to="/create-team">create team</Link>
+                    ) : (
+                      <Link to="/edit-team">edit</Link>
+                    )}
+                  </button>
                 </div>
               </div>
             </div>

@@ -11,6 +11,7 @@ const {
   validateLoginInput,
 } = require("../../utils/validators");
 const checkAuth = require("../../utils/checkAuth");
+const {set} = require("mongoose");
 
 const setServer = server => {
   const dataServer = {};
@@ -113,7 +114,7 @@ const userResolver = {
           {expiresIn: "1h"},
         );
 
-        return {token, login: user.login, id: user.id};
+        return {token, login: user.login, id: user.id, nick: user.nick};
       }
     },
     register: async (
@@ -224,7 +225,7 @@ const userResolver = {
         );
       } catch (error) {
         throw new UserInputError("Nick error", {
-          errors: {nickNotFound: "Nick wasn't found in this server"},
+          errors: {nickNotFound: "Nick wasn't found in database"},
         });
       }
 
@@ -303,10 +304,20 @@ const userResolver = {
       const {id} = checkAuth(context);
       const user = await User.findById({_id: id});
 
+      const uniqueChampions = Array.from(new Set(champions));
+
       //Champions validations
       if (champions.length > 4 && user.position.secondary) {
         throw new UserInputError("Champion's name error", {
           errors: {championEmpty: "You can type max 4"},
+        });
+      }
+
+      console.log(uniqueChampions, champions);
+
+      if (uniqueChampions.length < champions.length) {
+        throw new UserInputError("Champion's name error", {
+          errors: {championEmpty: "Champions name must be unique"},
         });
       }
 
@@ -360,6 +371,9 @@ const userResolver = {
     updateTeam: async (_, {name, maxMembersAmount, positions}, context) => {
       const {id} = checkAuth(context);
 
+      const positionsName = positions.map(position => position.position);
+      const uniquePositionsName = Array.from(new Set(positionsName));
+
       //team validation
       if (name.trim() === "" || maxMembersAmount == 0 || !positions[0]) {
         throw new UserInputError("Team error", {
@@ -384,6 +398,10 @@ const userResolver = {
           errors: {
             teamTaken: "Members amount is lesser than provided positions",
           },
+        });
+      } else if (uniquePositionsName.length < positionsName.length) {
+        throw new UserInputError("Team error", {
+          errors: {championEmpty: "Positions must be unique"},
         });
       }
 
@@ -416,7 +434,6 @@ const userResolver = {
           return teamExists;
         }
       } else {
-        console.log("team does not exists");
         const team = new Team({
           name,
           founder: user.nick,

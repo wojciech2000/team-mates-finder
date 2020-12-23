@@ -60,7 +60,7 @@ a {
   text-decoration: none;
   color: white; }
 
-.main-input, .players .table__find-player, .players .table__find-position, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input, .profile__input {
+.main-input, .players .table__find-player, .players .table__find-position, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input, .profile__input, .edit-team__input {
   outline: none;
   background-color: black;
   border: 1px white solid;
@@ -295,7 +295,7 @@ a {
   flex-direction: column;
   justify-content: space-evenly;
   padding: 0 25px; }
-  .player__description, .team__description, .team .positions__description, .profile__description {
+  .player__description, .team__description, .team .positions__description, .profile__description, .edit-team__description {
     font-size: 14px;
     color: #727272; }
   .player__content, .team__content, .team .positions__content, .profile__content {
@@ -318,7 +318,7 @@ a {
       width: 450px;
       height: 500px;
       padding: 0 60px; }
-      .player__description, .team__description, .team .positions__description, .profile__description {
+      .player__description, .team__description, .team .positions__description, .profile__description, .edit-team__description {
         font-size: 16px;
         color: #727272; }
       .player__content, .team__content, .team .positions__content, .profile__content {
@@ -727,3 +727,46 @@ a {
       margin-bottom: 30px; }
     .wrapper-userhome .find-players__button {
       margin-top: 30px; } }
+
+.edit-team {
+  width: 300px;
+  height: 430px;
+  background-color: white;
+  border-radius: 5px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column; }
+  .edit-team__input-wrapper {
+    margin: 15px 10px; }
+  .edit-team__available-positions {
+    height: 200px;
+    flex: 1; }
+  .edit-team__input-wrapper--positions {
+    margin-left: 36px; }
+  .edit-team__create {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-color: #00ad07;
+    width: 120px;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    margin: 15px auto;
+    font-size: 20px;
+    transition: background-color 0.15s ease; }
+    .edit-team__create:hover {
+      background-color: #009c06; }
+  @media (min-width: 768px) {
+    .edit-team {
+      width: 400px;
+      height: 450px; }
+      .edit-team__input-wrapper {
+        margin-left: 25px; }
+      .edit-team__description {
+        font-size: 18px; }
+      .edit-team__input {
+        font-size: 18px; }
+      .edit-team__input-wrapper--positions {
+        margin-left: 58px; } }

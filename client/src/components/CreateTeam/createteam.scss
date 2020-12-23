@@ -1,0 +1,70 @@
+.edit-team {
+  width: 300px;
+  height: 430px;
+  background-color: white;
+  border-radius: 5px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+
+  &__input-wrapper {
+    margin: 15px 10px;
+  }
+
+  &__input {
+    @extend .main-input;
+  }
+
+  &__description {
+    @extend .player__description;
+  }
+
+  &__available-positions {
+    height: 200px;
+    flex: 1;
+  }
+
+  &__input-wrapper--positions {
+    margin-left: 36px;
+  }
+
+  &__create {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-color: $green;
+    width: 120px;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    margin: 15px auto;
+    font-size: 20px;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: $green * 0.9;
+    }
+  }
+
+  @media (min-width: 768px) {
+    width: 400px;
+    height: 450px;
+
+    &__input-wrapper {
+      margin-left: 25px;
+    }
+
+    &__description {
+      font-size: 18px;
+    }
+
+    &__input {
+      font-size: 18px;
+    }
+
+    &__input-wrapper--positions {
+      margin-left: 58px;
+    }
+  }
+}
