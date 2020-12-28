@@ -108,7 +108,7 @@ const typeDefs = gql`
     updateServer(server: Server!): User
     updatePosition(primary: Positions!, secondary: Positions): User
     updateMainChampions(champions: [String]): User
-    updateTeam(
+    createTeam(
       name: String!
       maxMembersAmount: Int!
       positions: [PositionTeamInput]

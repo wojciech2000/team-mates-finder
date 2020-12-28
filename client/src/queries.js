@@ -169,7 +169,7 @@ export const CREATE_TEAM = gql`
     $maxMembersAmount: Int!
     $positions: [PositionTeamInput!]
   ) {
-    updateTeam(
+    createTeam(
       name: $name
       maxMembersAmount: $maxMembersAmount
       positions: $positions
