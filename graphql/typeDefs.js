@@ -113,6 +113,7 @@ const typeDefs = gql`
       maxMembersAmount: Int!
       positions: [PositionTeamInput]
     ): Team
+    updateName(name: String!): Team
   }
 `;
 

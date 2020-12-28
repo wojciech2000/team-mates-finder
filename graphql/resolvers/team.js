@@ -95,6 +95,26 @@ const teamResolver = {
         return team;
       }
     },
+    updateName: async (_, {name}, context) => {
+      const {id} = checkAuth(context);
+
+      const user = await User.findById({_id: id});
+      const team = await Team.findOne({_id: user.team});
+      const checkIfTeamExists = await Team.findOne({name});
+
+      if (checkIfTeamExists && checkIfTeamExists.id != user.team) {
+        throw new UserInputError("Team error", {
+          errors: {
+            teamEmpty: "This team name is already taken",
+          },
+        });
+      }
+
+      team.name = name;
+      team.save();
+
+      return team;
+    },
   },
 };
 
