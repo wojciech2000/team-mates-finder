@@ -60,7 +60,7 @@ a {
   text-decoration: none;
   color: white; }
 
-.main-input, .players .table__find-player, .players .table__find-position, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input, .profile__input, .edit-team__input {
+.main-input, .players .table__find-player, .players .table__find-position, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input, .profile__input, .create-team__input {
   outline: none;
   background-color: black;
   border: 1px white solid;
@@ -295,10 +295,10 @@ a {
   flex-direction: column;
   justify-content: space-evenly;
   padding: 0 25px; }
-  .player__description, .team__description, .team .positions__description, .profile__description, .edit-team__description {
+  .player__description, .team__description, .team .positions__description, .profile__description, .edit-team__description, .create-team__description {
     font-size: 14px;
     color: #727272; }
-  .player__content, .team__content, .team .positions__content, .profile__content {
+  .player__content, .team__content, .team .positions__content, .profile__content, .edit-team__content {
     font-size: 22px;
     font-weight: 600; }
   .player__content--champs, .profile__content--champs {
@@ -318,10 +318,10 @@ a {
       width: 450px;
       height: 500px;
       padding: 0 60px; }
-      .player__description, .team__description, .team .positions__description, .profile__description, .edit-team__description {
+      .player__description, .team__description, .team .positions__description, .profile__description, .edit-team__description, .create-team__description {
         font-size: 16px;
         color: #727272; }
-      .player__content, .team__content, .team .positions__content, .profile__content {
+      .player__content, .team__content, .team .positions__content, .profile__content, .edit-team__content {
         font-size: 26px;
         font-weight: 600; }
       .player__content--champs, .profile__content--champs {
@@ -603,7 +603,7 @@ a {
 .profile {
   height: 500px;
   position: relative; }
-  .profile__data {
+  .profile__data, .edit-team__data {
     display: flex;
     align-items: flex-end;
     height: 40px; }
@@ -646,12 +646,12 @@ a {
     width: 100px; }
   .profile_inputs-positions {
     display: flex; }
-  .profile__edit-wrapper {
+  .profile__edit-wrapper, .edit-team__edit-wrapper {
     margin-top: 5px;
     width: 90px;
     display: flex;
     justify-content: space-between; }
-  .profile__edit, .profile__cancel, .profile__save {
+  .profile__edit, .profile__cancel, .profile__save, .edit-team__edit {
     padding: 2px 5px;
     border-radius: 5px;
     background-color: #727272;
@@ -728,7 +728,7 @@ a {
     .wrapper-userhome .find-players__button {
       margin-top: 30px; } }
 
-.edit-team {
+.create-team, .edit-team {
   width: 300px;
   height: 430px;
   background-color: white;
@@ -736,14 +736,14 @@ a {
   padding-top: 10px;
   display: flex;
   flex-direction: column; }
-  .edit-team__input-wrapper {
+  .create-team__input-wrapper {
     margin: 15px 10px; }
-  .edit-team__available-positions {
+  .create-team__available-positions, .edit-team__data-wrapper--members {
     height: 200px;
     flex: 1; }
-  .edit-team__input-wrapper--positions {
+  .create-team__input-wrapper--positions {
     margin-left: 36px; }
-  .edit-team__create {
+  .create-team__create {
     background-color: transparent;
     outline: none;
     border: none;
@@ -756,17 +756,32 @@ a {
     margin: 15px auto;
     font-size: 20px;
     transition: background-color 0.15s ease; }
-    .edit-team__create:hover {
+    .create-team__create:hover {
       background-color: #009c06; }
   @media (min-width: 768px) {
-    .edit-team {
+    .create-team, .edit-team {
       width: 400px;
       height: 450px; }
-      .edit-team__input-wrapper {
+      .create-team__input-wrapper {
         margin-left: 25px; }
-      .edit-team__description {
+      .create-team__description {
         font-size: 18px; }
-      .edit-team__input {
+      .create-team__input {
         font-size: 18px; }
-      .edit-team__input-wrapper--positions {
+      .create-team__input-wrapper--positions {
         margin-left: 58px; } }
+
+.edit-team {
+  padding: 20px 30px;
+  height: 480px; }
+  .edit-team__data-wrapper--members {
+    padding-top: 10px; }
+  .edit-team .member {
+    margin: 30px 0; }
+    .edit-team .member__position {
+      font-size: 18px;
+      font-weight: 700; }
+    .edit-team .member__nick {
+      font-size: 20px; }
+      .edit-team .member__nick--none {
+        color: #bb0000; }

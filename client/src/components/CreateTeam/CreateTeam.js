@@ -87,22 +87,22 @@ export default function EditTeam(props) {
 
   return (
     <div className="wrapper">
-      <form className="edit-team" onSubmit={e => onSubmit(e)}>
-        <div className="edit-team__input-wrapper">
-          <span className="edit-team__description">Team's name: </span>
+      <form className="create-team" onSubmit={e => onSubmit(e)}>
+        <div className="create-team__input-wrapper">
+          <span className="create-team__description">Team's name: </span>
           <input
             type="text"
             name="name"
             value={values.name}
             onChange={e => onChangeValues(e)}
-            className="edit-team__input"
+            className="create-team__input"
           />
         </div>
 
-        <div className="edit-team__input-wrapper">
-          <span className="edit-team__description">Member's amount: </span>
+        <div className="create-team__input-wrapper">
+          <span className="create-team__description">Member's amount: </span>
           <select
-            className="edit-team__input"
+            className="create-team__input"
             name="maxMembersAmount"
             value={values.maxMembersAmount}
             onChange={e => onChangeMembers(e)}
@@ -114,10 +114,10 @@ export default function EditTeam(props) {
           </select>
         </div>
 
-        <div className="edit-team__input-wrapper">
-          <span className="edit-team__description">Your position: </span>
+        <div className="create-team__input-wrapper">
+          <span className="create-team__description">Your position: </span>
           <select
-            className="edit-team__input"
+            className="create-team__input"
             value={values.positions[0].position}
             onChange={e => onChangePositions(e, 0)}
           >
@@ -129,7 +129,7 @@ export default function EditTeam(props) {
           </select>
         </div>
 
-        <div className="edit-team__available-positions">
+        <div className="create-team__available-positions">
           {(() => {
             //put value in members state to array and map through to create inputs
 
@@ -140,14 +140,14 @@ export default function EditTeam(props) {
 
             return membersIterator.map((member, id) => (
               <div
-                className="edit-team__input-wrapper edit-team__input-wrapper--positions"
+                className="create-team__input-wrapper create-team__input-wrapper--positions"
                 key={id}
               >
-                <span className="edit-team__description">
+                <span className="create-team__description">
                   Position {member}:{" "}
                 </span>
                 <select
-                  className="edit-team__input"
+                  className="create-team__input"
                   value={values.positions[id].position}
                   onChange={e => onChangePositions(e, id)}
                 >
@@ -161,7 +161,7 @@ export default function EditTeam(props) {
             ));
           })()}
         </div>
-        <input type="submit" value="Create" className="edit-team__create" />
+        <input type="submit" value="Create" className="create-team__create" />
       </form>
       {Object.keys(errors).length > 0 && <InfoModel error={errors} />}
     </div>

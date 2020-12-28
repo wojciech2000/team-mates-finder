@@ -11,7 +11,6 @@ const {
   validateLoginInput,
 } = require("../../utils/validators");
 const checkAuth = require("../../utils/checkAuth");
-const {set} = require("mongoose");
 
 const setServer = server => {
   const dataServer = {};

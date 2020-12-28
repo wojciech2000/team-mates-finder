@@ -1,0 +1,47 @@
+.edit-team {
+  @extend .create-team;
+  padding: 20px 30px;
+  height: 480px;
+
+  &__data {
+    @extend .profile__data;
+  }
+
+  &__description {
+    @extend .profile__description;
+  }
+
+  &__content {
+    @extend .profile__content;
+  }
+
+  &__edit-wrapper {
+    @extend .profile__edit-wrapper;
+  }
+
+  &__edit {
+    @extend .profile__edit;
+  }
+
+  &__data-wrapper--members {
+    padding-top: 10px;
+    @extend .create-team__available-positions;
+  }
+
+  .member {
+    margin: 30px 0;
+
+    &__position {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    &__nick {
+      font-size: 20px;
+
+      &--none {
+        color: $red;
+      }
+    }
+  }
+}

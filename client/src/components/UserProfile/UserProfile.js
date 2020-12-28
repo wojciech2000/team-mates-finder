@@ -456,7 +456,9 @@ export default function UserProfile(props) {
                     {!data.getUser.team ? (
                       <Link to="/create-team">create team</Link>
                     ) : (
-                      <Link to="/edit-team">edit</Link>
+                      <Link to={`/edit-team/${data.getUser.team.id}`}>
+                        edit
+                      </Link>
                     )}
                   </button>
                 </div>

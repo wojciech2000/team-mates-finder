@@ -117,6 +117,7 @@ export const GET_USER_PROFILE = gql`
       }
       mainChampions
       team {
+        id
         name
       }
     }
@@ -174,6 +175,22 @@ export const CREATE_TEAM = gql`
       positions: $positions
     ) {
       name
+      membersAmount
+      maxMembersAmount
+      positions {
+        nick
+        position
+      }
+    }
+  }
+`;
+
+export const GET_TEAM_PROFILE = gql`
+  query getTeamProfile($id: ID!) {
+    getTeam(id: $id) {
+      id
+      name
+      founder
       membersAmount
       maxMembersAmount
       positions {
