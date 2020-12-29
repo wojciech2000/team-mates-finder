@@ -114,6 +114,7 @@ const typeDefs = gql`
       positions: [PositionTeamInput]
     ): Team
     updateName(name: String!): Team
+    updatePositions(positions: [PositionTeamInput!]!): Team
   }
 `;
 

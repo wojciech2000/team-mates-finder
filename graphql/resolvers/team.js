@@ -5,6 +5,19 @@ const {UserInputError} = require("apollo-server");
 
 const checkAuth = require("../../utils/checkAuth");
 
+const checkIfPositionsAreUnique = positions => {
+  const positionsName = positions.map(position => position.position);
+  const uniquePositionsName = Array.from(new Set(positionsName));
+
+  if (uniquePositionsName.length < positionsName.length) {
+    throw new UserInputError("Team error", {
+      errors: {championEmpty: "Positions must be unique"},
+    });
+  } else {
+    return true;
+  }
+};
+
 const teamResolver = {
   Query: {
     getTeams: async () => {
@@ -17,10 +30,6 @@ const teamResolver = {
   Mutation: {
     createTeam: async (_, {name, maxMembersAmount, positions}, context) => {
       const {id} = checkAuth(context);
-
-      const positionsName = positions.map(position => position.position);
-      const uniquePositionsName = Array.from(new Set(positionsName));
-
       //team validation
       if (name.trim() === "" || maxMembersAmount == 0 || !positions[0]) {
         throw new UserInputError("Team error", {
@@ -46,11 +55,9 @@ const teamResolver = {
             teamTaken: "Members amount is lesser than provided positions",
           },
         });
-      } else if (uniquePositionsName.length < positionsName.length) {
-        throw new UserInputError("Team error", {
-          errors: {championEmpty: "Positions must be unique"},
-        });
       }
+
+      checkIfPositionsAreUnique(positions);
 
       const user = await User.findById({_id: id});
       const findTeam = await Team.findOne({name});
@@ -111,6 +118,20 @@ const teamResolver = {
       }
 
       team.name = name;
+      team.save();
+
+      return team;
+    },
+    updatePositions: async (_, {positions}, context) => {
+      const {id} = checkAuth(context);
+
+      checkIfPositionsAreUnique(positions);
+
+      const user = await User.findById({_id: id});
+      const team = await Team.findOne({_id: user.team});
+
+      team.positions = positions;
+      team.maxMembersAmount = positions.length;
       team.save();
 
       return team;
