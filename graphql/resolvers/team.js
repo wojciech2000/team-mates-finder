@@ -4,6 +4,7 @@ const Team = require("../../models/Team");
 const {UserInputError} = require("apollo-server");
 
 const checkAuth = require("../../utils/checkAuth");
+const {LoneSchemaDefinitionRule} = require("graphql");
 
 const checkIfPositionsAreUnique = positions => {
   const positionsName = positions.map(position => position.position);
@@ -106,7 +107,7 @@ const teamResolver = {
       const {id} = checkAuth(context);
 
       const user = await User.findById({_id: id});
-      const team = await Team.findOne({_id: user.team});
+      const team = await Team.findById({_id: user.team});
       const checkIfTeamExists = await Team.findOne({name});
 
       if (checkIfTeamExists && checkIfTeamExists.id != user.team) {
@@ -132,6 +133,64 @@ const teamResolver = {
 
       team.positions = positions;
       team.maxMembersAmount = positions.length;
+      team.save();
+
+      return team;
+    },
+    inviteToTeam: async (_, {id, position}, context) => {
+      const {id: userId} = checkAuth(context);
+
+      const user = await User.findById({_id: userId});
+      const invitedUser = await User.findById({_id: id});
+      const team = await Team.findById({_id: user.team});
+
+      if (invitedUser.team) {
+        throw new UserInputError("Team error", {
+          errors: {
+            teamEmpty: "This user is already in the team",
+          },
+        });
+      }
+
+      //check if this position exists, is taken, someon is already invited
+      const positionInTeam = team.positions.find(
+        posit => posit.position === position,
+      );
+
+      if (!positionInTeam) {
+        throw new UserInputError("Team error", {
+          errors: {
+            teamEmpty: "Position wasn't found",
+          },
+        });
+      }
+
+      if (positionInTeam.nick) {
+        throw new UserInputError("Team error", {
+          errors: {
+            teamEmpty: "This position is already taken",
+          },
+        });
+      }
+
+      if (positionInTeam.invited) {
+        throw new UserInputError("Team error", {
+          errors: {
+            teamEmpty: "You have already invited someone on this position",
+          },
+        });
+      }
+
+      //set invited user on this position in the team
+      positionInTeam.invited = invitedUser.nick;
+
+      //send message to invited user
+      invitedUser.messages.push({
+        read: false,
+        message: `You was invied to the team "${team.name}" on position ${position}`,
+      });
+
+      invitedUser.save();
       team.save();
 
       return team;

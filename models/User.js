@@ -18,6 +18,12 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Team",
   },
+  messages: [
+    {
+      read: Boolean,
+      message: String,
+    },
+  ],
 });
 
 module.exports = model("User", userSchema);

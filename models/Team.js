@@ -8,6 +8,7 @@ const teamSchema = new Schema({
   positions: [
     {
       nick: String,
+      invited: String,
       position: String,
     },
   ],

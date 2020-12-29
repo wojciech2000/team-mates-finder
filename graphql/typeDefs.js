@@ -1,7 +1,6 @@
 const {gql} = require("apollo-server");
 
 const typeDefs = gql`
-  #Authentication and authorization
   input RegisterInput {
     login: String!
     email: String!
@@ -31,9 +30,14 @@ const typeDefs = gql`
     position: Position
     mainChampions: [String]
     team: Team
+    messages: [Message]
   }
 
-  #User configurations
+  type Message {
+    read: Boolean!
+    message: String!
+  }
+
   enum Server {
     BR
     EUNE
@@ -77,6 +81,7 @@ const typeDefs = gql`
 
   type PositionTeamType {
     nick: String
+    invited: String
     position: Positions!
   }
 
@@ -115,6 +120,7 @@ const typeDefs = gql`
     ): Team
     updateName(name: String!): Team
     updatePositions(positions: [PositionTeamInput!]!): Team
+    inviteToTeam(id: ID!, position: Positions): Team
   }
 `;
 
