@@ -195,6 +195,7 @@ export const GET_TEAM_PROFILE = gql`
       maxMembersAmount
       positions {
         nick
+        invited
         position
       }
     }

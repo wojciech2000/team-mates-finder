@@ -67,6 +67,10 @@ export default function EditTeam(props) {
                     <span className="member__nick">
                       {position.nick ? (
                         position.nick
+                      ) : position.invited ? (
+                        <span className="member__nick--invited">
+                          invited - {position.invited}
+                        </span>
                       ) : (
                         <span className="member__nick--none">none</span>
                       )}
