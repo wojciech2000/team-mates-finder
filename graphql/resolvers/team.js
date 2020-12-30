@@ -185,10 +185,13 @@ const teamResolver = {
       positionInTeam.invited = invitedUser.nick;
 
       //send message to invited user
-      invitedUser.messages.push({
+      invitedUser.messages.unshift({
         read: false,
-        message: `You was invied to the team "${team.name}" on position ${position}`,
+        message: `You was invited to the team "${team.name}" on position ${position}`,
+        messageType: "invite",
       });
+
+      console.log(invitedUser);
 
       invitedUser.save();
       team.save();

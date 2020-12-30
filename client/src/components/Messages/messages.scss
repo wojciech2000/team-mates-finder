@@ -44,15 +44,20 @@
     border-radius: 5px;
     font-size: 17px;
     overflow-y: auto;
-    padding: 0 10px;
+
     border: 1px solid black;
 
     .messages__message-wrapper {
       text-align: justify;
       line-height: 30px;
       font-size: 14px;
-      padding: 30px 0 30px;
+      padding: 30px 10px;
       border-bottom: 1px solid $gray;
+    }
+
+    .messages__message-wrapper--read {
+      @extend .messages__message-wrapper;
+      background-color: #adadad;
     }
 
     .messages__buttons {

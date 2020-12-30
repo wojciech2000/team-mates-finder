@@ -36,6 +36,7 @@ const typeDefs = gql`
   type Message {
     read: Boolean!
     message: String!
+    messageType: String
   }
 
   enum Server {
@@ -88,6 +89,7 @@ const typeDefs = gql`
   input PositionTeamInput {
     nick: String
     position: Positions!
+    invited: String
   }
 
   type userLogged {
@@ -121,6 +123,7 @@ const typeDefs = gql`
     updateName(name: String!): Team
     updatePositions(positions: [PositionTeamInput!]!): Team
     inviteToTeam(id: ID!, position: Positions): Team
+    setReadMessages: User
   }
 `;
 

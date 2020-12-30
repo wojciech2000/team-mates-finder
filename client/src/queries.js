@@ -31,6 +31,11 @@ export const GET_USER = gql`
       team {
         name
       }
+      messages {
+        read
+        message
+        messageType
+      }
     }
   }
 `;
@@ -197,6 +202,18 @@ export const GET_TEAM_PROFILE = gql`
         nick
         invited
         position
+      }
+    }
+  }
+`;
+
+export const SET_READ_TO_TRUE = gql`
+  mutation {
+    setReadMessages {
+      messages {
+        read
+        message
+        messageType
       }
     }
   }

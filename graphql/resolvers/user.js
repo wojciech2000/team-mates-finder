@@ -360,6 +360,15 @@ const userResolver = {
 
       return user;
     },
+    setReadMessages: async (_, __, context) => {
+      const {id} = checkAuth(context);
+      const user = await User.findById({_id: id});
+
+      user.messages.forEach(message => (message.read = true));
+      user.save();
+
+      return user;
+    },
   },
 };
 

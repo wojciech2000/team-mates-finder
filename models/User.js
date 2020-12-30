@@ -22,6 +22,7 @@ const userSchema = new Schema({
     {
       read: Boolean,
       message: String,
+      messageType: String,
     },
   ],
 });

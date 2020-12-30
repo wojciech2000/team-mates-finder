@@ -23,7 +23,7 @@ export default function Header() {
           </Link>
         ) : (
           <Fragment>
-            <Messages />
+            <Messages id={id} />
 
             <Link to={`/user/${id}`} className="menu__user">
               <span className="menu__username">{user}</span>
