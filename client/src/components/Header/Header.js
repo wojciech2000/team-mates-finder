@@ -4,6 +4,7 @@ import {Link, Redirect} from "react-router-dom";
 
 import {FaUser} from "react-icons/fa";
 
+import Messages from "../Messages/Messages";
 import {AuthContext} from "../../context/auth";
 
 export default function Header() {
@@ -22,11 +23,14 @@ export default function Header() {
           </Link>
         ) : (
           <Fragment>
+            <Messages />
+
             <Link to={`/user/${id}`} className="menu__user">
               <span className="menu__username">{user}</span>
 
               <FaUser />
             </Link>
+
             <Link
               to="/players"
               className="menu__logout"
