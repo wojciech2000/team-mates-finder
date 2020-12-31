@@ -60,7 +60,7 @@ a {
   text-decoration: none;
   color: white; }
 
-.main-input, .players .table__find-player, .players .table__find-position, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input, .profile__input, .create-team__input {
+.main-input, .players .table__find-player, .players .table__find-position, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input, .profile__input, .edit-team__input, .create-team__input {
   outline: none;
   background-color: black;
   border: 1px white solid;
@@ -639,7 +639,7 @@ a {
     background-color: #00ad07;
     margin-left: 10px;
     border-radius: 5px; }
-  .profile__input {
+  .profile__input, .edit-team__input {
     font-size: 20px;
     width: 200px; }
   .profile__input--position {

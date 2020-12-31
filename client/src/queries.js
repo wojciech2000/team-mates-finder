@@ -19,6 +19,7 @@ export const GET_USERS = gql`
 export const GET_USER = gql`
   query getUser($id: ID!) {
     getUser(id: $id) {
+      id
       nick
       server {
         serverName
@@ -215,6 +216,14 @@ export const SET_READ_TO_TRUE = gql`
         message
         messageType
       }
+    }
+  }
+`;
+
+export const UPDATE_TEAM_NAME = gql`
+  mutation updateName($name: String!) {
+    updateName(name: $name) {
+      name
     }
   }
 `;

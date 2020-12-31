@@ -23,6 +23,10 @@
     @extend .profile__edit;
   }
 
+  &__input {
+    @extend .profile__input;
+  }
+
   &__data-wrapper--members {
     padding-top: 10px;
     @extend .create-team__available-positions;
