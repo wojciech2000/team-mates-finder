@@ -50,15 +50,15 @@ export default function App() {
             <Header />
             <Switch>
               <Route path="/players" component={Players} />
-              <Route path="/player/:id" component={Player} />
+              <Route path="/player/:nick" component={Player} />
               <Route path="/teams" component={Teams} />
-              <Route path="/team/:id" component={Team} />
+              <Route path="/team/:name" component={Team} />
               <AuthRoute path="/login" component={Login} />
               <AuthRoute path="/register" component={Register} />
-              <Route path="/user/:id" component={UserProfile} />
+              <Route path="/user/:nick" component={UserProfile} />
               <Route path="/home" component={UserHome} />
               <Route path="/create-team" component={CreateTeam} />
-              <Route path="/edit-team/:id" component={EditTeam} />
+              <Route path="/edit-team/:name" component={EditTeam} />
             </Switch>
           </Router>
         </div>

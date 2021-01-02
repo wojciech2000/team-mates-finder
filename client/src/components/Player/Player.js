@@ -4,7 +4,7 @@ import React, {Fragment} from "react";
 import {GET_USER} from "../../queries";
 
 export default function Player(props) {
-  const id = props.match.params.id;
+  const id = props.location.id;
   const {loading, data, error} = useQuery(GET_USER, {variables: {id}});
 
   return (

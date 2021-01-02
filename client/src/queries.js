@@ -174,7 +174,7 @@ export const CREATE_TEAM = gql`
   mutation createTeam(
     $name: String!
     $maxMembersAmount: Int!
-    $positions: [PositionTeamInput!]
+    $positions: [PositionTeamInput!]!
   ) {
     createTeam(
       name: $name

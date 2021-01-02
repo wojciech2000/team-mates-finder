@@ -17,7 +17,7 @@ import {AuthContext} from "../../context/auth";
 export default function UserProfile(props) {
   const {updateNick: updateNickContext} = useContext(AuthContext);
 
-  const id = props.match.params.id;
+  const id = props.location.id;
 
   const {loading, data, error} = useQuery(GET_USER_PROFILE, {variables: {id}});
 
@@ -456,7 +456,12 @@ export default function UserProfile(props) {
                     {!data.getUser.team ? (
                       <Link to="/create-team">create team</Link>
                     ) : (
-                      <Link to={`/edit-team/${data.getUser.team.id}`}>
+                      <Link
+                        to={{
+                          pathname: `/edit-team/${data.getUser.team.name}`,
+                          id: data.getUser.team.id,
+                        }}
+                      >
                         edit
                       </Link>
                     )}

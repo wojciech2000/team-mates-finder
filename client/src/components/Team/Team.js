@@ -4,7 +4,7 @@ import React, {Fragment} from "react";
 import {GET_TEAM} from "../../queries";
 
 export default function Team(props) {
-  const id = props.match.params.id;
+  const id = props.location.id;
 
   const {loading, data, error} = useQuery(GET_TEAM, {variables: {id}});
 

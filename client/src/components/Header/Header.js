@@ -8,7 +8,7 @@ import Messages from "../Messages/Messages";
 import {AuthContext} from "../../context/auth";
 
 export default function Header() {
-  const {user, id, logout} = useContext(AuthContext);
+  const {user, nick, id, logout} = useContext(AuthContext);
 
   return (
     <header className="header">
@@ -25,7 +25,7 @@ export default function Header() {
           <Fragment>
             <Messages id={id} />
 
-            <Link to={`/user/${id}`} className="menu__user">
+            <Link to={{pathname: `/user/${nick}`, id}} className="menu__user">
               <span className="menu__username">{user}</span>
 
               <FaUser />

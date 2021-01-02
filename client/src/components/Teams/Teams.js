@@ -70,7 +70,10 @@ export default function Teams() {
                     key,
                   ) => (
                     <li key={key}>
-                      <Link to={`/team/${id}`} className="data__team">
+                      <Link
+                        to={{pathname: `/team/${name}`, id}}
+                        className="data__team"
+                      >
                         <span className="data__id">{key + 1}</span>
                         <span className="data__teams-name">{name}</span>
                         <span className="data__positions">

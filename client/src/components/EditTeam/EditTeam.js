@@ -10,7 +10,7 @@ import {
 } from "../../queries";
 
 export default function EditTeam(props) {
-  const id = props.match.params.id;
+  const id = props.location.id;
 
   const [editInput, setEditInput] = useState({
     name: false,

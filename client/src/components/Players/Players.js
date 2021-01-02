@@ -76,7 +76,10 @@ export default function Players() {
               ? "Error..."
               : findNick().map(({id, nick, position, team}, key) => (
                   <li key={key}>
-                    <Link to={`/player/${id}`} className="data__player">
+                    <Link
+                      to={{pathname: `/player/${nick}`, id}}
+                      className="data__player"
+                    >
                       <span className="data__id">{key + 1}</span>
                       <span className="data__palyer-nick">{nick}</span>
                       <span className="data__position">
