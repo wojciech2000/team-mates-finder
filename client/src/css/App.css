@@ -773,18 +773,37 @@ a {
 
 .edit-team {
   padding: 20px 30px;
-  height: 480px; }
+  height: 500px; }
+  .edit-team__input--edit-name-team {
+    width: 140px; }
   .edit-team__data-wrapper--members {
     padding-top: 10px; }
   .edit-team .member {
     margin: 30px 0; }
+    .edit-team .member--edit {
+      margin: 20px 0; }
     .edit-team .member__position {
       font-size: 18px;
       font-weight: 700; }
+      .edit-team .member__position--edit {
+        display: flex;
+        align-items: center; }
+    .edit-team .member__position-add {
+      color: #00ad07;
+      font-size: 25px;
+      cursor: pointer; }
+    .edit-team .member__position-delete {
+      cursor: pointer;
+      margin-right: 5px; }
     .edit-team .member__nick {
       font-size: 20px; }
       .edit-team .member__nick--none {
         color: #bb0000; }
+  @media (min-width: 768px) {
+    .edit-team {
+      height: 510px; }
+      .edit-team__input--edit-name-team {
+        width: 220px; } }
 
 .messages {
   background-color: white;

@@ -103,7 +103,6 @@ const userResolver = {
             position: user.position,
           },
           process.env.SECRET_JWT,
-          {expiresIn: "1h"},
         );
 
         return {token, login: user.login, id: user.id, nick: user.nick};

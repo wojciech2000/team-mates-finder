@@ -113,6 +113,7 @@ export const GET_TEAMS = gql`
 export const GET_USER_PROFILE = gql`
   query getUserProfile($id: ID!) {
     getUser(id: $id) {
+      id
       nick
       server {
         serverName
@@ -224,6 +225,18 @@ export const UPDATE_TEAM_NAME = gql`
   mutation updateName($name: String!) {
     updateName(name: $name) {
       name
+    }
+  }
+`;
+
+export const UPDATE_POSITIONS_TEAM = gql`
+  mutation updatePositions($positions: [PositionTeamInput!]!) {
+    updatePositions(positions: $positions) {
+      positions {
+        nick
+        position
+        invited
+      }
     }
   }
 `;

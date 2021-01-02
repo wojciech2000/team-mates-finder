@@ -9,6 +9,7 @@ const initialState = {
 
 if (localStorage.getItem("jwtToken")) {
   const decodedToken = jwtDecode(localStorage.getItem("jwtToken"));
+
   if (decodedToken) {
     initialState.user = decodedToken.login;
     initialState.id = decodedToken.id;

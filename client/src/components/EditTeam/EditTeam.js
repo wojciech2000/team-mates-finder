@@ -1,7 +1,13 @@
 import React, {useState, Fragment} from "react";
 import {useMutation, useQuery} from "@apollo/client";
+import {FaUserAltSlash} from "react-icons/fa";
+import {FiUserPlus} from "react-icons/fi";
 
-import {GET_TEAM_PROFILE, UPDATE_TEAM_NAME} from "../../queries";
+import {
+  GET_TEAM_PROFILE,
+  UPDATE_TEAM_NAME,
+  UPDATE_POSITIONS_TEAM,
+} from "../../queries";
 
 export default function EditTeam(props) {
   const id = props.match.params.id;
@@ -21,8 +27,14 @@ export default function EditTeam(props) {
   });
 
   const restEditValue = () => {
+    const filterPositions = data.getTeam.positions.map(position => ({
+      ...position,
+      __proto__: null,
+    }));
+
     setEditValue({
       name: data.getTeam.name,
+      positions: filterPositions,
     });
   };
 
@@ -64,6 +76,65 @@ export default function EditTeam(props) {
     updateName();
   };
 
+  const addMember = () => {
+    if (editValue.positions.length >= 5) {
+      console.log("max member is 5");
+    } else {
+      setEditValue({
+        ...editValue,
+        positions: [
+          ...editValue.positions,
+          {position: "Top", nick: null, invited: null},
+        ],
+      });
+    }
+  };
+
+  const deleteMember = (e, id) => {
+    if (id === 0) {
+      console.log("You can't delete founder");
+    } else {
+      const update = editValue.positions.filter(
+        (position, idArray) => idArray !== id && position,
+      );
+
+      setEditValue({
+        ...editValue,
+        positions: update,
+      });
+    }
+  };
+
+  const onChangePositions = (e, id) => {
+    if (id || id === 0) {
+      const update = editValue.positions.map((position, idArray) =>
+        idArray === id ? {...position, position: e.target.value} : position,
+      );
+
+      setEditValue({
+        ...editValue,
+        positions: update,
+      });
+    }
+  };
+
+  const [updatePositions] = useMutation(UPDATE_POSITIONS_TEAM, {
+    variables: {positions: editValue.positions},
+    update: (proxy, result) => {
+      console.log(result);
+    },
+    refetchQueries: [{query: GET_TEAM_PROFILE, variables: {id}}],
+    onError: error => {
+      console.log(error);
+    },
+  });
+
+  const savePositons = e => {
+    console.log(editValue.positions);
+    cancelEditValue(e);
+    updatePositions();
+  };
+
   return (
     <div className="wrapper">
       {loading
@@ -82,7 +153,7 @@ export default function EditTeam(props) {
                         name="name"
                         value={editValue.name}
                         onChange={e => onChangeInput(e)}
-                        className="edit-team__input"
+                        className="edit-team__input edit-team__input--edit-name-team"
                       />
                     ) : (
                       data.getTeam.name
@@ -138,30 +209,95 @@ export default function EditTeam(props) {
                   </span>
                 </div>
                 <div className="edit-team__edit-wrapper">
-                  <button className="edit-team__edit" id="nick">
-                    edit
-                  </button>
+                  {editInput.positions ? (
+                    <Fragment>
+                      <button
+                        className="profile__cancel"
+                        id="positions"
+                        onClick={e => cancelEditValue(e)}
+                      >
+                        cancel
+                      </button>
+                      <button
+                        className="profile__save"
+                        id="positions"
+                        onClick={e => savePositons(e)}
+                      >
+                        save
+                      </button>
+                    </Fragment>
+                  ) : (
+                    <button
+                      className="edit-team__edit"
+                      id="positions"
+                      onClick={e => startEditValue(e)}
+                    >
+                      edit
+                    </button>
+                  )}
                 </div>
               </div>
               <div className="edit-team__data-wrapper--members">
-                {data.getTeam.positions.map((position, id) => (
-                  <div className="member" key={id}>
-                    <span className="member__position">
-                      {position.position + ": "}
-                    </span>
-                    <span className="member__nick">
-                      {position.nick ? (
-                        position.nick
-                      ) : position.invited ? (
-                        <span className="member__nick--invited">
-                          invited - {position.invited}
+                {editInput.positions ? (
+                  <Fragment>
+                    <FiUserPlus
+                      className="member__position-add"
+                      onClick={addMember}
+                    />
+                    {editValue.positions.map((position, id) => (
+                      <div className="member--edit" key={id}>
+                        <span className="member__position--edit">
+                          <FaUserAltSlash
+                            className="member__position-delete"
+                            onClick={e => deleteMember(e, id)}
+                          />
+                          <span className="member__nick">
+                            <select
+                              className="create-team__input"
+                              style={{marginRight: "10px"}}
+                              value={editValue.positions[id].position}
+                              onChange={e => onChangePositions(e, id)}
+                            >
+                              <option value="Top">Top</option>
+                              <option value="Jungle">Jungle</option>
+                              <option value="Mid">Mid</option>
+                              <option value="ADC">ADC</option>
+                              <option value="Supp">Supp</option>
+                            </select>
+                          </span>
+                          {position.nick ? (
+                            position.nick
+                          ) : position.invited ? (
+                            <span className="member__nick--invited">
+                              invited - {position.invited}
+                            </span>
+                          ) : (
+                            <span className="member__nick--none">none</span>
+                          )}
                         </span>
-                      ) : (
-                        <span className="member__nick--none">none</span>
-                      )}
-                    </span>
-                  </div>
-                ))}
+                      </div>
+                    ))}
+                  </Fragment>
+                ) : (
+                  data.getTeam.positions.map((position, id) => (
+                    <div className="member" key={id}>
+                      <span className="member__position">
+                        {position.position + ": "}
+                      </span>
+                      <span className="member__nick">
+                        {position.nick ? (
+                          position.nick
+                        ) : position.invited ? (
+                          <span className="member__nick--invited">
+                            invited - {position.invited}
+                          </span>
+                        ) : (
+                          <span className="member__nick--none">none</span>
+                        )}
+                      </span>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           )}

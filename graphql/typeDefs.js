@@ -118,7 +118,7 @@ const typeDefs = gql`
     createTeam(
       name: String!
       maxMembersAmount: Int!
-      positions: [PositionTeamInput]
+      positions: [PositionTeamInput!]!
     ): Team
     updateName(name: String!): Team
     updatePositions(positions: [PositionTeamInput!]!): Team
