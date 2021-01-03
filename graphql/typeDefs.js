@@ -124,6 +124,11 @@ const typeDefs = gql`
     updatePositions(positions: [PositionTeamInput!]!): Team
     inviteToTeam(id: ID!, position: Positions): Team
     setReadMessages: User
+    acceptInvitation(
+      messageId: ID!
+      addresseeId: ID!
+      position: Positions!
+    ): User
   }
 `;
 

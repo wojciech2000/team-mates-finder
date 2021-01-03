@@ -154,7 +154,7 @@ const teamResolver = {
 
       //check if this position exists, is taken, someon is already invited
       const positionInTeam = team.positions.find(
-        posit => posit.position === position,
+        member => member.position === position,
       );
 
       if (!positionInTeam) {
@@ -187,7 +187,7 @@ const teamResolver = {
       //send message to invited user
       invitedUser.messages.unshift({
         read: false,
-        message: `You was invited to the team "${team.name}" on position ${position}`,
+        message: `You were invited to the team "${team.name}" on position ${position}`,
         messageType: "invite",
       });
 
@@ -197,6 +197,48 @@ const teamResolver = {
       team.save();
 
       return team;
+    },
+    acceptInvitation: async (
+      _,
+      {messageId, addresseeId, position},
+      context,
+    ) => {
+      const {id} = checkAuth(context);
+
+      const user = await User.findById({_id: id});
+      const addressee = await User.findById({_id: addresseeId}).populate(
+        "team",
+      );
+      const team = await Team.findById({_id: addressee.team._id});
+
+      //user modification
+
+      const messagesWithRemovedInvitation = user.messages.filter(
+        message => message._id != messageId && message,
+      );
+
+      user.messages = messagesWithRemovedInvitation;
+      user.team = addressee.team;
+
+      //addressee modification
+
+      addressee.messages.unshift({
+        read: false,
+        message: `${user.nick} accepted your invitation to the team`,
+        messageType: "message",
+      });
+
+      //team modification
+
+      let filt = team.positions.find(member => member.position == position);
+      filt.nick = user.nick;
+      filt.invited = null;
+
+      user.save();
+      addressee.save();
+      team.save();
+
+      return user;
     },
   },
 };
