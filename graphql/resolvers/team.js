@@ -191,8 +191,6 @@ const teamResolver = {
         messageType: "invite",
       });
 
-      console.log(invitedUser);
-
       invitedUser.save();
       team.save();
 
@@ -232,6 +230,43 @@ const teamResolver = {
 
       let filt = team.positions.find(member => member.position == position);
       filt.nick = user.nick;
+      filt.invited = null;
+
+      user.save();
+      addressee.save();
+      team.save();
+
+      return user;
+    },
+    rejectInvitation: async (_, {messageId, addresseeId}, context) => {
+      const {id} = checkAuth(context);
+
+      const user = await User.findById({_id: id});
+      const addressee = await User.findById({_id: addresseeId}).populate(
+        "team",
+      );
+      const team = await Team.findById({_id: addressee.team._id});
+
+      //user modification
+
+      const messagesWithRemovedInvitation = user.messages.filter(
+        message => message._id != messageId && message,
+      );
+
+      user.messages = messagesWithRemovedInvitation;
+
+      //addressee modification
+
+      addressee.messages.unshift({
+        read: false,
+        message: `${user.nick} rejected your invitation to the team`,
+        messageType: "message",
+      });
+
+      //team modification
+
+      let filt = team.positions.find(member => member.invited == user.nick);
+      filt.nick = null;
       filt.invited = null;
 
       user.save();

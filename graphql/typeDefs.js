@@ -129,6 +129,7 @@ const typeDefs = gql`
       addresseeId: ID!
       position: Positions!
     ): User
+    rejectInvitation(messageId: ID!, addresseeId: ID!): User
   }
 `;
 
