@@ -144,6 +144,14 @@ const teamResolver = {
       const invitedUser = await User.findById({_id: id});
       const team = await Team.findById({_id: user.team});
 
+      if (team.founder !== user.nick) {
+        throw new UserInputError("Team error", {
+          errors: {
+            teamEmpty: "Only founder of the team can invite players",
+          },
+        });
+      }
+
       if (invitedUser.team) {
         throw new UserInputError("Team error", {
           errors: {

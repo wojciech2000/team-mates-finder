@@ -60,7 +60,7 @@ a {
   text-decoration: none;
   color: white; }
 
-.main-input, .players .table__find-player, .players .table__find-position, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input, .profile__input, .edit-team__input, .create-team__input {
+.main-input, .players .table__find-player, .players .table__find-position, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input, .profile__input, .edit-team__input, .create-team__input, .player .player__data__input, .profile .player__data__input {
   outline: none;
   background-color: black;
   border: 1px white solid;
@@ -305,7 +305,11 @@ a {
     font-size: 18px;
     white-space: nowrap; }
   .player__data--button {
-    margin: 0 auto; }
+    display: flex;
+    align-items: center;
+    flex-direction: column; }
+  .player .player__data__input, .profile .player__data__input {
+    margin-bottom: 10px; }
   .player__add {
     width: 150px;
     padding: 8px;
@@ -766,7 +770,7 @@ a {
         margin-left: 25px; }
       .create-team__description {
         font-size: 18px; }
-      .create-team__input {
+      .create-team__input, .player .player__data__input, .profile .player__data__input {
         font-size: 18px; }
       .create-team__input-wrapper--positions {
         margin-left: 58px; } }

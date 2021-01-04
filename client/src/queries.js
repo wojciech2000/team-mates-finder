@@ -29,9 +29,6 @@ export const GET_USER = gql`
         secondary
       }
       mainChampions
-      team {
-        name
-      }
       messages {
         id
         read
@@ -39,6 +36,15 @@ export const GET_USER = gql`
         messageType
         position
         addresseeId
+      }
+      team {
+        id
+        name
+        founder
+        positions {
+          position
+          nick
+        }
       }
     }
   }
@@ -235,6 +241,18 @@ export const UPDATE_TEAM_NAME = gql`
 export const UPDATE_POSITIONS_TEAM = gql`
   mutation updatePositions($positions: [PositionTeamInput!]!) {
     updatePositions(positions: $positions) {
+      positions {
+        nick
+        position
+        invited
+      }
+    }
+  }
+`;
+
+export const INVITE_TO_TEAM = gql`
+  mutation inviteToTeam($id: ID!, $position: Positions!) {
+    inviteToTeam(id: $id, position: $position) {
       positions {
         nick
         position
