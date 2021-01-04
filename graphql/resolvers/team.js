@@ -198,7 +198,7 @@ const teamResolver = {
         message: `You were invited to the team "${team.name}" on position ${position}`,
         messageType: "invite",
         position,
-        recipientId: user.id,
+        addresseeId: user.id,
       });
 
       invitedUser.save();
@@ -208,13 +208,13 @@ const teamResolver = {
     },
     acceptInvitation: async (
       _,
-      {messageId, recipientId, position},
+      {messageId, addresseeId, position},
       context,
     ) => {
       const {id} = checkAuth(context);
 
       const user = await User.findById({_id: id});
-      const addressee = await User.findById({_id: recipientId}).populate(
+      const addressee = await User.findById({_id: addresseeId}).populate(
         "team",
       );
       const team = await Team.findById({_id: addressee.team._id});
@@ -252,11 +252,11 @@ const teamResolver = {
 
       return user;
     },
-    rejectInvitation: async (_, {messageId, recipientId}, context) => {
+    rejectInvitation: async (_, {messageId, addresseeId}, context) => {
       const {id} = checkAuth(context);
 
       const user = await User.findById({_id: id});
-      const addressee = await User.findById({_id: recipientId}).populate(
+      const addressee = await User.findById({_id: addresseeId}).populate(
         "team",
       );
       const team = await Team.findById({_id: addressee.team._id});
@@ -286,6 +286,53 @@ const teamResolver = {
       user.save();
       addressee.save();
       team.save();
+
+      return user;
+    },
+    applyToTeam: async (_, {id, founder, position}, context) => {
+      const {id: userId} = checkAuth(context);
+
+      const user = await User.findById({_id: userId});
+      const team = await Team.findById({_id: id});
+      const founderUser = await User.findOne({nick: founder});
+
+      //user modifications
+
+      //set team applications if this is first time
+
+      if (
+        user.teamApplications.find(
+          ({team: teamApplication, position: positionApplication}) =>
+            teamApplication === team.name &&
+            positionApplication === position &&
+            true,
+        )
+      ) {
+        throw new UserInputError("Team error", {
+          errors: {
+            championEmpty:
+              "You have already applied to this team on this position",
+          },
+        });
+      }
+
+      user.teamApplications.unshift({
+        team: team.name,
+        position,
+      });
+
+      //founder modifications
+
+      founderUser.messages.unshift({
+        read: false,
+        message: `${user.nick} wants to join your team on position ${position}`,
+        messageType: "invite",
+        position,
+        addresseeId: userId,
+      });
+
+      user.save();
+      founderUser.save();
 
       return user;
     },

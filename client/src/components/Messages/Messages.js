@@ -53,7 +53,7 @@ export default function Messages({id}) {
     acceptInvitation({
       variables: {
         messageId: e.target.dataset.id,
-        recipientId: e.target.dataset.recipientid,
+        addresseeId: e.target.dataset.addresseeid,
         position: e.target.dataset.position && e.target.dataset.position,
       },
     });
@@ -75,7 +75,7 @@ export default function Messages({id}) {
     rejectInvitation({
       variables: {
         messageId: e.target.dataset.id,
-        recipientId: e.target.dataset.recipientid,
+        addresseeId: e.target.dataset.addresseeid,
       },
     });
   };
@@ -100,7 +100,7 @@ export default function Messages({id}) {
           ) : (
             data.getUser.messages.map(
               (
-                {id, message, read, messageType, recipientId, position},
+                {id, message, read, messageType, addresseeId, position},
                 key,
               ) => (
                 <div
@@ -118,7 +118,7 @@ export default function Messages({id}) {
                         className="messages__accept"
                         onClick={acceptOnClick}
                         data-id={id}
-                        data-recipientid={recipientId}
+                        data-addresseeid={addresseeId}
                         data-position={position && position}
                       >
                         Accept
@@ -127,7 +127,7 @@ export default function Messages({id}) {
                         className="messages__reject"
                         onClick={rejectOnClick}
                         data-id={id}
-                        data-recipientid={recipientId}
+                        data-addresseeid={addresseeId}
                       >
                         Reject
                       </button>

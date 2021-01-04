@@ -35,7 +35,7 @@ export const GET_USER = gql`
         message
         messageType
         position
-        recipientId
+        addresseeId
       }
       team {
         id
@@ -265,12 +265,12 @@ export const INVITE_TO_TEAM = gql`
 export const ACCEPT_INVITATION = gql`
   mutation acceptInvitation(
     $messageId: ID!
-    $recipientId: ID!
+    $addresseeId: ID!
     $position: Positions!
   ) {
     acceptInvitation(
       messageId: $messageId
-      recipientId: $recipientId
+      addresseeId: $addresseeId
       position: $position
     ) {
       nick
@@ -284,8 +284,8 @@ export const ACCEPT_INVITATION = gql`
 `;
 
 export const REJECT_INVITATION = gql`
-  mutation rejectInvitation($messageId: ID!, $recipientId: ID!) {
-    rejectInvitation(messageId: $messageId, recipientId: $recipientId) {
+  mutation rejectInvitation($messageId: ID!, $addresseeId: ID!) {
+    rejectInvitation(messageId: $messageId, addresseeId: $addresseeId) {
       messages {
         message
         messageType

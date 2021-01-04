@@ -24,7 +24,13 @@ const userSchema = new Schema({
       message: String,
       messageType: String,
       position: String,
-      recipientId: String,
+      addresseeId: String,
+    },
+  ],
+  teamApplications: [
+    {
+      team: String,
+      position: String,
     },
   ],
 });
