@@ -1,12 +1,31 @@
-import {useQuery} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 import React, {Fragment} from "react";
 
-import {GET_TEAM} from "../../queries";
+import {APPLY_TO_TEAM, GET_TEAM} from "../../queries";
 
 export default function Team(props) {
   const id = props.location.id;
 
   const {loading, data, error} = useQuery(GET_TEAM, {variables: {id}});
+
+  const [applyToTeam] = useMutation(APPLY_TO_TEAM, {
+    update: (proxy, result) => {
+      console.log(result);
+    },
+    onError: error => {
+      console.log(error);
+    },
+  });
+
+  const applyToTeamOnClick = e => {
+    applyToTeam({
+      variables: {
+        id: data.getTeam.id,
+        founder: data.getTeam.founder,
+        position: e.target.dataset.position,
+      },
+    });
+  };
 
   return (
     <Fragment>
@@ -40,7 +59,11 @@ export default function Team(props) {
                               <span className="positions__description">
                                 {position.position}:
                               </span>
-                              <button className="positions__apply">
+                              <button
+                                className="positions__apply"
+                                data-position={position.position}
+                                onClick={applyToTeamOnClick}
+                              >
                                 Apply
                               </button>
                             </span>

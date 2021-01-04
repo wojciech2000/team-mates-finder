@@ -294,3 +294,11 @@ export const REJECT_INVITATION = gql`
     }
   }
 `;
+
+export const APPLY_TO_TEAM = gql`
+  mutation applyToTeam($id: ID!, $founder: String!, $position: Positions) {
+    applyToTeam(id: $id, founder: $founder, position: $position) {
+      nick
+    }
+  }
+`;
