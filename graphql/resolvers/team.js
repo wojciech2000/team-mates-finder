@@ -198,7 +198,7 @@ const teamResolver = {
         message: `You were invited to the team "${team.name}" on position ${position}`,
         messageType: "invite",
         position,
-        addresseeId: user.id,
+        recipientId: user.id,
       });
 
       invitedUser.save();
@@ -208,13 +208,13 @@ const teamResolver = {
     },
     acceptInvitation: async (
       _,
-      {messageId, addresseeId, position},
+      {messageId, recipientId, position},
       context,
     ) => {
       const {id} = checkAuth(context);
 
       const user = await User.findById({_id: id});
-      const addressee = await User.findById({_id: addresseeId}).populate(
+      const addressee = await User.findById({_id: recipientId}).populate(
         "team",
       );
       const team = await Team.findById({_id: addressee.team._id});
@@ -252,11 +252,11 @@ const teamResolver = {
 
       return user;
     },
-    rejectInvitation: async (_, {messageId, addresseeId}, context) => {
+    rejectInvitation: async (_, {messageId, recipientId}, context) => {
       const {id} = checkAuth(context);
 
       const user = await User.findById({_id: id});
-      const addressee = await User.findById({_id: addresseeId}).populate(
+      const addressee = await User.findById({_id: recipientId}).populate(
         "team",
       );
       const team = await Team.findById({_id: addressee.team._id});

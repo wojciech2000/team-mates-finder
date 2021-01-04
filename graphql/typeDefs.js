@@ -35,7 +35,7 @@ const typeDefs = gql`
 
   type Message {
     id: ID
-    addresseeId: ID
+    recipientId: ID
     position: Positions
     read: Boolean!
     message: String!
@@ -129,10 +129,10 @@ const typeDefs = gql`
     setReadMessages: User
     acceptInvitation(
       messageId: ID!
-      addresseeId: ID!
+      recipientId: ID!
       position: Positions!
     ): User
-    rejectInvitation(messageId: ID!, addresseeId: ID!): User
+    rejectInvitation(messageId: ID!, recipientId: ID!): User
   }
 `;
 

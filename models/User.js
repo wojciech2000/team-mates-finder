@@ -24,7 +24,7 @@ const userSchema = new Schema({
       message: String,
       messageType: String,
       position: String,
-      addresseeId: String,
+      recipientId: String,
     },
   ],
 });
