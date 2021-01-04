@@ -1,5 +1,6 @@
 const dotenv = require("dotenv").config();
 const User = require("../../models/User");
+const Team = require("../../models/Team");
 const bcrypt = require("bcrypt");
 const {UserInputError} = require("apollo-server");
 const jwt = require("jsonwebtoken");
@@ -202,6 +203,7 @@ const userResolver = {
       let dbNick;
 
       const user = await User.findById({_id: id});
+      const team = await Team.findById({_id: user.team});
 
       //Nick validation
       if (nick.trim() === "") {
@@ -232,9 +234,16 @@ const userResolver = {
         });
       }
 
+      //if user is a founder of the team
+
+      if (team && team.founder === user.nick) {
+        team.founder = dbNick.data.name;
+      }
+
       //Update new nick
       user.nick = dbNick.data.name;
       user.save();
+      team.save();
 
       return user;
     },
