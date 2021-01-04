@@ -34,6 +34,9 @@ const typeDefs = gql`
   }
 
   type Message {
+    id: ID
+    addresseeId: ID
+    position: Positions
     read: Boolean!
     message: String!
     messageType: String

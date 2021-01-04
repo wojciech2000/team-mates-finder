@@ -33,9 +33,12 @@ export const GET_USER = gql`
         name
       }
       messages {
+        id
         read
         message
         messageType
+        position
+        addresseeId
       }
     }
   }
@@ -236,6 +239,39 @@ export const UPDATE_POSITIONS_TEAM = gql`
         nick
         position
         invited
+      }
+    }
+  }
+`;
+
+export const ACCEPT_INVITATION = gql`
+  mutation acceptInvitation(
+    $messageId: ID!
+    $addresseeId: ID!
+    $position: Positions!
+  ) {
+    acceptInvitation(
+      messageId: $messageId
+      addresseeId: $addresseeId
+      position: $position
+    ) {
+      nick
+      messages {
+        message
+        read
+        messageType
+      }
+    }
+  }
+`;
+
+export const REJECT_INVITATION = gql`
+  mutation rejectInvitation($messageId: ID!, $addresseeId: ID!) {
+    rejectInvitation(messageId: $messageId, addresseeId: $addresseeId) {
+      messages {
+        message
+        messageType
+        read
       }
     }
   }

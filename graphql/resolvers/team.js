@@ -189,6 +189,8 @@ const teamResolver = {
         read: false,
         message: `You were invited to the team "${team.name}" on position ${position}`,
         messageType: "invite",
+        position,
+        addresseeId: user.id,
       });
 
       invitedUser.save();
@@ -231,6 +233,10 @@ const teamResolver = {
       let filt = team.positions.find(member => member.position == position);
       filt.nick = user.nick;
       filt.invited = null;
+
+      team.membersAmount++;
+
+      //save changes
 
       user.save();
       addressee.save();
