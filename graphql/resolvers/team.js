@@ -381,7 +381,6 @@ const teamResolver = {
       });
 
       addressee.teamApplications = [];
-
       addressee.team = team._id;
 
       //team modification
@@ -397,6 +396,45 @@ const teamResolver = {
 
       addressee.save();
       team.save();
+
+      return user;
+    },
+    rejectApplication: async (
+      _,
+      {messageId, addresseeId, position},
+      context,
+    ) => {
+      const {id} = checkAuth(context);
+
+      const user = await User.findById({_id: id}).populate("team");
+      const addressee = await User.findById({_id: addresseeId});
+
+      const team = await Team.findById({_id: user.team._id});
+
+      //user modification
+      const messagesWithRemovedInvitation = user.messages.filter(
+        message => message._id != messageId && message,
+      );
+      user.messages = messagesWithRemovedInvitation;
+
+      //addressee modification
+      addressee.messages.unshift({
+        read: false,
+        message: `Your application to the team "${team.name}" on position ${position} was rejected`,
+        messageType: "message",
+      });
+
+      const teamApplicationsWithoutApplyedTeam = addressee.teamApplications.filter(
+        teamApplication =>
+          teamApplication.team !== team.name &&
+          teamApplication.position !== position &&
+          teamApplication,
+      );
+
+      addressee.teamApplications = teamApplicationsWithoutApplyedTeam;
+
+      user.save();
+      addressee.save();
 
       return user;
     },
