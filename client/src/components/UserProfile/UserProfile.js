@@ -118,7 +118,8 @@ export default function UserProfile(props) {
     ],
     awaitRefetchQueries: true,
     onError: error => {
-      setErrors(error.graphQLErrors[0].extensions.exception.errors);
+      console.log(error);
+      //setErrors(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 

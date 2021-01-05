@@ -238,9 +238,9 @@ const teamResolver = {
 
       //team modification
 
-      let filt = team.positions.find(member => member.position == position);
-      filt.nick = user.nick;
-      filt.invited = null;
+      let members = team.positions.find(member => member.position == position);
+      members.nick = user.nick;
+      members.invited = null;
 
       team.membersAmount++;
 
@@ -296,7 +296,15 @@ const teamResolver = {
       const team = await Team.findById({_id: id});
       const founderUser = await User.findOne({nick: founder});
 
-      //user modifications
+      //user validation
+
+      if (user.team) {
+        throw new UserInputError("Team error", {
+          errors: {
+            championEmpty: "You are already in the team",
+          },
+        });
+      }
 
       //set team applications if this is first time
 
@@ -321,11 +329,11 @@ const teamResolver = {
         position,
       });
 
-      //founder modifications
+      //founder modification
 
       founderUser.messages.unshift({
         read: false,
-        message: `${user.nick} wants to join your team on position ${position}`,
+        message: `${user.nick} wants to join to your team on position ${position}`,
         messageType: "invite",
         position,
         addresseeId: userId,
@@ -333,6 +341,62 @@ const teamResolver = {
 
       user.save();
       founderUser.save();
+
+      return user;
+    },
+    acceptApplication: async (
+      _,
+      {messageId, addresseeId, position},
+      context,
+    ) => {
+      const {id} = checkAuth(context);
+
+      const user = await User.findById({_id: id}).populate("team");
+      const addressee = await User.findById({_id: addresseeId});
+      const team = await Team.findById({_id: user.team._id});
+
+      //user modification
+
+      const messagesWithRemovedInvitation = user.messages.filter(
+        message => message._id != messageId && message,
+      );
+      user.messages = messagesWithRemovedInvitation;
+
+      user.save();
+
+      //validation
+
+      if (addressee.team) {
+        throw new UserInputError("Team error", {
+          errors: {championEmpty: "This user already has a team"},
+        });
+      }
+
+      //addresse modification
+
+      addressee.messages.unshift({
+        read: false,
+        message: `Your application to the team "${team.name}" on position ${position} was accepted`,
+        messageType: "message",
+      });
+
+      addressee.teamApplications = [];
+
+      addressee.team = team._id;
+
+      //team modification
+
+      team.membersAmount++;
+
+      const appliedPosition = team.positions.find(
+        ({position: memberPosition}) => memberPosition === position,
+      );
+
+      appliedPosition.invited = null;
+      appliedPosition.nick = addressee.nick;
+
+      addressee.save();
+      team.save();
 
       return user;
     },

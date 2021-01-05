@@ -202,8 +202,12 @@ const userResolver = {
       const {id} = checkAuth(context);
       let dbNick;
 
-      const user = await User.findById({_id: id});
-      const team = await Team.findById({_id: user.team});
+      const user = await User.findById({_id: id}).populate("team");
+      const team = await Team.findOne({
+        _id: user.team && user.team._id,
+      });
+
+      console.log(team);
 
       //Nick validation
       if (nick.trim() === "") {
@@ -240,10 +244,13 @@ const userResolver = {
         team.founder = dbNick.data.name;
       }
 
+      console.log(team);
+
       //Update new nick
       user.nick = dbNick.data.name;
+
       user.save();
-      team.save();
+      if (team) team.save();
 
       return user;
     },

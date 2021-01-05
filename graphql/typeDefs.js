@@ -134,6 +134,7 @@ const typeDefs = gql`
     ): User
     rejectInvitation(messageId: ID!, addresseeId: ID!): User
     applyToTeam(id: ID!, founder: String!, position: Positions): User
+    acceptApplication(messageId: ID, addresseeId: ID, position: Positions): User
   }
 `;
 
