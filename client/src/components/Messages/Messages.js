@@ -9,6 +9,8 @@ import {
   GET_TEAMS,
   GET_USERS,
   REJECT_INVITATION,
+  ACCEPT_APPLICATION,
+  REJECT_APPLICATION,
 } from "../../queries";
 
 export default function Messages({id}) {
@@ -49,14 +51,38 @@ export default function Messages({id}) {
     },
   });
 
+  const [acceptApplication] = useMutation(ACCEPT_APPLICATION, {
+    update: (proxy, result) => {
+      console.log(result);
+    },
+    refetchQueries: [
+      {query: GET_USER, variables: {id}},
+      {query: GET_TEAMS},
+      {query: GET_USERS},
+    ],
+    onError: error => {
+      console.log(error);
+    },
+  });
+
   const acceptOnClick = e => {
-    acceptInvitation({
-      variables: {
-        messageId: e.target.dataset.id,
-        addresseeId: e.target.dataset.addresseeid,
-        position: e.target.dataset.position && e.target.dataset.position,
-      },
-    });
+    if (data.getUser.team) {
+      acceptApplication({
+        variables: {
+          messageId: e.target.dataset.id,
+          addresseeId: e.target.dataset.addresseeid,
+          position: e.target.dataset.position && e.target.dataset.position,
+        },
+      });
+    } else {
+      acceptInvitation({
+        variables: {
+          messageId: e.target.dataset.id,
+          addresseeId: e.target.dataset.addresseeid,
+          position: e.target.dataset.position && e.target.dataset.position,
+        },
+      });
+    }
   };
 
   //reject invitation
@@ -71,13 +97,33 @@ export default function Messages({id}) {
     },
   });
 
+  const [rejectApplication] = useMutation(REJECT_APPLICATION, {
+    update: (proxy, result) => {
+      console.log(result);
+    },
+    refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_TEAMS}],
+    onError: error => {
+      console.log(error);
+    },
+  });
+
   const rejectOnClick = e => {
-    rejectInvitation({
-      variables: {
-        messageId: e.target.dataset.id,
-        addresseeId: e.target.dataset.addresseeid,
-      },
-    });
+    if (data.getUser.team) {
+      rejectApplication({
+        variables: {
+          messageId: e.target.dataset.id,
+          addresseeId: e.target.dataset.addresseeid,
+          position: e.target.dataset.position && e.target.dataset.position,
+        },
+      });
+    } else {
+      rejectInvitation({
+        variables: {
+          messageId: e.target.dataset.id,
+          addresseeId: e.target.dataset.addresseeid,
+        },
+      });
+    }
   };
 
   return (
@@ -128,6 +174,7 @@ export default function Messages({id}) {
                         onClick={rejectOnClick}
                         data-id={id}
                         data-addresseeid={addresseeId}
+                        data-position={position && position}
                       >
                         Reject
                       </button>
