@@ -438,6 +438,36 @@ const teamResolver = {
 
       return user;
     },
+    deleteTeam: async (_, {id}, context) => {
+      const {id: userId} = checkAuth(context);
+
+      const user = await User.findById({_id: userId});
+      let team = await Team.findById({_id: id});
+
+      //user modification
+      user.team = null;
+
+      //members modification
+      team.positions.forEach(async member => {
+        if (member.nick !== user.nick) {
+          const user = await User.findOne({nick: member.nick});
+
+          user.messages.unshift({
+            read: false,
+            message: `Your team "${team.name}" was deleted`,
+            messageType: "message",
+          });
+
+          user.team = null;
+          user.save();
+        }
+      });
+
+      user.save();
+      team.deleteOne();
+
+      return user;
+    },
   },
 };
 

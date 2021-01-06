@@ -140,6 +140,7 @@ const typeDefs = gql`
       addresseeId: ID!
       position: Positions
     ): User
+    deleteTeam(id: ID!): User
   }
 `;
 
