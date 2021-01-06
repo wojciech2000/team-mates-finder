@@ -461,6 +461,7 @@ export default function UserProfile(props) {
                         to={{
                           pathname: `/edit-team/${data.getUser.team.name}`,
                           id: data.getUser.team.id,
+                          userId: data.getUser.id,
                         }}
                       >
                         edit

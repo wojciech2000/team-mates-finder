@@ -2,15 +2,21 @@ import React, {useState, Fragment} from "react";
 import {useMutation, useQuery} from "@apollo/client";
 import {FaUserAltSlash} from "react-icons/fa";
 import {FiUserPlus} from "react-icons/fi";
+import {BsFillTrashFill} from "react-icons/bs";
 
 import {
   GET_TEAM_PROFILE,
   UPDATE_TEAM_NAME,
   UPDATE_POSITIONS_TEAM,
+  DELETE_TEAM,
+  GET_USER_PROFILE,
+  GET_TEAMS,
+  GET_USERS,
 } from "../../queries";
 
 export default function EditTeam(props) {
   const id = props.location.id;
+  const userId = props.location.userId;
 
   const [editInput, setEditInput] = useState({
     name: false,
@@ -133,6 +139,29 @@ export default function EditTeam(props) {
     console.log(editValue.positions);
     cancelEditValue(e);
     updatePositions();
+  };
+
+  const [deleteTeam] = useMutation(DELETE_TEAM, {
+    variables: {id},
+    update: (proxy, result) => {
+      props.history.push({
+        pathname: `/user/${result.data.deleteTeam.nick}`,
+        id: userId,
+      });
+      console.log(result);
+    },
+    refetchQueries: [
+      {query: GET_USER_PROFILE, variables: {id: userId}},
+      {query: GET_TEAMS},
+      {query: GET_USERS},
+    ],
+    onError: error => {
+      console.log(error);
+    },
+  });
+
+  const deleteTeamOnClick = () => {
+    deleteTeam();
   };
 
   return (
@@ -299,6 +328,10 @@ export default function EditTeam(props) {
                   ))
                 )}
               </div>
+              <BsFillTrashFill
+                className="edit-team__delete-team"
+                onClick={deleteTeamOnClick}
+              />
             </div>
           )}
     </div>

@@ -334,3 +334,11 @@ export const REJECT_APPLICATION = gql`
     }
   }
 `;
+
+export const DELETE_TEAM = gql`
+  mutation deleteTeam($id: ID!) {
+    deleteTeam(id: $id) {
+      nick
+    }
+  }
+`;

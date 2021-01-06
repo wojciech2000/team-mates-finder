@@ -777,9 +777,18 @@ a {
 
 .edit-team {
   padding: 20px 30px;
-  height: 500px; }
+  height: 500px;
+  position: relative; }
   .edit-team__input--edit-name-team {
     width: 140px; }
+  .edit-team .edit-team__delete-team {
+    position: absolute;
+    cursor: pointer;
+    right: 0;
+    bottom: 0;
+    font-size: 24px;
+    color: #bb0000;
+    margin: 10px; }
   .edit-team__data-wrapper--members {
     padding-top: 10px; }
   .edit-team .member {

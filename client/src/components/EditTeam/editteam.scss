@@ -2,6 +2,7 @@
   @extend .create-team;
   padding: 20px 30px;
   height: 500px;
+  position: relative;
 
   &__data {
     @extend .profile__data;
@@ -29,6 +30,16 @@
     &--edit-name-team {
       width: 140px;
     }
+  }
+
+  .edit-team__delete-team {
+    position: absolute;
+    cursor: pointer;
+    right: 0;
+    bottom: 0;
+    font-size: 24px;
+    color: $red;
+    margin: 10px;
   }
 
   &__data-wrapper--members {
