@@ -468,6 +468,37 @@ const teamResolver = {
 
       return user;
     },
+    leaveTeam: async (_, {id}, context) => {
+      const {id: userId} = checkAuth(context);
+
+      const user = await User.findById({_id: userId}).populate("team");
+      const team = await Team.findById({_id: user.team._id});
+      const founder = await User.findOne({nick: team.founder});
+
+      //user modification
+      user.team = null;
+
+      //team modification
+      const leavingPosition = team.positions.find(
+        ({nick}) => nick === user.nick,
+      );
+      leavingPosition.nick = null;
+
+      team.membersAmount--;
+
+      //founder modification
+      founder.messages.unshift({
+        read: false,
+        message: `${user.nick} left your team`,
+        messageType: "message",
+      });
+
+      user.save();
+      team.save();
+      founder.save();
+
+      return user;
+    },
   },
 };
 

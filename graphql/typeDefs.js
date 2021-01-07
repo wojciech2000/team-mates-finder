@@ -141,6 +141,7 @@ const typeDefs = gql`
       position: Positions
     ): User
     deleteTeam(id: ID!): User
+    leaveTeam(id: ID!): User
   }
 `;
 
