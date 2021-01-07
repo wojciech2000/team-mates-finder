@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from "react";
+import React, {useState, Fragment, useContext} from "react";
 import {useMutation, useQuery} from "@apollo/client";
 import {FaUserAltSlash} from "react-icons/fa";
 import {FiUserPlus} from "react-icons/fi";
@@ -12,9 +12,13 @@ import {
   GET_USER_PROFILE,
   GET_TEAMS,
   GET_USERS,
+  LEAVE_TEAM,
 } from "../../queries";
+import {AuthContext} from "../../context/auth";
+import {BiLogIn} from "react-icons/bi";
 
 export default function EditTeam(props) {
+  const {nick} = useContext(AuthContext);
   const id = props.location.id;
   const userId = props.location.userId;
 
@@ -164,6 +168,29 @@ export default function EditTeam(props) {
     deleteTeam();
   };
 
+  const [leaveTeam] = useMutation(LEAVE_TEAM, {
+    variables: {id},
+    update: (proxy, result) => {
+      props.history.push({
+        pathname: `/user/${result.data.leaveTeam.nick}`,
+        id: userId,
+      });
+      console.log(result);
+    },
+    refetchQueries: [
+      {query: GET_USER_PROFILE, variables: {id: userId}},
+      {query: GET_TEAMS},
+      {query: GET_USERS},
+    ],
+    onError: error => {
+      console.log(error);
+    },
+  });
+
+  const leaveTeamOnClick = () => {
+    leaveTeam();
+  };
+
   return (
     <div className="wrapper">
       {loading
@@ -189,34 +216,36 @@ export default function EditTeam(props) {
                     )}
                   </span>
                 </div>
-                <div className="edit-team__edit-wrapper">
-                  {editInput.name ? (
-                    <Fragment>
+                {nick === data.getTeam.founder && (
+                  <div className="edit-team__edit-wrapper">
+                    {editInput.name ? (
+                      <Fragment>
+                        <button
+                          className="profile__cancel"
+                          id="name"
+                          onClick={e => cancelEditValue(e)}
+                        >
+                          cancel
+                        </button>
+                        <button
+                          className="profile__save"
+                          id="name"
+                          onClick={e => saveName(e)}
+                        >
+                          save
+                        </button>
+                      </Fragment>
+                    ) : (
                       <button
-                        className="profile__cancel"
+                        className="edit-team__edit"
                         id="name"
-                        onClick={e => cancelEditValue(e)}
+                        onClick={e => startEditValue(e)}
                       >
-                        cancel
+                        edit
                       </button>
-                      <button
-                        className="profile__save"
-                        id="name"
-                        onClick={e => saveName(e)}
-                      >
-                        save
-                      </button>
-                    </Fragment>
-                  ) : (
-                    <button
-                      className="edit-team__edit"
-                      id="name"
-                      onClick={e => startEditValue(e)}
-                    >
-                      edit
-                    </button>
-                  )}
-                </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="edit-team__data-wrapper">
@@ -237,34 +266,36 @@ export default function EditTeam(props) {
                     {data.getTeam.maxMembersAmount}
                   </span>
                 </div>
-                <div className="edit-team__edit-wrapper">
-                  {editInput.positions ? (
-                    <Fragment>
+                {nick === data.getTeam.founder && (
+                  <div className="edit-team__edit-wrapper">
+                    {editInput.positions ? (
+                      <Fragment>
+                        <button
+                          className="profile__cancel"
+                          id="positions"
+                          onClick={e => cancelEditValue(e)}
+                        >
+                          cancel
+                        </button>
+                        <button
+                          className="profile__save"
+                          id="positions"
+                          onClick={e => savePositons(e)}
+                        >
+                          save
+                        </button>
+                      </Fragment>
+                    ) : (
                       <button
-                        className="profile__cancel"
+                        className="edit-team__edit"
                         id="positions"
-                        onClick={e => cancelEditValue(e)}
+                        onClick={e => startEditValue(e)}
                       >
-                        cancel
+                        edit
                       </button>
-                      <button
-                        className="profile__save"
-                        id="positions"
-                        onClick={e => savePositons(e)}
-                      >
-                        save
-                      </button>
-                    </Fragment>
-                  ) : (
-                    <button
-                      className="edit-team__edit"
-                      id="positions"
-                      onClick={e => startEditValue(e)}
-                    >
-                      edit
-                    </button>
-                  )}
-                </div>
+                    )}
+                  </div>
+                )}
               </div>
               <div className="edit-team__data-wrapper--members">
                 {editInput.positions ? (
@@ -328,10 +359,17 @@ export default function EditTeam(props) {
                   ))
                 )}
               </div>
-              <BsFillTrashFill
-                className="edit-team__delete-team"
-                onClick={deleteTeamOnClick}
-              />
+              {nick === data.getTeam.founder ? (
+                <BsFillTrashFill
+                  className="edit-team__delete-team"
+                  onClick={deleteTeamOnClick}
+                />
+              ) : (
+                <BiLogIn
+                  className="edit-team__delete-team"
+                  onClick={leaveTeamOnClick}
+                />
+              )}
             </div>
           )}
     </div>

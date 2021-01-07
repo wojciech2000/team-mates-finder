@@ -342,3 +342,11 @@ export const DELETE_TEAM = gql`
     }
   }
 `;
+
+export const LEAVE_TEAM = gql`
+  mutation leaveTeam($id: ID!) {
+    leaveTeam(id: $id) {
+      nick
+    }
+  }
+`;

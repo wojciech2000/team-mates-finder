@@ -1,7 +1,6 @@
 import React, {Fragment, useContext} from "react";
-import {BiLogIn} from "react-icons/bi";
 import {Link, Redirect} from "react-router-dom";
-
+import {BiLogIn} from "react-icons/bi";
 import {FaUser} from "react-icons/fa";
 
 import Messages from "../Messages/Messages";
