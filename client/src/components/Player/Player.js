@@ -80,6 +80,7 @@ export default function Player(props) {
                   </span>
                 </div>
               ) : (
+                founderId &&
                 founderData.getUser.team &&
                 founderData.getUser.team.founder === nick && (
                   <div className="player__data player__data--button">

@@ -131,8 +131,35 @@ const teamResolver = {
       const user = await User.findById({_id: id});
       const team = await Team.findOne({_id: user.team});
 
+      //if user was kicked send message to them
+      team.positions.forEach(async memberInDB => {
+        const member = positions.find(
+          updatedMember => memberInDB.nick === updatedMember.nick,
+        );
+
+        if (!member) {
+          const user = await User.findOne({nick: memberInDB.nick});
+
+          user.team = null;
+          user.messages.unshift({
+            read: false,
+            message: `You were kicked out of the team "${team.name}"`,
+            messageType: "message",
+          });
+
+          user.save();
+        }
+      });
+
+      //team modification
+
+      let membersAmount = 0;
+      positions.forEach(position => position.nick && membersAmount++);
+
       team.positions = positions;
       team.maxMembersAmount = positions.length;
+      team.membersAmount = membersAmount;
+
       team.save();
 
       return team;
