@@ -199,10 +199,16 @@ export default function UserProfile(props) {
               <div className="profile">
                 <div className="profile__data-wrapper">
                   <div className="profile__data">
-                    <span className="profile__description">Nick: </span>
+                    <label
+                      className="profile__description"
+                      htmlFor={editInput.nick ? "nick" : ""}
+                    >
+                      Nick:{" "}
+                    </label>
                     {editInput.nick ? (
                       <input
                         type="text"
+                        id="nick"
                         name="nick"
                         value={editValue.nick}
                         className="profile__input"
@@ -246,10 +252,16 @@ export default function UserProfile(props) {
 
                 <div className="profile__data-wrapper">
                   <div className="profile__data">
-                    <span className="profile__description">Server: </span>
+                    <label
+                      className="profile__description"
+                      htmlFor={editInput.server ? "server" : ""}
+                    >
+                      Server:{" "}
+                    </label>
                     {editInput.server ? (
                       <select
                         className="profile__input"
+                        id="server"
                         name="server"
                         value={editValue.server}
                         onChange={e => onChangeInput(e)}

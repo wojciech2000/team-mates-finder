@@ -58,7 +58,8 @@ button {
 
 a {
   text-decoration: none;
-  color: white; }
+  color: white;
+  outline: none; }
 
 .main-input, .players .table__find-player, .players .table__find-position, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input, .profile__input, .edit-team__input, .create-team__input, .player .player__data__input, .profile .player__data__input {
   outline: none;

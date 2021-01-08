@@ -89,9 +89,12 @@ export default function EditTeam(props) {
     <div className="wrapper">
       <form className="create-team" onSubmit={e => onSubmit(e)}>
         <div className="create-team__input-wrapper">
-          <span className="create-team__description">Team's name: </span>
+          <label className="create-team__description" htmlFor="name">
+            Team's name:{" "}
+          </label>
           <input
             type="text"
+            id="name"
             name="name"
             value={values.name}
             onChange={e => onChangeValues(e)}
@@ -100,9 +103,15 @@ export default function EditTeam(props) {
         </div>
 
         <div className="create-team__input-wrapper">
-          <span className="create-team__description">Member's amount: </span>
+          <label
+            className="create-team__description"
+            htmlFor="maxMembersAmount"
+          >
+            Member's amount:{" "}
+          </label>
           <select
             className="create-team__input"
+            id="maxMembersAmount"
             name="maxMembersAmount"
             value={values.maxMembersAmount}
             onChange={e => onChangeMembers(e)}
@@ -115,9 +124,12 @@ export default function EditTeam(props) {
         </div>
 
         <div className="create-team__input-wrapper">
-          <span className="create-team__description">Your position: </span>
+          <label className="create-team__description" htmlFor="myPosition">
+            Your position:{" "}
+          </label>
           <select
             className="create-team__input"
+            id="myPosition"
             value={values.positions[0].position}
             onChange={e => onChangePositions(e, 0)}
           >
@@ -143,11 +155,12 @@ export default function EditTeam(props) {
                 className="create-team__input-wrapper create-team__input-wrapper--positions"
                 key={id}
               >
-                <span className="create-team__description">
+                <label className="create-team__description" htmlFor={id}>
                   Position {member}:{" "}
-                </span>
+                </label>
                 <select
                   className="create-team__input"
+                  id={id}
                   value={values.positions[id].position}
                   onChange={e => onChangePositions(e, id)}
                 >

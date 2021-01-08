@@ -31,9 +31,9 @@ export default function Teams() {
     <section className="teams">
       <div className="header-table">
         <h2 className="header-table__title">Teams</h2>
-        <button className="header-table__subtitle">
-          <Link to="/players">Players</Link>
-        </button>
+        <Link to="/players" className="header-table__subtitle">
+          Players
+        </Link>
       </div>
 
       <div className="table">

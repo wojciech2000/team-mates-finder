@@ -201,20 +201,27 @@ export default function EditTeam(props) {
             <div className="edit-team">
               <div className="edit-team__data-wrapper">
                 <div className="edit-team__data">
-                  <span className="edit-team__description">Team's name: </span>
-                  <span className="edit-team__content">
-                    {editInput.name ? (
-                      <input
-                        type="text"
-                        name="name"
-                        value={editValue.name}
-                        onChange={e => onChangeInput(e)}
-                        className="edit-team__input edit-team__input--edit-name-team"
-                      />
-                    ) : (
-                      data.getTeam.name
-                    )}
-                  </span>
+                  <label
+                    className="edit-team__description"
+                    htmlFor={editInput.name ? "name" : ""}
+                  >
+                    Team's name:
+                  </label>
+
+                  {editInput.name ? (
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={editValue.name}
+                      onChange={e => onChangeInput(e)}
+                      className="edit-team__input edit-team__input--edit-name-team"
+                    />
+                  ) : (
+                    <span className="edit-team__content">
+                      {data.getTeam.name}
+                    </span>
+                  )}
                 </div>
                 {nick === data.getTeam.founder && (
                   <div className="edit-team__edit-wrapper">
