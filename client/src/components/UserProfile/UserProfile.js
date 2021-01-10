@@ -11,11 +11,12 @@ import {
 } from "../../queries";
 
 import {Link} from "react-router-dom";
-import InfoModel from "../InfoModel/InfoModel";
 import {AuthContext} from "../../context/auth";
+import {InfoContext} from "../../context/infoContext";
 
 export default function UserProfile(props) {
   const {updateNick: updateNickContext} = useContext(AuthContext);
+  const {setMessages, setIsMessageError} = useContext(InfoContext);
 
   const id = props.location.id;
 
@@ -28,9 +29,6 @@ export default function UserProfile(props) {
     champions: false,
     team: false,
   });
-
-  const [errors, setErrors] = useState({});
-  const [correctValidation, setCorrectValidation] = useState({});
 
   const [editValue, setEditValue] = useState({
     // nick: data.getUser.nick,
@@ -110,7 +108,8 @@ export default function UserProfile(props) {
     variables: {nick: editValue.nick},
     update: (proxy, result) => {
       updateNickContext(result.data.updateNick.nick);
-      setCorrectValidation({message: "Nick has been changed"});
+      setMessages({message: "Updated nick"});
+      setIsMessageError(false);
     },
     refetchQueries: [
       {query: GET_USER_PROFILE, variables: {id}},
@@ -118,8 +117,8 @@ export default function UserProfile(props) {
     ],
     awaitRefetchQueries: true,
     onError: error => {
-      console.log(error);
-      //setErrors(error.graphQLErrors[0].extensions.exception.errors);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
@@ -131,7 +130,8 @@ export default function UserProfile(props) {
   const [updateServer] = useMutation(UPDATE_SERVER, {
     variables: {server: editValue.server},
     update: (proxy, result) => {
-      setCorrectValidation({message: "Server has been changed"});
+      setMessages({message: "Updated server"});
+      setIsMessageError(false);
     },
     refetchQueries: [
       {query: GET_USER_PROFILE, variables: {id}},
@@ -139,7 +139,8 @@ export default function UserProfile(props) {
     ],
     awaitRefetchQueries: true,
     onError: error => {
-      setErrors(error.graphQLErrors[0].extensions.exception.errors);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
@@ -151,7 +152,8 @@ export default function UserProfile(props) {
   const [updatePositons] = useMutation(UPDATE_POSITION, {
     variables: {primary: editValue.primary, secondary: editValue.secondary},
     update: (proxy, result) => {
-      setCorrectValidation({message: "Position have been changed"});
+      setMessages({message: "Updated positions"});
+      setIsMessageError(false);
     },
     refetchQueries: [
       {query: GET_USER_PROFILE, variables: {id}},
@@ -159,7 +161,8 @@ export default function UserProfile(props) {
     ],
     awaitRefetchQueries: true,
     onError: error => {
-      setErrors(error.graphQLErrors[0].extensions.exception.errors);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
@@ -171,7 +174,8 @@ export default function UserProfile(props) {
   const [updateChampions] = useMutation(UPDATE_MAIN_CHAMPIONS, {
     variables: {champions: editValue.champions},
     update: (proxy, result) => {
-      setCorrectValidation({message: "Mains have been changed"});
+      setMessages({message: "Updated main champions"});
+      setIsMessageError(false);
     },
     refetchQueries: [
       {query: GET_USER_PROFILE, variables: {id}},
@@ -179,7 +183,8 @@ export default function UserProfile(props) {
     ],
     awaitRefetchQueries: true,
     onError: error => {
-      setErrors(error.graphQLErrors[0].extensions.exception.errors);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
@@ -484,10 +489,6 @@ export default function UserProfile(props) {
               </div>
             </div>
           )}
-      {Object.keys(errors).length > 0 && <InfoModel error={errors} />}
-      {Object.keys(correctValidation).length > 0 && (
-        <InfoModel info={correctValidation} />
-      )}
     </Fragment>
   );
 }

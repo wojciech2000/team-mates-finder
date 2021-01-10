@@ -1,60 +1,37 @@
-import React, {memo, useEffect, useState} from "react";
+import React, {useEffect, useContext} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 
-export default memo(function InfoModel({error = [], info = []}) {
-  const [errors, setErrors] = useState([]);
-  const [messages, setMessages] = useState("");
+import {InfoContext} from "../../context/infoContext";
+
+export default function InfoModel() {
+  const {messages, setMessages, isMessageError} = useContext(InfoContext);
 
   useEffect(() => {
-    Object.values(error).length > 0 && setErrors(Object.values(error));
+    Object.values(messages).length > 0 && setMessages(messages);
 
     const hide = setTimeout(() => {
-      setErrors([]);
-    }, 5000);
-
-    return () => {
-      clearTimeout(hide);
-    };
-  }, [error]);
-
-  useEffect(() => {
-    Object.values(info).length > 0 && setMessages(Object.values(info));
-
-    const hide = setTimeout(() => {
-      setMessages("");
+      Object.values(messages).length > 0 && setMessages({});
     }, 2500);
 
     return () => {
       clearTimeout(hide);
     };
-  }, [info]);
+  }, [messages]);
 
   return (
     <AnimatePresence>
-      {errors.length > 0 && (
+      {Object.values(messages).length > 0 && (
         <motion.aside
-          className="info"
+          className={isMessageError ? "info--red" : "info--green"}
           initial={{y: 100}}
           animate={{y: 0}}
           exit={{opacity: 0}}
         >
-          {errors.map((error, id) => (
-            <span key={id}>{error}</span>
-          ))}
-        </motion.aside>
-      )}
-      {messages.length > 0 && (
-        <motion.aside
-          className="info--green"
-          initial={{y: 100}}
-          animate={{y: 0}}
-          exit={{opacity: 0}}
-        >
-          {messages.map((message, id) => (
+          {Object.values(messages).map((message, id) => (
             <span key={id}>{message}</span>
           ))}
         </motion.aside>
       )}
     </AnimatePresence>
   );
-});
+}

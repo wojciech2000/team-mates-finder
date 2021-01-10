@@ -1,4 +1,4 @@
-.info {
+.info--red {
   position: absolute;
   padding: 10px 25px;
   background-color: $red;
@@ -10,6 +10,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  z-index: 100;
 
   span {
     margin: 10px 0;
@@ -17,6 +18,6 @@
 }
 
 .info--green {
-  @extend .info;
+  @extend .info--red;
   background-color: $green;
 }

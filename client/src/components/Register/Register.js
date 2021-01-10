@@ -1,13 +1,14 @@
-import React, {useState} from "react";
+import React, {useContext} from "react";
 import {Link} from "react-router-dom";
 import {useMutation} from "@apollo/client";
 
-import InfoModel from "../InfoModel/InfoModel";
-import loadingGif from "../../pictures/loading.gif";
 import {GET_USERS, REGISTER_USER} from "../../queries";
 import useUpdate from "../../utils/useUpdate";
+import {InfoContext} from "../../context/infoContext";
 
 export default function Register(props) {
+  const {setMessages, setIsMessageError} = useContext(InfoContext);
+
   const initialState = {
     login: "",
     email: "",
@@ -24,25 +25,22 @@ export default function Register(props) {
     initialState,
   );
 
-  const [errors, setErrors] = useState({});
-  const [correctValidation, setCorrectValidation] = useState({});
-
-  const [addUser, {loading}] = useMutation(REGISTER_USER, {
+  const [addUser] = useMutation(REGISTER_USER, {
     update: () => {
       //disable all inputs so user can't type  and click anything
       Array.from(document.querySelectorAll("input")).forEach(
         input => (input.disabled = true),
       );
-      setTimeout(() => {
-        props.history.push("/login");
-      }, 3000);
 
-      setCorrectValidation({message: "User has been added"});
+      setIsMessageError(false);
+      setMessages({error: "User has been added"});
+      props.history.push("/login");
     },
     refetchQueries: [{query: GET_USERS}],
     variables: values,
     onError: error => {
-      setErrors(error.graphQLErrors[0].extensions.exception.errors);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
@@ -53,11 +51,6 @@ export default function Register(props) {
   return (
     <div className="wrapper">
       <section className="register">
-        {(loading || Object.keys(correctValidation).length > 0) && (
-          <div className="loading">
-            <img src={loadingGif} alt="loading" />
-          </div>
-        )}
         <div className="register__header">Register</div>
         <form className="register__form" onSubmit={onSubmitForm}>
           <div className="register__inputs-wrapper">
@@ -160,10 +153,6 @@ export default function Register(props) {
           </Link>
         </form>
       </section>
-      {Object.keys(errors).length > 0 && <InfoModel error={errors} />}
-      {Object.keys(correctValidation).length > 0 && (
-        <InfoModel info={correctValidation} />
-      )}
     </div>
   );
 }

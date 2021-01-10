@@ -1,16 +1,16 @@
-import React, {useState, useContext} from "react";
+import React, {useContext} from "react";
 import {Link} from "react-router-dom";
 import {useMutation} from "@apollo/client";
 
 import {LOGIN_USER} from "../../queries";
-import InfoModel from "../InfoModel/InfoModel";
-import loadingGif from "../../pictures/loading.gif";
 import useUpdate from "../../utils/useUpdate";
 
 import {AuthContext} from "../../context/auth";
+import {InfoContext} from "../../context/infoContext";
 
 export default function Login(props) {
   const context = useContext(AuthContext);
+  const {setMessages, setIsMessageError} = useContext(InfoContext);
 
   const initialState = {
     login: "",
@@ -21,9 +21,6 @@ export default function Login(props) {
     loginUserHoist,
     initialState,
   );
-
-  const [errors, setErrors] = useState({});
-  const [correctValidation, setCorrectValidation] = useState({});
 
   const [loginUser] = useMutation(LOGIN_USER, {
     variables: values,
@@ -39,15 +36,15 @@ export default function Login(props) {
       Array.from(document.querySelectorAll("input")).forEach(
         input => (input.disabled = true),
       );
-      setCorrectValidation({message: "Logged in"});
-      setTimeout(() => {
-        props.history.push("/home");
-        context.login({login, id, nick});
-        localStorage.setItem("jwtToken", token);
-      }, 3000);
+      setMessages({message: "Logged in"});
+      setIsMessageError(false);
+      props.history.push("/home");
+      context.login({login, id, nick});
+      localStorage.setItem("jwtToken", token);
     },
     onError: error => {
-      setErrors(error.graphQLErrors[0].extensions.exception.errors);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
@@ -58,11 +55,6 @@ export default function Login(props) {
   return (
     <div className="wrapper">
       <section className="login">
-        {Object.keys(correctValidation).length > 0 && (
-          <div className="loading">
-            <img src={loadingGif} alt="loading" />
-          </div>
-        )}
         <div className="login__header">Log in</div>
         <form className="login__form" onSubmit={onSubmitForm}>
           <div className="login__inputs">
@@ -89,10 +81,6 @@ export default function Login(props) {
           </Link>
         </form>
       </section>
-      {Object.keys(errors).length > 0 && <InfoModel error={errors} />}
-      {Object.keys(correctValidation).length > 0 && (
-        <InfoModel info={correctValidation} />
-      )}
     </div>
   );
 }

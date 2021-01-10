@@ -1,19 +1,23 @@
 import {useMutation, useQuery} from "@apollo/client";
-import React, {Fragment} from "react";
+import React, {Fragment, useContext} from "react";
 
+import {InfoContext} from "../../context/infoContext";
 import {APPLY_TO_TEAM, GET_TEAM} from "../../queries";
 
 export default function Team(props) {
   const id = props.location.id;
 
   const {loading, data, error} = useQuery(GET_TEAM, {variables: {id}});
+  const {setMessages, setIsMessageError} = useContext(InfoContext);
 
   const [applyToTeam] = useMutation(APPLY_TO_TEAM, {
-    update: (proxy, result) => {
-      console.log(result);
+    update: () => {
+      setIsMessageError(false);
+      setMessages({error: "Sent application to the team"});
     },
     onError: error => {
-      console.log(error);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 

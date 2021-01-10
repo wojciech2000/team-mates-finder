@@ -1,5 +1,4 @@
 import React, {useContext, useState} from "react";
-import {AuthContext} from "../../context/auth";
 import {useMutation} from "@apollo/client";
 
 import {
@@ -8,12 +7,13 @@ import {
   GET_TEAMS,
   GET_USERS,
 } from "../../queries";
-import InfoModel from "../InfoModel/InfoModel";
+import {AuthContext} from "../../context/auth";
+import {InfoContext} from "../../context/infoContext";
 
 export default function EditTeam(props) {
   const {nick, id} = useContext(AuthContext);
+  const {setMessages, setIsMessageError} = useContext(InfoContext);
 
-  const [errors, setErrors] = useState({});
   const [values, setValues] = useState({
     name: "",
     maxMembersAmount: 2,
@@ -31,7 +31,9 @@ export default function EditTeam(props) {
 
   const [createTeam] = useMutation(CREATE_TEAM, {
     variables: values,
-    update: (proxy, result) => {
+    update: () => {
+      setMessages({message: "Created team"});
+      setIsMessageError(false);
       props.history.push("/teams");
     },
     refetchQueries: [
@@ -40,7 +42,8 @@ export default function EditTeam(props) {
       {query: GET_TEAMS},
     ],
     onError: error => {
-      setErrors(error.graphQLErrors[0].extensions.exception.errors);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
@@ -176,7 +179,6 @@ export default function EditTeam(props) {
         </div>
         <input type="submit" value="Create" className="create-team__create" />
       </form>
-      {Object.keys(errors).length > 0 && <InfoModel error={errors} />}
     </div>
   );
 }

@@ -207,8 +207,6 @@ const userResolver = {
         _id: user.team && user.team._id,
       });
 
-      console.log(team);
-
       //Nick validation
       if (nick.trim() === "") {
         throw new UserInputError("Nick error", {
@@ -243,8 +241,6 @@ const userResolver = {
       if (team && team.founder === user.nick) {
         team.founder = dbNick.data.name;
       }
-
-      console.log(team);
 
       //Update new nick
       user.nick = dbNick.data.name;
@@ -319,8 +315,6 @@ const userResolver = {
           errors: {championEmpty: "You can type max 4"},
         });
       }
-
-      console.log(uniqueChampions, champions);
 
       if (uniqueChampions.length < champions.length) {
         throw new UserInputError("Champion's name error", {

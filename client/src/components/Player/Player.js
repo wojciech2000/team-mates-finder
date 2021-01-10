@@ -1,11 +1,13 @@
-import {useMutation, useQuery} from "@apollo/client";
 import React, {useContext, useState} from "react";
-import {AuthContext} from "../../context/auth";
+import {useMutation, useQuery} from "@apollo/client";
 
 import {GET_USER, INVITE_TO_TEAM, GET_TEAMS} from "../../queries";
+import {AuthContext} from "../../context/auth";
+import {InfoContext} from "../../context/infoContext";
 
 export default function Player(props) {
   const {id: founderId, nick} = useContext(AuthContext);
+  const {setMessages, setIsMessageError} = useContext(InfoContext);
 
   const [position, setPosition] = useState("");
 
@@ -16,11 +18,15 @@ export default function Player(props) {
   });
 
   const [inviteToTeam] = useMutation(INVITE_TO_TEAM, {
-    update: (proxy, result) => {
-      console.log(result);
+    update: () => {
+      setIsMessageError(false);
+      setMessages({error: "User has been invited"});
     },
     refetchQueries: [{query: GET_TEAMS}],
-    onError: error => console.log(error),
+    onError: error => {
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
+    },
   });
 
   const inviteOnClick = () => {
@@ -82,7 +88,10 @@ export default function Player(props) {
               ) : (
                 founderId &&
                 founderData.getUser.team &&
-                founderData.getUser.team.founder === nick && (
+                founderData.getUser.team.founder === nick &&
+                founderData.getUser.team.positions.filter(
+                  position => !position.nick,
+                ).length > 0 && (
                   <div className="player__data player__data--button">
                     <select
                       className="player__data__input"

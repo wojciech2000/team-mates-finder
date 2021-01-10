@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {BsEnvelope, BsEnvelopeOpen} from "react-icons/bs";
 import {useMutation, useQuery} from "@apollo/client";
 
@@ -12,8 +12,11 @@ import {
   ACCEPT_APPLICATION,
   REJECT_APPLICATION,
 } from "../../queries";
+import {InfoContext} from "../../context/infoContext";
 
 export default function Messages({id}) {
+  const {setMessages, setIsMessageError} = useContext(InfoContext);
+
   const [open, setOpen] = useState(false);
   const [setReadOnce, setSetReadOnce] = useState(false);
 
@@ -39,7 +42,8 @@ export default function Messages({id}) {
 
   const [acceptInvitation] = useMutation(ACCEPT_INVITATION, {
     update: (proxy, result) => {
-      console.log(result);
+      setMessages({message: "Accepted invitation"});
+      setIsMessageError(false);
     },
     refetchQueries: [
       {query: GET_USER, variables: {id}},
@@ -47,13 +51,15 @@ export default function Messages({id}) {
       {query: GET_USERS},
     ],
     onError: error => {
-      console.log(error);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
   const [acceptApplication] = useMutation(ACCEPT_APPLICATION, {
-    update: (proxy, result) => {
-      console.log(result);
+    update: () => {
+      setMessages({message: "Accepted application"});
+      setIsMessageError(false);
     },
     refetchQueries: [
       {query: GET_USER, variables: {id}},
@@ -61,7 +67,8 @@ export default function Messages({id}) {
       {query: GET_USERS},
     ],
     onError: error => {
-      console.log(error);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
@@ -88,22 +95,26 @@ export default function Messages({id}) {
   //reject invitation
 
   const [rejectInvitation] = useMutation(REJECT_INVITATION, {
-    update: (proxy, result) => {
-      console.log(result);
+    update: () => {
+      setMessages({message: "Rejected invitation"});
+      setIsMessageError(false);
     },
     refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_TEAMS}],
     onError: error => {
-      console.log(error);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
   const [rejectApplication] = useMutation(REJECT_APPLICATION, {
-    update: (proxy, result) => {
-      console.log(result);
+    update: () => {
+      setMessages({message: "Rejected application"});
+      setIsMessageError(false);
     },
     refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_TEAMS}],
     onError: error => {
-      console.log(error);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 

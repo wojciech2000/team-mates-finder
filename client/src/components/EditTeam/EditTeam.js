@@ -15,10 +15,12 @@ import {
   LEAVE_TEAM,
 } from "../../queries";
 import {AuthContext} from "../../context/auth";
+import {InfoContext} from "../../context/infoContext";
 import {BiLogIn} from "react-icons/bi";
 
 export default function EditTeam(props) {
   const {nick} = useContext(AuthContext);
+  const {setMessages, setIsMessageError} = useContext(InfoContext);
   const id = props.location.id;
   const userId = props.location.userId;
 
@@ -72,12 +74,14 @@ export default function EditTeam(props) {
 
   const [updateName] = useMutation(UPDATE_TEAM_NAME, {
     variables: {name: editValue.name},
-    update: (proxy, result) => {
-      console.log(result);
+    update: () => {
+      setMessages({message: "Updated team name"});
+      setIsMessageError(false);
     },
     refetchQueries: [{query: GET_TEAM_PROFILE, variables: {id}}],
     onError: error => {
-      console.log(error);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
@@ -88,7 +92,8 @@ export default function EditTeam(props) {
 
   const addMember = () => {
     if (editValue.positions.length >= 5) {
-      console.log("max member is 5");
+      setIsMessageError(true);
+      setMessages({error: "Max 5 members"});
     } else {
       setEditValue({
         ...editValue,
@@ -102,7 +107,8 @@ export default function EditTeam(props) {
 
   const deleteMember = (e, id) => {
     if (id === 0) {
-      console.log("You can't delete founder");
+      setIsMessageError(true);
+      setMessages({error: "You can't delete the founder"});
     } else {
       const update = editValue.positions.filter(
         (position, idArray) => idArray !== id && position,
@@ -130,17 +136,18 @@ export default function EditTeam(props) {
 
   const [updatePositions] = useMutation(UPDATE_POSITIONS_TEAM, {
     variables: {positions: editValue.positions},
-    update: (proxy, result) => {
-      console.log(result);
+    update: () => {
+      setMessages({message: "Edited positions"});
+      setIsMessageError(false);
     },
     refetchQueries: [{query: GET_TEAM_PROFILE, variables: {id}}],
     onError: error => {
-      console.log(error);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
   const savePositons = e => {
-    console.log(editValue.positions);
     cancelEditValue(e);
     updatePositions();
   };
@@ -148,11 +155,12 @@ export default function EditTeam(props) {
   const [deleteTeam] = useMutation(DELETE_TEAM, {
     variables: {id},
     update: (proxy, result) => {
+      setMessages({message: "Deleted team"});
+      setIsMessageError(false);
       props.history.push({
         pathname: `/user/${result.data.deleteTeam.nick}`,
         id: userId,
       });
-      console.log(result);
     },
     refetchQueries: [
       {query: GET_USER_PROFILE, variables: {id: userId}},
@@ -160,7 +168,8 @@ export default function EditTeam(props) {
       {query: GET_USERS},
     ],
     onError: error => {
-      console.log(error);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
@@ -171,11 +180,12 @@ export default function EditTeam(props) {
   const [leaveTeam] = useMutation(LEAVE_TEAM, {
     variables: {id},
     update: (proxy, result) => {
+      setMessages({message: "Left team"});
+      setIsMessageError(false);
       props.history.push({
         pathname: `/user/${result.data.leaveTeam.nick}`,
         id: userId,
       });
-      console.log(result);
     },
     refetchQueries: [
       {query: GET_USER_PROFILE, variables: {id: userId}},
@@ -183,7 +193,8 @@ export default function EditTeam(props) {
       {query: GET_USERS},
     ],
     onError: error => {
-      console.log(error);
+      setIsMessageError(true);
+      setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 

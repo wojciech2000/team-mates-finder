@@ -22,6 +22,8 @@ import EditTeam from "./components/EditTeam/EditTeam";
 
 import AuthRoute from "./context/AuthRoute";
 import {AuthProvider} from "./context/auth";
+import {InfoProvider} from "./context/infoContext";
+import InfoModel from "./components/InfoModel/InfoModel";
 
 const httpLink = new createHttpLink({
   uri: "http://localhost:5000",
@@ -45,23 +47,26 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
-        <div className="App">
-          <Router>
-            <Header />
-            <Switch>
-              <Route path="/players" component={Players} />
-              <Route path="/player/:nick" component={Player} />
-              <Route path="/teams" component={Teams} />
-              <Route path="/team/:name" component={Team} />
-              <AuthRoute path="/login" component={Login} />
-              <AuthRoute path="/register" component={Register} />
-              <Route path="/user/:nick" component={UserProfile} />
-              <Route path="/home" component={UserHome} />
-              <Route path="/create-team" component={CreateTeam} />
-              <Route path="/edit-team/:name" component={EditTeam} />
-            </Switch>
-          </Router>
-        </div>
+        <InfoProvider>
+          <div className="App">
+            <Router>
+              <Header />
+              <InfoModel />
+              <Switch>
+                <Route path="/players" component={Players} />
+                <Route path="/player/:nick" component={Player} />
+                <Route path="/teams" component={Teams} />
+                <Route path="/team/:name" component={Team} />
+                <AuthRoute path="/login" component={Login} />
+                <AuthRoute path="/register" component={Register} />
+                <Route path="/user/:nick" component={UserProfile} />
+                <Route path="/home" component={UserHome} />
+                <Route path="/create-team" component={CreateTeam} />
+                <Route path="/edit-team/:name" component={EditTeam} />
+              </Switch>
+            </Router>
+          </div>
+        </InfoProvider>
       </AuthProvider>
     </ApolloProvider>
   );
