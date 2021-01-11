@@ -87,7 +87,8 @@ export default function UserProfile(props) {
 
   const addNewChampion = () => {
     if (editValue.champions.length >= 4) {
-      console.log("You can have max 4 main champions");
+      setIsMessageError(true);
+      setMessages({message: "You can have only 4 mains"});
     } else {
       setEditValue({
         ...editValue,
