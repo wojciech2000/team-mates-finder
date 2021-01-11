@@ -1,10 +1,8 @@
-const dotenv = require("dotenv").config();
 const User = require("../../models/User");
 const Team = require("../../models/Team");
 const {UserInputError} = require("apollo-server");
 
 const checkAuth = require("../../utils/checkAuth");
-const {LoneSchemaDefinitionRule} = require("graphql");
 
 const checkIfPositionsAreUnique = positions => {
   const positionsName = positions.map(position => position.position);
