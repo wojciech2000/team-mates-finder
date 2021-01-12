@@ -2,10 +2,12 @@ import {useMutation, useQuery} from "@apollo/client";
 import React, {Fragment, useContext} from "react";
 
 import {InfoContext} from "../../context/infoContext";
-import {APPLY_TO_TEAM, GET_TEAM} from "../../queries";
+import {APPLY_TO_TEAM, GET_TEAM, GET_USERS} from "../../queries";
+import {AuthContext} from "../../context/auth";
 
 export default function Team(props) {
   const id = props.location.id;
+  const {id: userId} = useContext(AuthContext);
 
   const {loading, data, error} = useQuery(GET_TEAM, {variables: {id}});
   const {setMessages, setIsMessageError} = useContext(InfoContext);
@@ -15,6 +17,7 @@ export default function Team(props) {
       setIsMessageError(false);
       setMessages({error: "Sent application to the team"});
     },
+    refetchQueries: [{query: GET_USERS}],
     onError: error => {
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
@@ -22,13 +25,18 @@ export default function Team(props) {
   });
 
   const applyToTeamOnClick = e => {
-    applyToTeam({
-      variables: {
-        id: data.getTeam.id,
-        founder: data.getTeam.founder,
-        position: e.target.dataset.position,
-      },
-    });
+    if (!userId) {
+      setIsMessageError(true);
+      setMessages({message: "You have to be logged in"});
+    } else {
+      applyToTeam({
+        variables: {
+          id: data.getTeam.id,
+          founder: data.getTeam.founder,
+          position: e.target.dataset.position,
+        },
+      });
+    }
   };
 
   return (

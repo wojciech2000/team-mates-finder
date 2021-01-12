@@ -5,9 +5,17 @@ import {FaUser} from "react-icons/fa";
 
 import Messages from "../Messages/Messages";
 import {AuthContext} from "../../context/auth";
+import {InfoContext} from "../../context/infoContext";
 
 export default function Header() {
   const {user, nick, id, logout} = useContext(AuthContext);
+  const {setIsMessageError, setMessages} = useContext(InfoContext);
+
+  const logoutonClick = () => {
+    logout();
+    setIsMessageError(false);
+    setMessages({message: "Logged out"});
+  };
 
   return (
     <header className="header">
@@ -33,7 +41,7 @@ export default function Header() {
             <Link
               to="/players"
               className="menu__logout"
-              onClick={() => logout()}
+              onClick={logoutonClick}
             >
               <BiLogIn />
             </Link>

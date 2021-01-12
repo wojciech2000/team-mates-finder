@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import {useMutation, useQuery} from "@apollo/client";
 
-import {GET_USER, INVITE_TO_TEAM, GET_TEAMS} from "../../queries";
+import {GET_USER, INVITE_TO_TEAM, GET_TEAMS, GET_USERS} from "../../queries";
 import {AuthContext} from "../../context/auth";
 import {InfoContext} from "../../context/infoContext";
 
@@ -22,7 +22,7 @@ export default function Player(props) {
       setIsMessageError(false);
       setMessages({error: "User has been invited"});
     },
-    refetchQueries: [{query: GET_TEAMS}],
+    refetchQueries: [{query: GET_TEAMS}, {query: GET_USERS}],
     onError: error => {
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
