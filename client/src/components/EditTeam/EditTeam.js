@@ -18,6 +18,7 @@ import {AuthContext} from "../../context/auth";
 import {InfoContext} from "../../context/infoContext";
 import {BiLogIn} from "react-icons/bi";
 import loadingGif from "../../pictures/loading.gif";
+import BackArrow from "../BackArrow/BackArrow";
 
 export default function EditTeam(props) {
   const {nick} = useContext(AuthContext);
@@ -399,6 +400,7 @@ export default function EditTeam(props) {
           </div>
         )
       )}
+      <BackArrow pathname="/user" nick={nick} id={userId} />
     </div>
   );
 }

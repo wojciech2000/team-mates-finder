@@ -5,6 +5,7 @@ import {GET_USER, INVITE_TO_TEAM, GET_TEAMS, GET_USERS} from "../../queries";
 import {AuthContext} from "../../context/auth";
 import {InfoContext} from "../../context/infoContext";
 import loadingGif from "../../pictures/loading.gif";
+import BackArrow from "../BackArrow/BackArrow";
 
 export default function Player(props) {
   const {id: founderId, nick} = useContext(AuthContext);
@@ -113,6 +114,7 @@ export default function Player(props) {
                 </div>
               )
             )}
+            <BackArrow pathname="/players" />
           </div>
         )
       )}

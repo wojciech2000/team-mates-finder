@@ -1,0 +1,25 @@
+.backarrow {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: white;
+  font-size: 30px;
+  padding: 10px;
+  border-radius: 0 10px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  color: black;
+  transition-property: color, background-color;
+
+  &:hover {
+    background-color: $green;
+    color: white;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 50px;
+  }
+}

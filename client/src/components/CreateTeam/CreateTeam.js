@@ -9,6 +9,7 @@ import {
 } from "../../queries";
 import {AuthContext} from "../../context/auth";
 import {InfoContext} from "../../context/infoContext";
+import BackArrow from "../BackArrow/BackArrow";
 
 export default function EditTeam(props) {
   const {nick, id} = useContext(AuthContext);
@@ -179,6 +180,7 @@ export default function EditTeam(props) {
         </div>
         <input type="submit" value="Create" className="create-team__create" />
       </form>
+      <BackArrow pathname="/user" nick={nick} id={id} />
     </div>
   );
 }

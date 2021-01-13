@@ -1,10 +1,11 @@
 import {useMutation, useQuery} from "@apollo/client";
-import React, {Fragment, useContext} from "react";
+import React, {useContext} from "react";
 
 import {InfoContext} from "../../context/infoContext";
 import {APPLY_TO_TEAM, GET_TEAM, GET_USERS} from "../../queries";
 import {AuthContext} from "../../context/auth";
 import loadingGif from "../../pictures/loading.gif";
+import BackArrow from "../BackArrow/BackArrow";
 
 export default function Team(props) {
   const id = props.location.id;
@@ -106,6 +107,7 @@ export default function Team(props) {
           </section>
         )
       )}
+      <BackArrow pathname="/teams" />
     </div>
   );
 }
