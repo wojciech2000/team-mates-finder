@@ -17,6 +17,7 @@ import {
 import {AuthContext} from "../../context/auth";
 import {InfoContext} from "../../context/infoContext";
 import {BiLogIn} from "react-icons/bi";
+import loadingGif from "../../pictures/loading.gif";
 
 export default function EditTeam(props) {
   const {nick} = useContext(AuthContext);
@@ -210,165 +211,146 @@ export default function EditTeam(props) {
 
   return (
     <div className="wrapper">
-      {loading
-        ? "Loading..."
-        : error
-        ? "Error..."
-        : data && (
-            <div className="edit-team">
-              <div className="edit-team__data-wrapper">
-                <div className="edit-team__data">
-                  <label
-                    className="edit-team__description"
-                    htmlFor={editInput.name ? "name" : ""}
-                  >
-                    Team's name:
-                  </label>
+      {loading ? (
+        <div className="loading-wrapper">
+          <img src={loadingGif} alt="loading" />
+        </div>
+      ) : error ? (
+        "Error..."
+      ) : (
+        data && (
+          <div className="edit-team">
+            <div className="edit-team__data-wrapper">
+              <div className="edit-team__data">
+                <label
+                  className="edit-team__description"
+                  htmlFor={editInput.name ? "name" : ""}
+                >
+                  Team's name:
+                </label>
 
+                {editInput.name ? (
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={editValue.name}
+                    onChange={e => onChangeInput(e)}
+                    className="edit-team__input edit-team__input--edit-name-team"
+                  />
+                ) : (
+                  <span className="edit-team__content">
+                    {data.getTeam.name}
+                  </span>
+                )}
+              </div>
+              {nick === data.getTeam.founder && (
+                <div className="edit-team__edit-wrapper">
                   {editInput.name ? (
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={editValue.name}
-                      onChange={e => onChangeInput(e)}
-                      className="edit-team__input edit-team__input--edit-name-team"
-                    />
+                    <Fragment>
+                      <button
+                        className="profile__cancel"
+                        id="name"
+                        onClick={e => cancelEditValue(e)}
+                      >
+                        cancel
+                      </button>
+                      <button
+                        className="profile__save"
+                        id="name"
+                        onClick={e => saveName(e)}
+                      >
+                        save
+                      </button>
+                    </Fragment>
                   ) : (
-                    <span className="edit-team__content">
-                      {data.getTeam.name}
-                    </span>
+                    <button
+                      className="edit-team__edit"
+                      id="name"
+                      onClick={e => startEditValue(e)}
+                    >
+                      edit
+                    </button>
                   )}
                 </div>
-                {nick === data.getTeam.founder && (
-                  <div className="edit-team__edit-wrapper">
-                    {editInput.name ? (
-                      <Fragment>
-                        <button
-                          className="profile__cancel"
-                          id="name"
-                          onClick={e => cancelEditValue(e)}
-                        >
-                          cancel
-                        </button>
-                        <button
-                          className="profile__save"
-                          id="name"
-                          onClick={e => saveName(e)}
-                        >
-                          save
-                        </button>
-                      </Fragment>
-                    ) : (
-                      <button
-                        className="edit-team__edit"
-                        id="name"
-                        onClick={e => startEditValue(e)}
-                      >
-                        edit
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
+              )}
+            </div>
 
-              <div className="edit-team__data-wrapper">
-                <div className="edit-team__data">
-                  <span className="edit-team__description">Founder:</span>
-                  <span className="edit-team__content">
-                    {data.getTeam.founder}
-                  </span>
-                </div>
+            <div className="edit-team__data-wrapper">
+              <div className="edit-team__data">
+                <span className="edit-team__description">Founder:</span>
+                <span className="edit-team__content">
+                  {data.getTeam.founder}
+                </span>
               </div>
+            </div>
 
-              <div className="edit-team__data-wrapper">
-                <div className="edit-team__data">
-                  <span className="edit-team__description">
-                    Member's amount:
-                  </span>
-                  <span className="edit-team__content">
-                    {data.getTeam.maxMembersAmount}
-                  </span>
-                </div>
-                {nick === data.getTeam.founder && (
-                  <div className="edit-team__edit-wrapper">
-                    {editInput.positions ? (
-                      <Fragment>
-                        <button
-                          className="profile__cancel"
-                          id="positions"
-                          onClick={e => cancelEditValue(e)}
-                        >
-                          cancel
-                        </button>
-                        <button
-                          className="profile__save"
-                          id="positions"
-                          onClick={e => savePositons(e)}
-                        >
-                          save
-                        </button>
-                      </Fragment>
-                    ) : (
+            <div className="edit-team__data-wrapper">
+              <div className="edit-team__data">
+                <span className="edit-team__description">Member's amount:</span>
+                <span className="edit-team__content">
+                  {data.getTeam.maxMembersAmount}
+                </span>
+              </div>
+              {nick === data.getTeam.founder && (
+                <div className="edit-team__edit-wrapper">
+                  {editInput.positions ? (
+                    <Fragment>
                       <button
-                        className="edit-team__edit"
+                        className="profile__cancel"
                         id="positions"
-                        onClick={e => startEditValue(e)}
+                        onClick={e => cancelEditValue(e)}
                       >
-                        edit
+                        cancel
                       </button>
-                    )}
-                  </div>
-                )}
-              </div>
-              <div className="edit-team__data-wrapper--members">
-                {editInput.positions ? (
-                  <Fragment>
-                    <FiUserPlus
-                      className="member__position-add"
-                      onClick={addMember}
-                    />
-                    {editValue.positions.map((position, id) => (
-                      <div className="member--edit" key={id}>
-                        <span className="member__position--edit">
-                          <FaUserAltSlash
-                            className="member__position-delete"
-                            onClick={e => deleteMember(e, id)}
-                          />
-                          <span className="member__nick">
-                            <select
-                              className="create-team__input"
-                              style={{marginRight: "10px"}}
-                              value={editValue.positions[id].position}
-                              onChange={e => onChangePositions(e, id)}
-                            >
-                              <option value="Top">Top</option>
-                              <option value="Jungle">Jungle</option>
-                              <option value="Mid">Mid</option>
-                              <option value="ADC">ADC</option>
-                              <option value="Supp">Supp</option>
-                            </select>
-                          </span>
-                          {position.nick ? (
-                            position.nick
-                          ) : position.invited ? (
-                            <span className="member__nick--invited">
-                              invited - {position.invited}
-                            </span>
-                          ) : (
-                            <span className="member__nick--none">none</span>
-                          )}
+                      <button
+                        className="profile__save"
+                        id="positions"
+                        onClick={e => savePositons(e)}
+                      >
+                        save
+                      </button>
+                    </Fragment>
+                  ) : (
+                    <button
+                      className="edit-team__edit"
+                      id="positions"
+                      onClick={e => startEditValue(e)}
+                    >
+                      edit
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+            <div className="edit-team__data-wrapper--members">
+              {editInput.positions ? (
+                <Fragment>
+                  <FiUserPlus
+                    className="member__position-add"
+                    onClick={addMember}
+                  />
+                  {editValue.positions.map((position, id) => (
+                    <div className="member--edit" key={id}>
+                      <span className="member__position--edit">
+                        <FaUserAltSlash
+                          className="member__position-delete"
+                          onClick={e => deleteMember(e, id)}
+                        />
+                        <span className="member__nick">
+                          <select
+                            className="create-team__input"
+                            style={{marginRight: "10px"}}
+                            value={editValue.positions[id].position}
+                            onChange={e => onChangePositions(e, id)}
+                          >
+                            <option value="Top">Top</option>
+                            <option value="Jungle">Jungle</option>
+                            <option value="Mid">Mid</option>
+                            <option value="ADC">ADC</option>
+                            <option value="Supp">Supp</option>
+                          </select>
                         </span>
-                      </div>
-                    ))}
-                  </Fragment>
-                ) : (
-                  data.getTeam.positions.map((position, id) => (
-                    <div className="member" key={id}>
-                      <span className="member__position">
-                        {position.position + ": "}
-                      </span>
-                      <span className="member__nick">
                         {position.nick ? (
                           position.nick
                         ) : position.invited ? (
@@ -380,22 +362,43 @@ export default function EditTeam(props) {
                         )}
                       </span>
                     </div>
-                  ))
-                )}
-              </div>
-              {nick === data.getTeam.founder ? (
-                <BsFillTrashFill
-                  className="edit-team__delete-team"
-                  onClick={deleteTeamOnClick}
-                />
+                  ))}
+                </Fragment>
               ) : (
-                <BiLogIn
-                  className="edit-team__delete-team"
-                  onClick={leaveTeamOnClick}
-                />
+                data.getTeam.positions.map((position, id) => (
+                  <div className="member" key={id}>
+                    <span className="member__position">
+                      {position.position + ": "}
+                    </span>
+                    <span className="member__nick">
+                      {position.nick ? (
+                        position.nick
+                      ) : position.invited ? (
+                        <span className="member__nick--invited">
+                          invited - {position.invited}
+                        </span>
+                      ) : (
+                        <span className="member__nick--none">none</span>
+                      )}
+                    </span>
+                  </div>
+                ))
               )}
             </div>
-          )}
+            {nick === data.getTeam.founder ? (
+              <BsFillTrashFill
+                className="edit-team__delete-team"
+                onClick={deleteTeamOnClick}
+              />
+            ) : (
+              <BiLogIn
+                className="edit-team__delete-team"
+                onClick={leaveTeamOnClick}
+              />
+            )}
+          </div>
+        )
+      )}
     </div>
   );
 }

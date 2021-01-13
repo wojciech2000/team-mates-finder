@@ -4,6 +4,7 @@ import {useMutation, useQuery} from "@apollo/client";
 import {GET_USER, INVITE_TO_TEAM, GET_TEAMS, GET_USERS} from "../../queries";
 import {AuthContext} from "../../context/auth";
 import {InfoContext} from "../../context/infoContext";
+import loadingGif from "../../pictures/loading.gif";
 
 export default function Player(props) {
   const {id: founderId, nick} = useContext(AuthContext);
@@ -45,72 +46,76 @@ export default function Player(props) {
 
   return (
     <div className="wrapper">
-      {loading
-        ? "Loading..."
-        : error
-        ? "Error."
-        : data && (
-            <div className="player">
-              <div className="player__data">
-                <span className="player__description">Nick: </span>
-                <span className="player__content">{data.getUser.nick}</span>
-              </div>
-              <div className="player__data">
-                <span className="player__description">Server: </span>
-                <span className="player__content">
-                  {data.getUser.server.serverName}
-                </span>
-              </div>
-              <div className="player__data">
-                <span className="player__description">Positions: </span>
-                <span className="player__content">
-                  {data.getUser.position.primary}
-                  {data.getUser.position.secondary &&
-                    " | " + data.getUser.position.secondary}
-                </span>
-              </div>
-              <div className="player__data">
-                <span className="player__description">Mains: </span>
-                <span className="player__content player__content--champs">
-                  {data.getUser.mainChampions.map((champ, id) =>
-                    id === 0 ? champ + " " : " | " + champ,
-                  )}
-                </span>
-              </div>
-
-              {data.getUser.team ? (
-                <div className="player__data">
-                  <span className="player__description">Team: </span>
-                  <span className="player__content">
-                    {data.getUser.team.name}
-                  </span>
-                </div>
-              ) : (
-                founderId &&
-                founderData.getUser.team &&
-                founderData.getUser.team.founder === nick &&
-                founderData.getUser.team.positions.filter(
-                  position => !position.nick,
-                ).length > 0 && (
-                  <div className="player__data player__data--button">
-                    <select
-                      className="player__data__input"
-                      value={position}
-                      onChange={e => setPosition(e.target.value)}
-                    >
-                      {founderData.getUser.team.positions.map(
-                        ({position: role, nick}, key) =>
-                          !nick && <option key={key}>{role}</option>,
-                      )}
-                    </select>
-                    <button className="player__add" onClick={inviteOnClick}>
-                      Add to the team
-                    </button>
-                  </div>
-                )
-              )}
+      {loading ? (
+        <div className="loading-wrapper">
+          <img src={loadingGif} alt="loading" />
+        </div>
+      ) : error ? (
+        "Error."
+      ) : (
+        data && (
+          <div className="player">
+            <div className="player__data">
+              <span className="player__description">Nick: </span>
+              <span className="player__content">{data.getUser.nick}</span>
             </div>
-          )}
+            <div className="player__data">
+              <span className="player__description">Server: </span>
+              <span className="player__content">
+                {data.getUser.server.serverName}
+              </span>
+            </div>
+            <div className="player__data">
+              <span className="player__description">Positions: </span>
+              <span className="player__content">
+                {data.getUser.position.primary}
+                {data.getUser.position.secondary &&
+                  " | " + data.getUser.position.secondary}
+              </span>
+            </div>
+            <div className="player__data">
+              <span className="player__description">Mains: </span>
+              <span className="player__content player__content--champs">
+                {data.getUser.mainChampions.map((champ, id) =>
+                  id === 0 ? champ + " " : " | " + champ,
+                )}
+              </span>
+            </div>
+
+            {data.getUser.team ? (
+              <div className="player__data">
+                <span className="player__description">Team: </span>
+                <span className="player__content">
+                  {data.getUser.team.name}
+                </span>
+              </div>
+            ) : (
+              founderId &&
+              founderData.getUser.team &&
+              founderData.getUser.team.founder === nick &&
+              founderData.getUser.team.positions.filter(
+                position => !position.nick,
+              ).length > 0 && (
+                <div className="player__data player__data--button">
+                  <select
+                    className="player__data__input"
+                    value={position}
+                    onChange={e => setPosition(e.target.value)}
+                  >
+                    {founderData.getUser.team.positions.map(
+                      ({position: role, nick}, key) =>
+                        !nick && <option key={key}>{role}</option>,
+                    )}
+                  </select>
+                  <button className="player__add" onClick={inviteOnClick}>
+                    Add to the team
+                  </button>
+                </div>
+              )
+            )}
+          </div>
+        )
+      )}
     </div>
   );
 }

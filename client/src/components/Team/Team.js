@@ -4,6 +4,7 @@ import React, {Fragment, useContext} from "react";
 import {InfoContext} from "../../context/infoContext";
 import {APPLY_TO_TEAM, GET_TEAM, GET_USERS} from "../../queries";
 import {AuthContext} from "../../context/auth";
+import loadingGif from "../../pictures/loading.gif";
 
 export default function Team(props) {
   const id = props.location.id;
@@ -40,71 +41,71 @@ export default function Team(props) {
   };
 
   return (
-    <Fragment>
-      {loading
-        ? "Loading..."
-        : error
-        ? "Error..."
-        : data && (
-            <div className="wrapper">
-              <section className="team">
-                <div className="team__header">
-                  <div className="team__name">
-                    <span className="team__description">Team's name: </span>
-                    <span className="team__content">{data.getTeam.name}</span>
-                  </div>
-                  <div className="team__founder">
-                    <span className="team__description">Founder: </span>
-                    <span className="team__content">
-                      {data.getTeam.founder}
-                    </span>
-                  </div>
+    <div className="wrapper">
+      {loading ? (
+        <div className="loading-wrapper">
+          <img src={loadingGif} alt="loading" />
+        </div>
+      ) : error ? (
+        "Error..."
+      ) : (
+        data && (
+          <section className="team">
+            <div className="team__header">
+              <div className="team__name">
+                <span className="team__description">Team's name: </span>
+                <span className="team__content">{data.getTeam.name}</span>
+              </div>
+              <div className="team__founder">
+                <span className="team__description">Founder: </span>
+                <span className="team__content">{data.getTeam.founder}</span>
+              </div>
+            </div>
+            <div className="positions">
+              <section className="positions__free">
+                <h3 className="positions__title--free">Free positions</h3>
+                <div className="positions__data">
+                  {data.getTeam.positions.map(
+                    (position, id) =>
+                      !position.nick && (
+                        <span className="positions__position" key={id}>
+                          <span className="positions__description">
+                            {position.position}:
+                          </span>
+                          <button
+                            className="positions__apply"
+                            data-position={position.position}
+                            onClick={applyToTeamOnClick}
+                          >
+                            Apply
+                          </button>
+                        </span>
+                      ),
+                  )}
                 </div>
-                <div className="positions">
-                  <section className="positions__free">
-                    <h3 className="positions__title--free">Free positions</h3>
-                    <div className="positions__data">
-                      {data.getTeam.positions.map(
-                        (position, id) =>
-                          !position.nick && (
-                            <span className="positions__position" key={id}>
-                              <span className="positions__description">
-                                {position.position}:
-                              </span>
-                              <button
-                                className="positions__apply"
-                                data-position={position.position}
-                                onClick={applyToTeamOnClick}
-                              >
-                                Apply
-                              </button>
-                            </span>
-                          ),
-                      )}
-                    </div>
-                  </section>
-                  <section className="position__taken">
-                    <h3 className="positions__title--taken">Taken positions</h3>
-                    <div className="positions__data">
-                      {data.getTeam.positions.map(
-                        (position, id) =>
-                          position.nick && (
-                            <span className="positions__position" key={id}>
-                              <span className="positions__description">
-                                {position.position + ": "}
-                              </span>
-                              <span className="positions__content">
-                                {position.nick}
-                              </span>
-                            </span>
-                          ),
-                      )}
-                    </div>
-                  </section>
+              </section>
+              <section className="position__taken">
+                <h3 className="positions__title--taken">Taken positions</h3>
+                <div className="positions__data">
+                  {data.getTeam.positions.map(
+                    (position, id) =>
+                      position.nick && (
+                        <span className="positions__position" key={id}>
+                          <span className="positions__description">
+                            {position.position + ": "}
+                          </span>
+                          <span className="positions__content">
+                            {position.nick}
+                          </span>
+                        </span>
+                      ),
+                  )}
                 </div>
               </section>
             </div>
-          )}
-    </Fragment>
+          </section>
+        )
+      )}
+    </div>
   );
 }
