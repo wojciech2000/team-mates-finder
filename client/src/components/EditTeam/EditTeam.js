@@ -78,7 +78,10 @@ export default function EditTeam(props) {
       setMessages({message: "Updated team name"});
       setIsMessageError(false);
     },
-    refetchQueries: [{query: GET_TEAM_PROFILE, variables: {id}}],
+    refetchQueries: [
+      {query: GET_TEAM_PROFILE, variables: {id}},
+      {query: GET_TEAMS},
+    ],
     onError: error => {
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
@@ -140,7 +143,10 @@ export default function EditTeam(props) {
       setMessages({message: "Edited positions"});
       setIsMessageError(false);
     },
-    refetchQueries: [{query: GET_TEAM_PROFILE, variables: {id}}],
+    refetchQueries: [
+      {query: GET_TEAM_PROFILE, variables: {id}},
+      {query: GET_TEAMS},
+    ],
     onError: error => {
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);

@@ -138,14 +138,16 @@ const teamResolver = {
         if (!member) {
           const user = await User.findOne({nick: memberInDB.nick});
 
-          user.team = null;
-          user.messages.unshift({
-            read: false,
-            message: `You were kicked out of the team "${team.name}"`,
-            messageType: "message",
-          });
+          if (user) {
+            user.team = null;
+            user.messages.unshift({
+              read: false,
+              message: `You were kicked out of the team "${team.name}"`,
+              messageType: "message",
+            });
 
-          user.save();
+            user.save();
+          }
         }
       });
 

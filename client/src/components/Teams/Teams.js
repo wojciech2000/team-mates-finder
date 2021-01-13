@@ -3,6 +3,7 @@ import {useQuery} from "@apollo/client";
 import {Link} from "react-router-dom";
 
 import {GET_TEAMS} from "../../queries";
+import loadingGif from "../../pictures/loading.gif";
 
 export default function Teams() {
   const {loading, data, error} = useQuery(GET_TEAMS);
@@ -58,13 +59,16 @@ export default function Teams() {
         <div className="table__founder">Founder</div>
 
         <div className="data">
-          <ul>
-            {loading
-              ? "Loading..."
-              : error
-              ? "Error..."
-              : data &&
-                findTeam().map(
+          {loading ? (
+            <div className="loading-wrapper">
+              <img src={loadingGif} alt="loading" />
+            </div>
+          ) : error ? (
+            "Error..."
+          ) : (
+            data && (
+              <ul>
+                {findTeam().map(
                   (
                     {id, name, membersAmount, maxMembersAmount, founder},
                     key,
@@ -84,7 +88,9 @@ export default function Teams() {
                     </li>
                   ),
                 )}
-          </ul>
+              </ul>
+            )
+          )}
         </div>
       </div>
     </section>

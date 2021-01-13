@@ -96,6 +96,16 @@ a {
   font-family: $default-font-family;
 }
 
+.loading-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 150px;
+  }
+}
+
 //used in Player and Table components
 .header-table {
   display: flex;
