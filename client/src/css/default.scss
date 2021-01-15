@@ -20,14 +20,7 @@ html {
   font-family: $default-font-family;
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(
-    to right bottom,
-    #00636b,
-    #00737c,
-    #00848e,
-    #0095a0,
-    #00a7b3
-  );
+  background: url(../pictures/background-mobile.jpg) no-repeat center / cover;
   display: flex;
   flex-direction: column;
   @media (min-width: 768px) {
