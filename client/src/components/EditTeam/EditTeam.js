@@ -13,6 +13,7 @@ import {
   GET_TEAMS,
   GET_USERS,
   LEAVE_TEAM,
+  GET_USER,
 } from "../../queries";
 import {AuthContext} from "../../context/auth";
 import {InfoContext} from "../../context/infoContext";
@@ -148,6 +149,7 @@ export default function EditTeam(props) {
     refetchQueries: [
       {query: GET_TEAM_PROFILE, variables: {id}},
       {query: GET_TEAMS},
+      {query: GET_USER, variables: {id: userId}},
     ],
     onError: error => {
       setIsMessageError(true);
