@@ -1,9 +1,8 @@
 import React, {Fragment, useContext, useState} from "react";
-import {useQuery, useMutation} from "@apollo/client";
+import {useQuery} from "@apollo/client";
 
 import {
   GET_USER_PROFILE,
-  GET_USERS,
   UPDATE_NICK,
   UPDATE_SERVER,
   UPDATE_POSITION,
@@ -11,12 +10,11 @@ import {
 } from "../../queries";
 
 import {Link} from "react-router-dom";
-import {AuthContext} from "../../context/auth";
 import {InfoContext} from "../../context/infoContext";
 import loadingGif from "../../pictures/loading.gif";
+import useUserMutation from "../../utils/useUserMutation";
 
 export default function UserProfile(props) {
-  const {updateNick: updateNickContext} = useContext(AuthContext);
   const {setMessages, setIsMessageError} = useContext(InfoContext);
 
   const id = props.location.id;
@@ -106,89 +104,53 @@ export default function UserProfile(props) {
   };
 
   //UPDATE DATA IN THE SERVER
-  const [updateNick] = useMutation(UPDATE_NICK, {
-    variables: {nick: editValue.nick},
-    update: (proxy, result) => {
-      updateNickContext(result.data.updateNick.nick);
-      setMessages({message: "Updated nick"});
-      setIsMessageError(false);
-    },
-    refetchQueries: [
-      {query: GET_USER_PROFILE, variables: {id}},
-      {query: GET_USERS},
-    ],
-    awaitRefetchQueries: true,
-    onError: error => {
-      setIsMessageError(true);
-      setMessages(error.graphQLErrors[0].extensions.exception.errors);
-    },
-  });
+
+  //NICK
+  const updateNick = useUserMutation(
+    UPDATE_NICK,
+    {nick: editValue.nick},
+    "Updated server",
+    id,
+  );
 
   const saveDataNick = e => {
     setEditInput({...editInput, [e.target.id]: false});
     updateNick();
   };
 
-  const [updateServer] = useMutation(UPDATE_SERVER, {
-    variables: {server: editValue.server},
-    update: (proxy, result) => {
-      setMessages({message: "Updated server"});
-      setIsMessageError(false);
-    },
-    refetchQueries: [
-      {query: GET_USER_PROFILE, variables: {id}},
-      {query: GET_USERS},
-    ],
-    awaitRefetchQueries: true,
-    onError: error => {
-      setIsMessageError(true);
-      setMessages(error.graphQLErrors[0].extensions.exception.errors);
-    },
-  });
+  //SERVER
+  const updateServer = useUserMutation(
+    UPDATE_SERVER,
+    {server: editValue.server},
+    "Updated server",
+    id,
+  );
 
   const saveDataServer = e => {
     setEditInput({...editInput, [e.target.id]: false});
     updateServer();
   };
 
-  const [updatePositons] = useMutation(UPDATE_POSITION, {
-    variables: {primary: editValue.primary, secondary: editValue.secondary},
-    update: (proxy, result) => {
-      setMessages({message: "Updated positions"});
-      setIsMessageError(false);
-    },
-    refetchQueries: [
-      {query: GET_USER_PROFILE, variables: {id}},
-      {query: GET_USERS},
-    ],
-    awaitRefetchQueries: true,
-    onError: error => {
-      setIsMessageError(true);
-      setMessages(error.graphQLErrors[0].extensions.exception.errors);
-    },
-  });
+  //POSITIONS
+  const updatePositons = useUserMutation(
+    UPDATE_POSITION,
+    {primary: editValue.primary, secondary: editValue.secondary},
+    "Updated positions",
+    id,
+  );
 
   const saveDataPosition = e => {
     setEditInput({...editInput, [e.target.id]: false});
     updatePositons();
   };
 
-  const [updateChampions] = useMutation(UPDATE_MAIN_CHAMPIONS, {
-    variables: {champions: editValue.champions},
-    update: (proxy, result) => {
-      setMessages({message: "Updated main champions"});
-      setIsMessageError(false);
-    },
-    refetchQueries: [
-      {query: GET_USER_PROFILE, variables: {id}},
-      {query: GET_USERS},
-    ],
-    awaitRefetchQueries: true,
-    onError: error => {
-      setIsMessageError(true);
-      setMessages(error.graphQLErrors[0].extensions.exception.errors);
-    },
-  });
+  //MAIN CHAMPIONS
+  const updateChampions = useUserMutation(
+    UPDATE_MAIN_CHAMPIONS,
+    {champions: editValue.champions},
+    "Updated main champions",
+    id,
+  );
 
   const saveDataChampions = e => {
     setEditInput({...editInput, [e.target.id]: false});
