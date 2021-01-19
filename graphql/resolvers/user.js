@@ -235,10 +235,13 @@ const userResolver = {
         });
       }
 
-      //if user is a founder of the team
-
-      if (team && team.founder === user.nick) {
-        team.founder = dbNick.data.name;
+      //if user is a founder of the team or is in it
+      if (team) {
+        if (team.founder === user.nick) {
+          team.founder = dbNick.data.name;
+        }
+        const member = team.positions.find(({nick}) => nick === user.nick);
+        member.nick = dbNick.data.name;
       }
 
       //Update new nick

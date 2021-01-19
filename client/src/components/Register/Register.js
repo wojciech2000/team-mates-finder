@@ -27,11 +27,6 @@ export default function Register(props) {
 
   const [addUser] = useMutation(REGISTER_USER, {
     update: () => {
-      //disable all inputs so user can't type  and click anything
-      Array.from(document.querySelectorAll("input")).forEach(
-        input => (input.disabled = true),
-      );
-
       setIsMessageError(false);
       setMessages({error: "User has been added"});
       props.history.push("/login");

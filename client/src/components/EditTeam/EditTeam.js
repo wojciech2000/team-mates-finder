@@ -80,6 +80,7 @@ export default function EditTeam(props) {
     update: () => {
       setMessages({message: "Updated team name"});
       setIsMessageError(false);
+      setEditInput({...editInput, name: false});
     },
     refetchQueries: [
       {query: GET_TEAM_PROFILE, variables: {id}},
@@ -92,7 +93,6 @@ export default function EditTeam(props) {
   });
 
   const saveName = e => {
-    setEditInput({...editInput, [e.target.id]: false});
     updateName();
   };
 
@@ -145,6 +145,7 @@ export default function EditTeam(props) {
     update: () => {
       setMessages({message: "Edited positions"});
       setIsMessageError(false);
+      setEditInput({...editInput, positions: false});
     },
     refetchQueries: [
       {query: GET_TEAM_PROFILE, variables: {id}},
@@ -158,7 +159,6 @@ export default function EditTeam(props) {
   });
 
   const savePositons = e => {
-    cancelEditValue(e);
     updatePositions();
   };
 

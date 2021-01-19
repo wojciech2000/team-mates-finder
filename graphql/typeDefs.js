@@ -84,6 +84,7 @@ const typeDefs = gql`
   }
 
   type PositionTeamType {
+    id: ID
     nick: String
     invited: String
     position: Positions!

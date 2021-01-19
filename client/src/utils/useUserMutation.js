@@ -2,19 +2,27 @@ import {useMutation} from "@apollo/client";
 import {useContext} from "react";
 import {AuthContext} from "../context/auth";
 import {InfoContext} from "../context/infoContext";
-import {GET_USERS, GET_USER_PROFILE, UPDATE_NICK} from "../queries";
+import {GET_USERS, GET_USER_PROFILE} from "../queries";
 
-export default function useQueries(queryName, variables, message, id) {
+export default function useUserMutation(
+  queryName,
+  variables,
+  message,
+  id,
+  editInputName,
+  editInput,
+  setEditInput,
+) {
   const {setMessages, setIsMessageError} = useContext(InfoContext);
-  const {updateNick: updateNickContext} = useContext(AuthContext);
+  const {updateNick} = useContext(AuthContext);
 
   const [updateFunction] = useMutation(queryName, {
     variables,
     update: (proxy, result) => {
       setMessages({message});
       setIsMessageError(false);
-      queryName === UPDATE_NICK &&
-        updateNickContext(result.data.updateNick.nick);
+      setEditInput({...editInput, [editInputName]: false});
+      editInputName === "nick" && updateNick(result.data.updateNick.nick);
     },
     refetchQueries: [
       {query: GET_USER_PROFILE, variables: {id}},

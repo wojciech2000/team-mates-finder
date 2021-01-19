@@ -72,8 +72,9 @@ export const REGISTER_USER = gql`
         position: {primary: $primary, secondary: $secondary}
       }
     ) {
-      login
-      email
+      id
+      nick
+      position
     }
   }
 `;
@@ -152,6 +153,7 @@ export const UPDATE_NICK = gql`
 export const UPDATE_SERVER = gql`
   mutation updateServer($server: Server!) {
     updateServer(server: $server) {
+      id
       server {
         serverName
         serverCode
@@ -163,6 +165,7 @@ export const UPDATE_SERVER = gql`
 export const UPDATE_MAIN_CHAMPIONS = gql`
   mutation updateMainChampions($champions: [String]) {
     updateMainChampions(champions: $champions) {
+      id
       mainChampions
     }
   }
@@ -171,6 +174,7 @@ export const UPDATE_MAIN_CHAMPIONS = gql`
 export const UPDATE_POSITION = gql`
   mutation updatePosition($primary: Positions!, $secondary: Positions!) {
     updatePosition(primary: $primary, secondary: $secondary) {
+      id
       position {
         primary
         secondary

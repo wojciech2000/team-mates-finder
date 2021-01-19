@@ -26,7 +26,7 @@ import {InfoProvider} from "./context/infoContext";
 import InfoModel from "./components/InfoModel/InfoModel";
 
 const httpLink = new createHttpLink({
-  uri: "https://team-mates-finder.herokuapp.com/",
+  uri: "http://localhost:5000/",
 });
 
 const authLink = setContext(() => {
