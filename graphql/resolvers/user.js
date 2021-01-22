@@ -130,6 +130,8 @@ const userResolver = {
         confirmPassword,
       );
 
+      console.log(registerInput);
+
       if (!valid) {
         throw new UserInputError("Register validation error", {errors});
       }
@@ -193,7 +195,7 @@ const userResolver = {
         position,
       });
 
-      await newUser.save();
+      newUser.save();
 
       return newUser;
     },

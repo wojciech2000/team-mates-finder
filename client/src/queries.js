@@ -74,7 +74,6 @@ export const REGISTER_USER = gql`
     ) {
       id
       nick
-      position
     }
   }
 `;
