@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  createHttpLink,
-} from "@apollo/client";
+import {ApolloClient, ApolloProvider, InMemoryCache, createHttpLink} from "@apollo/client";
 import {setContext} from "apollo-link-context";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
@@ -26,7 +21,7 @@ import {InfoProvider} from "./context/infoContext";
 import InfoModel from "./components/InfoModel/InfoModel";
 
 const httpLink = new createHttpLink({
-  uri: "https://team-mates-finder.herokuapp.com/",
+  uri: "https://team-mates-finder-server.herokuapp.com/",
 });
 
 const authLink = setContext(() => {
