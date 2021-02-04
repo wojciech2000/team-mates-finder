@@ -114,8 +114,6 @@ const userResolver = {
       //Register validation
       const {errors, valid} = validateRegisterInput(login, email, password, confirmPassword);
 
-      console.log(registerInput);
-
       if (!valid) {
         throw new UserInputError("Register validation error", {errors});
       }

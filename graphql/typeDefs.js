@@ -119,28 +119,16 @@ const typeDefs = gql`
     updateServer(server: Server!): User
     updatePosition(primary: Positions!, secondary: Positions): User
     updateMainChampions(champions: [String]): User
-    createTeam(
-      name: String!
-      maxMembersAmount: Int!
-      positions: [PositionTeamInput!]!
-    ): Team
+    createTeam(name: String!, maxMembersAmount: Int!, positions: [PositionTeamInput!]!): Team
     updateName(name: String!): Team
     updatePositions(positions: [PositionTeamInput!]!): Team
     inviteToTeam(id: ID!, position: Positions): Team
     setReadMessages: User
-    acceptInvitation(
-      messageId: ID!
-      addresseeId: ID!
-      position: Positions!
-    ): User
+    acceptInvitation(messageId: ID!, addresseeId: ID!, position: Positions!): User
     rejectInvitation(messageId: ID!, addresseeId: ID!): User
     applyToTeam(id: ID!, founder: String!, position: Positions): User
     acceptApplication(messageId: ID, addresseeId: ID, position: Positions): User
-    rejectApplication(
-      messageId: ID!
-      addresseeId: ID!
-      position: Positions
-    ): User
+    rejectApplication(messageId: ID!, addresseeId: ID!, position: Positions): User
     deleteTeam(id: ID!): User
     leaveTeam(id: ID!): User
   }

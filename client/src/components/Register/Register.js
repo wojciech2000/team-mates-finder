@@ -20,20 +20,19 @@ export default function Register(props) {
     secondary: "Top",
   };
 
-  const {onChangeInput, onSubmitForm, values} = useUpdate(
-    addUserHoist,
-    initialState,
-  );
+  const {onChangeInput, onSubmitForm, values} = useUpdate(addUserHoist, initialState);
 
   const [addUser] = useMutation(REGISTER_USER, {
+    variables: values,
     update: () => {
       setIsMessageError(false);
       setMessages({error: "User has been added"});
       props.history.push("/login");
     },
     refetchQueries: [{query: GET_USERS}],
-    variables: values,
     onError: error => {
+      console.log(error);
+      console.log(values);
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },

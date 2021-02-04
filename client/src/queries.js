@@ -183,16 +183,8 @@ export const UPDATE_POSITION = gql`
 `;
 
 export const CREATE_TEAM = gql`
-  mutation createTeam(
-    $name: String!
-    $maxMembersAmount: Int!
-    $positions: [PositionTeamInput!]!
-  ) {
-    createTeam(
-      name: $name
-      maxMembersAmount: $maxMembersAmount
-      positions: $positions
-    ) {
+  mutation createTeam($name: String!, $maxMembersAmount: Int!, $positions: [PositionTeamInput!]!) {
+    createTeam(name: $name, maxMembersAmount: $maxMembersAmount, positions: $positions) {
       name
       membersAmount
       maxMembersAmount
@@ -266,16 +258,8 @@ export const INVITE_TO_TEAM = gql`
 `;
 
 export const ACCEPT_INVITATION = gql`
-  mutation acceptInvitation(
-    $messageId: ID!
-    $addresseeId: ID!
-    $position: Positions!
-  ) {
-    acceptInvitation(
-      messageId: $messageId
-      addresseeId: $addresseeId
-      position: $position
-    ) {
+  mutation acceptInvitation($messageId: ID!, $addresseeId: ID!, $position: Positions!) {
+    acceptInvitation(messageId: $messageId, addresseeId: $addresseeId, position: $position) {
       nick
       messages {
         message
@@ -307,32 +291,16 @@ export const APPLY_TO_TEAM = gql`
 `;
 
 export const ACCEPT_APPLICATION = gql`
-  mutation acceptApplication(
-    $messageId: ID!
-    $addresseeId: ID!
-    $position: Positions
-  ) {
-    acceptApplication(
-      messageId: $messageId
-      addresseeId: $addresseeId
-      position: $position
-    ) {
+  mutation acceptApplication($messageId: ID!, $addresseeId: ID!, $position: Positions) {
+    acceptApplication(messageId: $messageId, addresseeId: $addresseeId, position: $position) {
       nick
     }
   }
 `;
 
 export const REJECT_APPLICATION = gql`
-  mutation rejectApplication(
-    $messageId: ID!
-    $addresseeId: ID!
-    $position: Positions
-  ) {
-    rejectApplication(
-      messageId: $messageId
-      addresseeId: $addresseeId
-      position: $position
-    ) {
+  mutation rejectApplication($messageId: ID!, $addresseeId: ID!, $position: Positions) {
+    rejectApplication(messageId: $messageId, addresseeId: $addresseeId, position: $position) {
       nick
     }
   }
