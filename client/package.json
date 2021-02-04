@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "https://team-mates-finder.herokuapp.com/",
+  "proxy": "https://team-mates-finder-server.herokuapp.com/",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.4",
