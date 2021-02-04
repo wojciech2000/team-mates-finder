@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const User = require("../../models/User");
 const Team = require("../../models/Team");
 const bcrypt = require("bcrypt");
@@ -5,10 +7,7 @@ const {UserInputError} = require("apollo-server");
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
 
-const {
-  validateRegisterInput,
-  validateLoginInput,
-} = require("../../utils/validators");
+const {validateRegisterInput, validateLoginInput} = require("../../utils/validators");
 const checkAuth = require("../../utils/checkAuth");
 
 const setServer = server => {
@@ -110,25 +109,10 @@ const userResolver = {
     },
     register: async (
       _,
-      {
-        registerInput: {
-          login,
-          email,
-          password,
-          confirmPassword,
-          server,
-          nick,
-          position,
-        },
-      },
+      {registerInput: {login, email, password, confirmPassword, server, nick, position}},
     ) => {
       //Register validation
-      const {errors, valid} = validateRegisterInput(
-        login,
-        email,
-        password,
-        confirmPassword,
-      );
+      const {errors, valid} = validateRegisterInput(login, email, password, confirmPassword);
 
       console.log(registerInput);
 
@@ -343,10 +327,7 @@ const userResolver = {
 
       for (let i = 0; i < championsNames.length; i++) {
         for (let j = 0; j < champions.length; j++) {
-          if (
-            championsNames[i].toLocaleLowerCase() ===
-            champions[j].toLocaleLowerCase()
-          ) {
+          if (championsNames[i].toLocaleLowerCase() === champions[j].toLocaleLowerCase()) {
             matchChampions.push(championsNames[i]);
           }
         }
@@ -354,9 +335,8 @@ const userResolver = {
 
       const unMatchChampions = champions.filter(
         champ =>
-          !matchChampions.includes(
-            champ.charAt(0).toUpperCase() + champ.slice(1).toLowerCase(),
-          ) && champ,
+          !matchChampions.includes(champ.charAt(0).toUpperCase() + champ.slice(1).toLowerCase()) &&
+          champ,
       );
 
       if (unMatchChampions.length > 0) {
