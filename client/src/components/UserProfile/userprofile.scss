@@ -4,9 +4,7 @@
   position: relative;
 
   &__data {
-    display: flex;
-    align-items: flex-end;
-    height: 40px;
+    @extend .player__data;
   }
 
   &__description {

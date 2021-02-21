@@ -8,6 +8,12 @@
   justify-content: space-evenly;
   padding: 0 25px;
 
+  &__data {
+    display: flex;
+    align-items: flex-end;
+    height: 40px;
+  }
+
   &__description {
     font-size: 14px;
     color: $gray;
@@ -21,6 +27,8 @@
   &__content--champs {
     font-size: 18px;
     white-space: nowrap;
+    overflow: auto;
+    width: 100%;
   }
 
   &__data--button {
