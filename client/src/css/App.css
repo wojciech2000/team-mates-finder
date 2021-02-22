@@ -323,7 +323,8 @@ a {
   .player__data--button {
     display: flex;
     align-items: center;
-    flex-direction: column; }
+    flex-direction: column;
+    height: auto; }
   .player .player__data__input, .profile .player__data__input {
     margin-bottom: 10px; }
   .player__add {
