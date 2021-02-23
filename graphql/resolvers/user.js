@@ -302,12 +302,6 @@ const userResolver = {
         });
       }
 
-      if (uniqueChampions.length < champions.length) {
-        throw new UserInputError("Champion's name error", {
-          errors: {championEmpty: "Champions name must be unique"},
-        });
-      }
-
       champions.find(champion => {
         if (champion.trim() === "") {
           throw new UserInputError("Champion's name error", {
@@ -315,6 +309,12 @@ const userResolver = {
           });
         }
       });
+
+      if (uniqueChampions.length < champions.length) {
+        throw new UserInputError("Champion's name error", {
+          errors: {championEmpty: "Champions name must be unique"},
+        });
+      }
 
       //Check if champions exist in database
       const championsAPI = await axios.get(
