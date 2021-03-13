@@ -9,6 +9,14 @@ export const GET_USERS = gql`
         primary
         secondary
       }
+      messages {
+        id
+        addresseeId
+        position
+        read
+        message
+        messageType
+      }
       team {
         name
       }

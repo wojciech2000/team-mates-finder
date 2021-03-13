@@ -31,8 +31,6 @@ export default function Register(props) {
     },
     refetchQueries: [{query: GET_USERS}],
     onError: error => {
-      console.log(error);
-      console.log(values);
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },

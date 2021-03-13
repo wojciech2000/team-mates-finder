@@ -1,6 +1,7 @@
 import React, {useContext, useState} from "react";
 import {BsEnvelope, BsEnvelopeOpen} from "react-icons/bs";
 import {useMutation, useQuery} from "@apollo/client";
+import {AuthContext} from "../../context/auth";
 
 import {
   GET_USER,
@@ -15,6 +16,7 @@ import {
 import {InfoContext} from "../../context/infoContext";
 
 export default function Messages({id}) {
+  const {nick} = useContext(AuthContext);
   const {setMessages, setIsMessageError} = useContext(InfoContext);
 
   const [open, setOpen] = useState(false);
@@ -38,19 +40,16 @@ export default function Messages({id}) {
     setOpen(prevState => !prevState);
   };
 
-  //accept invitation
+  //ACCEPTING
 
   const [acceptInvitation] = useMutation(ACCEPT_INVITATION, {
     update: (proxy, result) => {
       setMessages({message: "Accepted invitation"});
       setIsMessageError(false);
     },
-    refetchQueries: [
-      {query: GET_USER, variables: {id}},
-      {query: GET_TEAMS},
-      {query: GET_USERS},
-    ],
+    refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_TEAMS}, {query: GET_USERS}],
     onError: error => {
+      console.log(error);
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
@@ -61,19 +60,16 @@ export default function Messages({id}) {
       setMessages({message: "Accepted application"});
       setIsMessageError(false);
     },
-    refetchQueries: [
-      {query: GET_USER, variables: {id}},
-      {query: GET_TEAMS},
-      {query: GET_USERS},
-    ],
+    refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_TEAMS}, {query: GET_USERS}],
     onError: error => {
+      console.log(error);
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
   const acceptOnClick = e => {
-    if (data.getUser.team) {
+    if (data.getUser.team?.founder === nick) {
       acceptApplication({
         variables: {
           messageId: e.target.dataset.id,
@@ -92,15 +88,16 @@ export default function Messages({id}) {
     }
   };
 
-  //reject invitation
+  //REJECTING
 
   const [rejectInvitation] = useMutation(REJECT_INVITATION, {
     update: () => {
       setMessages({message: "Rejected invitation"});
       setIsMessageError(false);
     },
-    refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_TEAMS}],
+    refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_USERS}, {query: GET_TEAMS}],
     onError: error => {
+      console.log(error);
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
@@ -111,15 +108,16 @@ export default function Messages({id}) {
       setMessages({message: "Rejected application"});
       setIsMessageError(false);
     },
-    refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_TEAMS}],
+    refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_USERS}, {query: GET_TEAMS}],
     onError: error => {
+      console.log(error);
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
   const rejectOnClick = e => {
-    if (data.getUser.team) {
+    if (data.getUser.team.founder === nick) {
       rejectApplication({
         variables: {
           messageId: e.target.dataset.id,
@@ -141,13 +139,11 @@ export default function Messages({id}) {
     <div className="messages">
       <button className="messages__icon" onClick={toggleMessages}>
         {open ? <BsEnvelopeOpen /> : <BsEnvelope />}
-        {data &&
-          data.getUser.messages.filter(({read}) => !read && true).length >
-            0 && (
-            <div className="messages__amount">
-              {data.getUser.messages.filter(({read}) => !read && true).length}
-            </div>
-          )}
+        {data && data.getUser.messages.filter(({read}) => !read && true).length > 0 && (
+          <div className="messages__amount">
+            {data.getUser.messages.filter(({read}) => !read && true).length}
+          </div>
+        )}
       </button>
 
       {data && open && (
@@ -156,16 +152,9 @@ export default function Messages({id}) {
             <div className="messages__message-wrapper">No messages...</div>
           ) : (
             data.getUser.messages.map(
-              (
-                {id, message, read, messageType, addresseeId, position},
-                key,
-              ) => (
+              ({id, message, read, messageType, addresseeId, position}, key) => (
                 <div
-                  className={
-                    read
-                      ? "messages__message-wrapper--read"
-                      : "messages__message-wrapper"
-                  }
+                  className={read ? "messages__message-wrapper--read" : "messages__message-wrapper"}
                   key={key}
                 >
                   {message}

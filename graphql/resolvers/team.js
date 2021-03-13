@@ -70,8 +70,7 @@ const teamResolver = {
       }
 
       //save team
-      const membersAmount = positions.filter(position => position.nick && true)
-        .length;
+      const membersAmount = positions.filter(position => position.nick && true).length;
 
       if (user.team) {
         const teamExists = await Team.findById({_id: user.team});
@@ -131,9 +130,7 @@ const teamResolver = {
 
       //if user was kicked send message to them
       team.positions.forEach(async memberInDB => {
-        const member = positions.find(
-          updatedMember => memberInDB.nick === updatedMember.nick,
-        );
+        const member = positions.find(updatedMember => memberInDB.nick === updatedMember.nick);
 
         if (!member) {
           const user = await User.findOne({nick: memberInDB.nick});
@@ -188,9 +185,7 @@ const teamResolver = {
       }
 
       //check if this position exists, is taken, someon is already invited
-      const positionInTeam = team.positions.find(
-        member => member.position === position,
-      );
+      const positionInTeam = team.positions.find(member => member.position === position);
 
       if (!positionInTeam) {
         throw new UserInputError("Team error", {
@@ -233,30 +228,50 @@ const teamResolver = {
 
       return team;
     },
-    acceptInvitation: async (
-      _,
-      {messageId, addresseeId, position},
-      context,
-    ) => {
+    acceptInvitation: async (_, {messageId, addresseeId, position}, context) => {
       const {id} = checkAuth(context);
 
       const user = await User.findById({_id: id});
-      const addressee = await User.findById({_id: addresseeId}).populate(
-        "team",
-      );
+      const addressee = await User.findById({_id: addresseeId}).populate("team");
       const team = await Team.findById({_id: addressee.team._id});
 
-      //user modification
-
+      //remove invitation message from user messages DB
       const messagesWithRemovedInvitation = user.messages.filter(
         message => message._id != messageId && message,
       );
 
       user.messages = messagesWithRemovedInvitation;
+
+      //if user already has a team, it happen when user got 2 or more invitations at the same time and accept one already
+      if (user.team) {
+        //remove status invite from team
+        const invitedPosition = team.positions.find(posit => posit.position === position);
+        invitedPosition.invited = null;
+
+        //send message to founder who sent invitation
+        const teamFounder = await User.findOne({nick: team.founder});
+
+        teamFounder.messages.unshift({
+          read: false,
+          message: `${user.nick} rejected your invitation to the team`,
+          messageType: "message",
+        });
+
+        team.save();
+        teamFounder.save();
+        user.save();
+
+        throw new UserInputError("Team error", {
+          errors: {teamError: "You already have a team"},
+        });
+      }
+
+      //user doesn't have a team so can be added
+
+      //user modification
       user.team = addressee.team;
 
       //addressee modification
-
       addressee.messages.unshift({
         read: false,
         message: `${user.nick} accepted your invitation to the team`,
@@ -283,9 +298,7 @@ const teamResolver = {
       const {id} = checkAuth(context);
 
       const user = await User.findById({_id: id});
-      const addressee = await User.findById({_id: addresseeId}).populate(
-        "team",
-      );
+      const addressee = await User.findById({_id: addresseeId}).populate("team");
       const team = await Team.findById({_id: addressee.team._id});
 
       //user modification
@@ -306,9 +319,9 @@ const teamResolver = {
 
       //team modification
 
-      let filt = team.positions.find(member => member.invited == user.nick);
-      filt.nick = null;
-      filt.invited = null;
+      let invitedPosition = team.positions.find(member => member.invited == user.nick);
+      invitedPosition.nick = null;
+      invitedPosition.invited = null;
 
       user.save();
       addressee.save();
@@ -338,15 +351,12 @@ const teamResolver = {
       if (
         user.teamApplications.find(
           ({team: teamApplication, position: positionApplication}) =>
-            teamApplication === team.name &&
-            positionApplication === position &&
-            true,
+            teamApplication === team.name && positionApplication === position && true,
         )
       ) {
         throw new UserInputError("Team error", {
           errors: {
-            championEmpty:
-              "You have already applied to this team on this position",
+            championEmpty: "You have already applied to this team on this position",
           },
         });
       }
@@ -371,11 +381,7 @@ const teamResolver = {
 
       return user;
     },
-    acceptApplication: async (
-      _,
-      {messageId, addresseeId, position},
-      context,
-    ) => {
+    acceptApplication: async (_, {messageId, addresseeId, position}, context) => {
       const {id} = checkAuth(context);
 
       const user = await User.findById({_id: id}).populate("team");
@@ -395,7 +401,7 @@ const teamResolver = {
 
       if (addressee.team) {
         throw new UserInputError("Team error", {
-          errors: {championEmpty: "This user already has a team"},
+          errors: {teamError: "This user already has a team"},
         });
       }
 
@@ -426,11 +432,7 @@ const teamResolver = {
 
       return user;
     },
-    rejectApplication: async (
-      _,
-      {messageId, addresseeId, position},
-      context,
-    ) => {
+    rejectApplication: async (_, {messageId, addresseeId, position}, context) => {
       const {id} = checkAuth(context);
 
       const user = await User.findById({_id: id}).populate("team");
@@ -506,9 +508,7 @@ const teamResolver = {
       user.team = null;
 
       //team modification
-      const leavingPosition = team.positions.find(
-        ({nick}) => nick === user.nick,
-      );
+      const leavingPosition = team.positions.find(({nick}) => nick === user.nick);
       leavingPosition.nick = null;
 
       team.membersAmount--;
