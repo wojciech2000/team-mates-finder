@@ -1,6 +1,6 @@
 import {useMutation} from "@apollo/client";
 import {useContext} from "react";
-import {AuthContext} from "../context/auth";
+import {AuthContext} from "../context/authContext";
 import {InfoContext} from "../context/infoContext";
 import {GET_USERS, GET_USER_PROFILE} from "../queries";
 
@@ -24,10 +24,7 @@ export default function useUserMutation(
       setEditInput({...editInput, [editInputName]: false});
       editInputName === "nick" && updateNick(result.data.updateNick.nick);
     },
-    refetchQueries: [
-      {query: GET_USER_PROFILE, variables: {id}},
-      {query: GET_USERS},
-    ],
+    refetchQueries: [{query: GET_USER_PROFILE, variables: {id}}, {query: GET_USERS}],
     awaitRefetchQueries: true,
     onError: error => {
       setIsMessageError(true);

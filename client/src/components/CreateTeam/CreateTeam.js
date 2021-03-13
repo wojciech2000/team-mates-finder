@@ -1,13 +1,8 @@
 import React, {useContext, useState} from "react";
 import {useMutation} from "@apollo/client";
 
-import {
-  CREATE_TEAM,
-  GET_USER_PROFILE,
-  GET_TEAMS,
-  GET_USERS,
-} from "../../queries";
-import {AuthContext} from "../../context/auth";
+import {CREATE_TEAM, GET_USER_PROFILE, GET_TEAMS, GET_USERS} from "../../queries";
+import {AuthContext} from "../../context/authContext";
 import {InfoContext} from "../../context/infoContext";
 import BackArrow from "../BackArrow/BackArrow";
 
@@ -81,9 +76,7 @@ export default function EditTeam(props) {
 
   const onChangePositions = (e, id) => {
     const update = values.positions.map((value, IdArray) =>
-      IdArray === id
-        ? {nick: value.nick ? value.nick : null, position: e.target.value}
-        : value,
+      IdArray === id ? {nick: value.nick ? value.nick : null, position: e.target.value} : value,
     );
 
     setValues({...values, positions: update});
@@ -107,10 +100,7 @@ export default function EditTeam(props) {
         </div>
 
         <div className="create-team__input-wrapper">
-          <label
-            className="create-team__description"
-            htmlFor="maxMembersAmount"
-          >
+          <label className="create-team__description" htmlFor="maxMembersAmount">
             Member's amount:{" "}
           </label>
           <select

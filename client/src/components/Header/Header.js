@@ -4,7 +4,7 @@ import {BiLogIn} from "react-icons/bi";
 import {FaUser} from "react-icons/fa";
 
 import Messages from "../Messages/Messages";
-import {AuthContext} from "../../context/auth";
+import {AuthContext} from "../../context/authContext";
 import {InfoContext} from "../../context/infoContext";
 
 export default function Header() {
@@ -38,11 +38,7 @@ export default function Header() {
               <FaUser />
             </Link>
 
-            <Link
-              to="/players"
-              className="menu__logout"
-              onClick={logoutonClick}
-            >
+            <Link to="/players" className="menu__logout" onClick={logoutonClick}>
               <BiLogIn />
             </Link>
           </Fragment>

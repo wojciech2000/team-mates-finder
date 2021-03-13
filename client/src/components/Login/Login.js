@@ -5,7 +5,7 @@ import {useMutation} from "@apollo/client";
 import {LOGIN_USER} from "../../queries";
 import useUpdate from "../../utils/useUpdate";
 
-import {AuthContext} from "../../context/auth";
+import {AuthContext} from "../../context/authContext";
 import {InfoContext} from "../../context/infoContext";
 
 export default function Login(props) {
@@ -17,10 +17,7 @@ export default function Login(props) {
     password: "",
   };
 
-  const {onChangeInput, onSubmitForm, values} = useUpdate(
-    loginUserHoist,
-    initialState,
-  );
+  const {onChangeInput, onSubmitForm, values} = useUpdate(loginUserHoist, initialState);
 
   const [loginUser] = useMutation(LOGIN_USER, {
     variables: values,
@@ -33,9 +30,7 @@ export default function Login(props) {
       },
     ) => {
       //disable all inputs so user can't type  and click anything
-      Array.from(document.querySelectorAll("input")).forEach(
-        input => (input.disabled = true),
-      );
+      Array.from(document.querySelectorAll("input")).forEach(input => (input.disabled = true));
       setMessages({message: "Logged in"});
       setIsMessageError(false);
       props.history.push("/home");

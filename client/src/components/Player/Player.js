@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react";
 import {useMutation, useQuery} from "@apollo/client";
 
 import {GET_USER, INVITE_TO_TEAM, GET_TEAMS, GET_USERS} from "../../queries";
-import {AuthContext} from "../../context/auth";
+import {AuthContext} from "../../context/authContext";
 import {InfoContext} from "../../context/infoContext";
 import loadingGif from "../../pictures/loading.gif";
 import BackArrow from "../BackArrow/BackArrow";
@@ -38,9 +38,8 @@ export default function Player(props) {
         //if user did change nothing set first available position in db
         position: position
           ? position
-          : founderData.getUser.team.positions.filter(
-              position => !position.nick && position,
-            )[0].position,
+          : founderData.getUser.team.positions.filter(position => !position.nick && position)[0]
+              .position,
       },
     });
   };
@@ -62,16 +61,13 @@ export default function Player(props) {
             </div>
             <div className="player__data">
               <span className="player__description">Server: </span>
-              <span className="player__content">
-                {data.getUser.server.serverName}
-              </span>
+              <span className="player__content">{data.getUser.server.serverName}</span>
             </div>
             <div className="player__data">
               <span className="player__description">Positions: </span>
               <span className="player__content">
                 {data.getUser.position.primary}
-                {data.getUser.position.secondary &&
-                  " | " + data.getUser.position.secondary}
+                {data.getUser.position.secondary && " | " + data.getUser.position.secondary}
               </span>
             </div>
             <div className="player__data">
@@ -86,17 +82,13 @@ export default function Player(props) {
             {data.getUser.team ? (
               <div className="player__data">
                 <span className="player__description">Team: </span>
-                <span className="player__content">
-                  {data.getUser.team.name}
-                </span>
+                <span className="player__content">{data.getUser.team.name}</span>
               </div>
             ) : (
               founderId &&
               founderData.getUser.team &&
               founderData.getUser.team.founder === nick &&
-              founderData.getUser.team.positions.filter(
-                position => !position.nick,
-              ).length > 0 && (
+              founderData.getUser.team.positions.filter(position => !position.nick).length > 0 && (
                 <div className="player__data player__data--button">
                   <select
                     className="player__data__input"
@@ -104,8 +96,7 @@ export default function Player(props) {
                     onChange={e => setPosition(e.target.value)}
                   >
                     {founderData.getUser.team.positions.map(
-                      ({position: role, nick}, key) =>
-                        !nick && <option key={key}>{role}</option>,
+                      ({position: role, nick}, key) => !nick && <option key={key}>{role}</option>,
                     )}
                   </select>
                   <button className="player__add" onClick={inviteOnClick}>

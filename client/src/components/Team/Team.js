@@ -3,7 +3,7 @@ import React, {useContext} from "react";
 
 import {InfoContext} from "../../context/infoContext";
 import {APPLY_TO_TEAM, GET_TEAM, GET_USERS} from "../../queries";
-import {AuthContext} from "../../context/auth";
+import {AuthContext} from "../../context/authContext";
 import loadingGif from "../../pictures/loading.gif";
 import BackArrow from "../BackArrow/BackArrow";
 
@@ -70,9 +70,7 @@ export default function Team(props) {
                     (position, id) =>
                       !position.nick && (
                         <span className="positions__position" key={id}>
-                          <span className="positions__description">
-                            {position.position}:
-                          </span>
+                          <span className="positions__description">{position.position}:</span>
                           <button
                             className="positions__apply"
                             data-position={position.position}
@@ -92,12 +90,8 @@ export default function Team(props) {
                     (position, id) =>
                       position.nick && (
                         <span className="positions__position" key={id}>
-                          <span className="positions__description">
-                            {position.position + ": "}
-                          </span>
-                          <span className="positions__content">
-                            {position.nick}
-                          </span>
+                          <span className="positions__description">{position.position + ": "}</span>
+                          <span className="positions__content">{position.nick}</span>
                         </span>
                       ),
                   )}

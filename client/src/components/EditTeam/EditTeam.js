@@ -15,7 +15,7 @@ import {
   LEAVE_TEAM,
   GET_USER,
 } from "../../queries";
-import {AuthContext} from "../../context/auth";
+import {AuthContext} from "../../context/authContext";
 import {InfoContext} from "../../context/infoContext";
 import {BiLogIn} from "react-icons/bi";
 import loadingGif from "../../pictures/loading.gif";
@@ -82,10 +82,7 @@ export default function EditTeam(props) {
       setIsMessageError(false);
       setEditInput({...editInput, name: false});
     },
-    refetchQueries: [
-      {query: GET_TEAM_PROFILE, variables: {id}},
-      {query: GET_TEAMS},
-    ],
+    refetchQueries: [{query: GET_TEAM_PROFILE, variables: {id}}, {query: GET_TEAMS}],
     onError: error => {
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
@@ -103,10 +100,7 @@ export default function EditTeam(props) {
     } else {
       setEditValue({
         ...editValue,
-        positions: [
-          ...editValue.positions,
-          {position: "Top", nick: null, invited: null},
-        ],
+        positions: [...editValue.positions, {position: "Top", nick: null, invited: null}],
       });
     }
   };
@@ -116,9 +110,7 @@ export default function EditTeam(props) {
       setIsMessageError(true);
       setMessages({error: "You can't delete the founder"});
     } else {
-      const update = editValue.positions.filter(
-        (position, idArray) => idArray !== id && position,
-      );
+      const update = editValue.positions.filter((position, idArray) => idArray !== id && position);
 
       setEditValue({
         ...editValue,
@@ -225,10 +217,7 @@ export default function EditTeam(props) {
           <div className="edit-team">
             <div className="edit-team__data-wrapper">
               <div className="edit-team__data">
-                <label
-                  className="edit-team__description"
-                  htmlFor={editInput.name ? "name" : ""}
-                >
+                <label className="edit-team__description" htmlFor={editInput.name ? "name" : ""}>
                   Team's name:
                 </label>
 
@@ -242,9 +231,7 @@ export default function EditTeam(props) {
                     className="edit-team__input edit-team__input--edit-name-team"
                   />
                 ) : (
-                  <span className="edit-team__content">
-                    {data.getTeam.name}
-                  </span>
+                  <span className="edit-team__content">{data.getTeam.name}</span>
                 )}
               </div>
               {nick === data.getTeam.founder && (
@@ -258,20 +245,12 @@ export default function EditTeam(props) {
                       >
                         cancel
                       </button>
-                      <button
-                        className="profile__save"
-                        id="name"
-                        onClick={e => saveName(e)}
-                      >
+                      <button className="profile__save" id="name" onClick={e => saveName(e)}>
                         save
                       </button>
                     </Fragment>
                   ) : (
-                    <button
-                      className="edit-team__edit"
-                      id="name"
-                      onClick={e => startEditValue(e)}
-                    >
+                    <button className="edit-team__edit" id="name" onClick={e => startEditValue(e)}>
                       edit
                     </button>
                   )}
@@ -282,18 +261,14 @@ export default function EditTeam(props) {
             <div className="edit-team__data-wrapper">
               <div className="edit-team__data">
                 <span className="edit-team__description">Founder:</span>
-                <span className="edit-team__content">
-                  {data.getTeam.founder}
-                </span>
+                <span className="edit-team__content">{data.getTeam.founder}</span>
               </div>
             </div>
 
             <div className="edit-team__data-wrapper">
               <div className="edit-team__data">
                 <span className="edit-team__description">Member's amount:</span>
-                <span className="edit-team__content">
-                  {data.getTeam.maxMembersAmount}
-                </span>
+                <span className="edit-team__content">{data.getTeam.maxMembersAmount}</span>
               </div>
               {nick === data.getTeam.founder && (
                 <div className="edit-team__edit-wrapper">
@@ -329,10 +304,7 @@ export default function EditTeam(props) {
             <div className="edit-team__data-wrapper--members">
               {editInput.positions ? (
                 <Fragment>
-                  <FiUserPlus
-                    className="member__position-add"
-                    onClick={addMember}
-                  />
+                  <FiUserPlus className="member__position-add" onClick={addMember} />
                   {editValue.positions.map((position, id) => (
                     <div className="member--edit" key={id}>
                       <span className="member__position--edit">
@@ -370,16 +342,12 @@ export default function EditTeam(props) {
               ) : (
                 data.getTeam.positions.map((position, id) => (
                   <div className="member" key={id}>
-                    <span className="member__position">
-                      {position.position + ": "}
-                    </span>
+                    <span className="member__position">{position.position + ": "}</span>
                     <span className="member__nick">
                       {position.nick ? (
                         position.nick
                       ) : position.invited ? (
-                        <span className="member__nick--invited">
-                          invited - {position.invited}
-                        </span>
+                        <span className="member__nick--invited">invited - {position.invited}</span>
                       ) : (
                         <span className="member__nick--none">none</span>
                       )}
@@ -389,15 +357,9 @@ export default function EditTeam(props) {
               )}
             </div>
             {nick === data.getTeam.founder ? (
-              <BsFillTrashFill
-                className="edit-team__delete-team"
-                onClick={deleteTeamOnClick}
-              />
+              <BsFillTrashFill className="edit-team__delete-team" onClick={deleteTeamOnClick} />
             ) : (
-              <BiLogIn
-                className="edit-team__delete-team"
-                onClick={leaveTeamOnClick}
-              />
+              <BiLogIn className="edit-team__delete-team" onClick={leaveTeamOnClick} />
             )}
           </div>
         )

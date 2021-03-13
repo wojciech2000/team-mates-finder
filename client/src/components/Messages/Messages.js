@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import {BsEnvelope, BsEnvelopeOpen} from "react-icons/bs";
 import {useMutation, useQuery} from "@apollo/client";
-import {AuthContext} from "../../context/auth";
+import {AuthContext} from "../../context/authContext";
 
 import {
   GET_USER,

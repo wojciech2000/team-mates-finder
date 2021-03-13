@@ -16,7 +16,7 @@ import CreateTeam from "./components/CreateTeam/CreateTeam";
 import EditTeam from "./components/EditTeam/EditTeam";
 
 import AuthRoute from "./context/AuthRoute";
-import {AuthProvider} from "./context/auth";
+import {AuthProvider} from "./context/authContext";
 import {InfoProvider} from "./context/infoContext";
 import InfoModel from "./components/InfoModel/InfoModel";
 
