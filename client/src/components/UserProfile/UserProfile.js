@@ -11,7 +11,7 @@ import {
 
 import {Link} from "react-router-dom";
 import {InfoContext} from "../../context/infoContext";
-import loadingGif from "../../pictures/loading.gif";
+import Loading from "../Loading/Loading";
 import useUserMutation from "../../utils/useUserMutation";
 
 export default function UserProfile(props) {
@@ -167,9 +167,7 @@ export default function UserProfile(props) {
   return (
     <div className="wrapper">
       {loading ? (
-        <div className="loading-wrapper">
-          <img src={loadingGif} alt="loading" />
-        </div>
+        <Loading />
       ) : error ? (
         "Error..."
       ) : (
@@ -177,10 +175,7 @@ export default function UserProfile(props) {
           <div className="profile">
             <div className="profile__data-wrapper">
               <div className="profile__data">
-                <label
-                  className="profile__description"
-                  htmlFor={editInput.nick ? "nick" : ""}
-                >
+                <label className="profile__description" htmlFor={editInput.nick ? "nick" : ""}>
                   Nick:{" "}
                 </label>
                 {editInput.nick ? (
@@ -199,27 +194,15 @@ export default function UserProfile(props) {
               <div className="profile__edit-wrapper">
                 {editInput.nick ? (
                   <Fragment>
-                    <button
-                      className="profile__cancel"
-                      id="nick"
-                      onClick={e => cancelEditValue(e)}
-                    >
+                    <button className="profile__cancel" id="nick" onClick={e => cancelEditValue(e)}>
                       cancel
                     </button>
-                    <button
-                      className="profile__save"
-                      id="nick"
-                      onClick={e => saveDataNick(e)}
-                    >
+                    <button className="profile__save" id="nick" onClick={e => saveDataNick(e)}>
                       save
                     </button>
                   </Fragment>
                 ) : (
-                  <button
-                    className="profile__edit"
-                    id="nick"
-                    onClick={e => startEditValue(e)}
-                  >
+                  <button className="profile__edit" id="nick" onClick={e => startEditValue(e)}>
                     edit
                   </button>
                 )}
@@ -228,10 +211,7 @@ export default function UserProfile(props) {
 
             <div className="profile__data-wrapper">
               <div className="profile__data">
-                <label
-                  className="profile__description"
-                  htmlFor={editInput.server ? "server" : ""}
-                >
+                <label className="profile__description" htmlFor={editInput.server ? "server" : ""}>
                   Server:{" "}
                 </label>
                 {editInput.server ? (
@@ -255,9 +235,7 @@ export default function UserProfile(props) {
                     <option value="KR">Korea</option>
                   </select>
                 ) : (
-                  <span className="profile__content">
-                    {data.getUser.server.serverName}
-                  </span>
+                  <span className="profile__content">{data.getUser.server.serverName}</span>
                 )}
               </div>
               <div className="profile__edit-wrapper">
@@ -270,20 +248,12 @@ export default function UserProfile(props) {
                     >
                       cancel
                     </button>
-                    <button
-                      className="profile__save"
-                      id="server"
-                      onClick={e => saveDataServer(e)}
-                    >
+                    <button className="profile__save" id="server" onClick={e => saveDataServer(e)}>
                       save
                     </button>
                   </Fragment>
                 ) : (
-                  <button
-                    className="profile__edit"
-                    id="server"
-                    onClick={e => startEditValue(e)}
-                  >
+                  <button className="profile__edit" id="server" onClick={e => startEditValue(e)}>
                     edit
                   </button>
                 )}
@@ -324,9 +294,7 @@ export default function UserProfile(props) {
                   </div>
                 ) : (
                   <span className="profile__content">
-                    {data.getUser.position.primary +
-                      " | " +
-                      data.getUser.position.secondary}
+                    {data.getUser.position.primary + " | " + data.getUser.position.secondary}
                   </span>
                 )}
               </div>
@@ -340,20 +308,12 @@ export default function UserProfile(props) {
                     >
                       cancel
                     </button>
-                    <button
-                      className="profile__save"
-                      id="positions"
-                      onClick={saveDataPosition}
-                    >
+                    <button className="profile__save" id="positions" onClick={saveDataPosition}>
                       save
                     </button>
                   </Fragment>
                 ) : (
-                  <button
-                    className="profile__edit"
-                    id="positions"
-                    onClick={e => startEditValue(e)}
-                  >
+                  <button className="profile__edit" id="positions" onClick={e => startEditValue(e)}>
                     edit
                   </button>
                 )}
@@ -368,10 +328,7 @@ export default function UserProfile(props) {
                     <div className="profile__inputs-champs-wrapper">
                       <div className="profile__inputs-champs">
                         {editValue.champions.map((champ, id) => (
-                          <div
-                            className="profile__inputs-champs-edit-delete-wrapper"
-                            key={id}
-                          >
+                          <div className="profile__inputs-champs-edit-delete-wrapper" key={id}>
                             <input
                               type="text"
                               name="champions"
@@ -389,10 +346,7 @@ export default function UserProfile(props) {
                           </div>
                         ))}
                       </div>
-                      <button
-                        className="profile__button-add-champ"
-                        onClick={addNewChampion}
-                      >
+                      <button className="profile__button-add-champ" onClick={addNewChampion}>
                         +
                       </button>
                     </div>
@@ -424,11 +378,7 @@ export default function UserProfile(props) {
                     </button>
                   </Fragment>
                 ) : (
-                  <button
-                    className="profile__edit"
-                    id="champions"
-                    onClick={e => startEditValue(e)}
-                  >
+                  <button className="profile__edit" id="champions" onClick={e => startEditValue(e)}>
                     edit
                   </button>
                 )}

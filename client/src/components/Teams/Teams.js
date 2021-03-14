@@ -3,7 +3,7 @@ import {useQuery} from "@apollo/client";
 import {Link} from "react-router-dom";
 
 import {GET_TEAMS} from "../../queries";
-import loadingGif from "../../pictures/loading.gif";
+import Loading from "../Loading/Loading";
 
 export default function Teams() {
   const {loading, data, error} = useQuery(GET_TEAMS);
@@ -18,12 +18,8 @@ export default function Teams() {
 
   const findTeam = () => {
     const filter = teams
-      .filter(team =>
-        team.name.toLocaleLowerCase().includes(teamsName.toLocaleLowerCase()),
-      )
-      .filter(team =>
-        team.founder.toLocaleLowerCase().includes(founder.toLocaleLowerCase()),
-      );
+      .filter(team => team.name.toLocaleLowerCase().includes(teamsName.toLocaleLowerCase()))
+      .filter(team => team.founder.toLocaleLowerCase().includes(founder.toLocaleLowerCase()));
 
     return filter;
   };
@@ -60,34 +56,24 @@ export default function Teams() {
 
         <div className="data">
           {loading ? (
-            <div className="loading-wrapper">
-              <img src={loadingGif} alt="loading" />
-            </div>
+            <Loading />
           ) : error ? (
             "Error..."
           ) : (
             data && (
               <ul>
-                {findTeam().map(
-                  (
-                    {id, name, membersAmount, maxMembersAmount, founder},
-                    key,
-                  ) => (
-                    <li key={key}>
-                      <Link
-                        to={{pathname: `/team/${name}`, id}}
-                        className="data__team"
-                      >
-                        <span className="data__id">{key + 1}</span>
-                        <span className="data__teams-name">{name}</span>
-                        <span className="data__positions">
-                          {membersAmount}/{maxMembersAmount}
-                        </span>
-                        <span className="data__founder">{founder}</span>
-                      </Link>
-                    </li>
-                  ),
-                )}
+                {findTeam().map(({id, name, membersAmount, maxMembersAmount, founder}, key) => (
+                  <li key={key}>
+                    <Link to={{pathname: `/team/${name}`, id}} className="data__team">
+                      <span className="data__id">{key + 1}</span>
+                      <span className="data__teams-name">{name}</span>
+                      <span className="data__positions">
+                        {membersAmount}/{maxMembersAmount}
+                      </span>
+                      <span className="data__founder">{founder}</span>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             )
           )}

@@ -4,7 +4,7 @@ import React, {useContext} from "react";
 import {InfoContext} from "../../context/infoContext";
 import {APPLY_TO_TEAM, GET_TEAM, GET_USERS} from "../../queries";
 import {AuthContext} from "../../context/authContext";
-import loadingGif from "../../pictures/loading.gif";
+import Loading from "../Loading/Loading";
 import BackArrow from "../BackArrow/BackArrow";
 
 export default function Team(props) {
@@ -44,9 +44,7 @@ export default function Team(props) {
   return (
     <div className="wrapper">
       {loading ? (
-        <div className="loading-wrapper">
-          <img src={loadingGif} alt="loading" />
-        </div>
+        <Loading />
       ) : error ? (
         "Error..."
       ) : (

@@ -3,7 +3,7 @@ import {useQuery} from "@apollo/client";
 import {Link} from "react-router-dom";
 
 import {GET_USERS} from "../../queries";
-import loadingGif from "../../pictures/loading.gif";
+import Loading from "../Loading/Loading";
 
 export default function Players() {
   const {loading, data, error} = useQuery(GET_USERS);
@@ -18,17 +18,11 @@ export default function Players() {
 
   const findNick = () => {
     const filter = players
-      .filter(player =>
-        player.nick
-          .toLocaleLowerCase()
-          .includes(filterNick.toLocaleLowerCase()),
-      )
+      .filter(player => player.nick.toLocaleLowerCase().includes(filterNick.toLocaleLowerCase()))
       .filter(
         player =>
-          (player.position.primary &&
-            player.position.primary.includes(filterPosition)) ||
-          (player.position.secondary &&
-            player.position.secondary.includes(filterPosition)),
+          (player.position.primary && player.position.primary.includes(filterPosition)) ||
+          (player.position.secondary && player.position.secondary.includes(filterPosition)),
       );
     return filter;
   };
@@ -72,18 +66,13 @@ export default function Players() {
         <div className="data">
           <ul>
             {loading ? (
-              <div className="loading-wrapper">
-                <img src={loadingGif} alt="loading" />
-              </div>
+              <Loading />
             ) : error ? (
               "Error..."
             ) : (
               findNick().map(({id, nick, position, team}, key) => (
                 <li key={key}>
-                  <Link
-                    to={{pathname: `/player/${nick}`, id}}
-                    className="data__player"
-                  >
+                  <Link to={{pathname: `/player/${nick}`, id}} className="data__player">
                     <span className="data__id">{key + 1}</span>
                     <span className="data__palyer-nick">{nick}</span>
                     <span className="data__position">

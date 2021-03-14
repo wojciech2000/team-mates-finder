@@ -18,8 +18,8 @@ import {
 import {AuthContext} from "../../context/authContext";
 import {InfoContext} from "../../context/infoContext";
 import {BiLogIn} from "react-icons/bi";
-import loadingGif from "../../pictures/loading.gif";
 import BackArrow from "../BackArrow/BackArrow";
+import Loading from "../Loading/Loading";
 
 export default function EditTeam(props) {
   const {nick} = useContext(AuthContext);
@@ -207,9 +207,7 @@ export default function EditTeam(props) {
   return (
     <div className="wrapper">
       {loading ? (
-        <div className="loading-wrapper">
-          <img src={loadingGif} alt="loading" />
-        </div>
+        <Loading />
       ) : error ? (
         "Error..."
       ) : (
