@@ -3,6 +3,7 @@ import {useMutation, useQuery} from "@apollo/client";
 import {FaUserAltSlash} from "react-icons/fa";
 import {FiUserPlus} from "react-icons/fi";
 import {BsFillTrashFill} from "react-icons/bs";
+import Error from "../Error/Error";
 
 import {
   GET_TEAM_PROFILE,
@@ -209,7 +210,7 @@ export default function EditTeam(props) {
       {loading ? (
         <Loading />
       ) : error ? (
-        "Error..."
+        <Error />
       ) : (
         data && (
           <div className="edit-team">

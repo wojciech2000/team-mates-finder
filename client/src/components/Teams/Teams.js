@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 
 import {GET_TEAMS} from "../../queries";
 import Loading from "../Loading/Loading";
+import Error from "../Error/Error";
 
 export default function Teams() {
   const {loading, data, error} = useQuery(GET_TEAMS);
@@ -58,7 +59,7 @@ export default function Teams() {
           {loading ? (
             <Loading />
           ) : error ? (
-            "Error..."
+            <Error />
           ) : (
             data && (
               <ul>

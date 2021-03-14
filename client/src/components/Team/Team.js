@@ -6,6 +6,7 @@ import {APPLY_TO_TEAM, GET_TEAM, GET_USERS} from "../../queries";
 import {AuthContext} from "../../context/authContext";
 import Loading from "../Loading/Loading";
 import BackArrow from "../BackArrow/BackArrow";
+import Error from "../Error/Error";
 
 export default function Team(props) {
   const id = props.location.id;
@@ -46,7 +47,7 @@ export default function Team(props) {
       {loading ? (
         <Loading />
       ) : error ? (
-        "Error..."
+        <Error />
       ) : (
         data && (
           <section className="team">

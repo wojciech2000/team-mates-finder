@@ -6,6 +6,7 @@ import {AuthContext} from "../../context/authContext";
 import {InfoContext} from "../../context/infoContext";
 import Loading from "../Loading/Loading";
 import BackArrow from "../BackArrow/BackArrow";
+import Error from "../Error/Error";
 
 export default function Player(props) {
   const {id: founderId, nick} = useContext(AuthContext);
@@ -49,7 +50,7 @@ export default function Player(props) {
       {loading ? (
         <Loading />
       ) : error ? (
-        "Error."
+        <Error />
       ) : (
         data && (
           <div className="player">

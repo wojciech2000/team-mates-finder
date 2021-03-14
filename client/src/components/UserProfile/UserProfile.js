@@ -11,8 +11,9 @@ import {
 
 import {Link} from "react-router-dom";
 import {InfoContext} from "../../context/infoContext";
-import Loading from "../Loading/Loading";
 import useUserMutation from "../../utils/useUserMutation";
+import Loading from "../Loading/Loading";
+import Error from "../Error/Error";
 
 export default function UserProfile(props) {
   const {setMessages, setIsMessageError} = useContext(InfoContext);
@@ -169,7 +170,7 @@ export default function UserProfile(props) {
       {loading ? (
         <Loading />
       ) : error ? (
-        "Error..."
+        <Error />
       ) : (
         data && (
           <div className="profile">

@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 
 import {GET_USERS} from "../../queries";
 import Loading from "../Loading/Loading";
+import Error from "../Error/Error";
 
 export default function Players() {
   const {loading, data, error} = useQuery(GET_USERS);
@@ -68,7 +69,7 @@ export default function Players() {
             {loading ? (
               <Loading />
             ) : error ? (
-              "Error..."
+              <Error />
             ) : (
               findNick().map(({id, nick, position, team}, key) => (
                 <li key={key}>
