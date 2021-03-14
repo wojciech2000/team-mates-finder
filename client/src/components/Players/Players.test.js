@@ -1,4 +1,4 @@
-import {act, cleanup, findByText, render, waitFor} from "@testing-library/react";
+import {cleanup, fireEvent, render} from "@testing-library/react";
 import Players from "./Players";
 
 import {MockedProvider} from "@apollo/client/testing";
@@ -56,17 +56,15 @@ describe("Players component", () => {
   });
 
   it("should render players", async () => {
-    await act(async () => {
-      const {findByText} = render(
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <Router>
-            <Players />
-          </Router>
-        </MockedProvider>,
-      );
+    const {findByText} = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <Router>
+          <Players />
+        </Router>
+      </MockedProvider>,
+    );
 
-      expect(await findByText("nick1")).toBeInTheDocument;
-    });
+    expect(await findByText("nick1")).toBeInTheDocument;
   });
 
   it("should display error", async () => {
@@ -79,5 +77,23 @@ describe("Players component", () => {
     );
 
     expect(await findByText("Error...")).toBeInTheDocument;
+  });
+
+  it("should redirect on click", async () => {
+    const {findByText, getByTestId} = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <Router>
+          <Players />
+        </Router>
+      </MockedProvider>,
+    );
+
+    expect(await findByText("nick1")).toBeInTheDocument;
+
+    const userLink = getByTestId("nick1");
+    fireEvent.click(userLink);
+    const pathname = window.location.pathname;
+
+    expect(pathname).toBe("/player/nick1");
   });
 });

@@ -4,7 +4,7 @@ import BackArrow from "./BackArrow";
 import {BrowserRouter as Router} from "react-router-dom";
 
 describe("BackArrow component", () => {
-  it("redirect on click", () => {
+  it("should redirect on click", () => {
     const {getByTestId} = render(
       <Router>
         <BackArrow pathname="teams" />
@@ -13,7 +13,7 @@ describe("BackArrow component", () => {
     const buckButton = getByTestId("backButton");
     fireEvent.click(buckButton);
 
-    const href = window.location.pathname;
-    expect(href).toBe("/teams");
+    const pathname = window.location.pathname;
+    expect(pathname).toBe("/teams");
   });
 });
