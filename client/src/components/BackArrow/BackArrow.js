@@ -7,6 +7,7 @@ export default function BackArrow({pathname, nick, id}) {
     <Link
       to={{pathname: nick ? `/user/${nick}` : pathname, id}}
       className="backarrow"
+      data-testid="backButton"
     >
       <BiArrowBack />
     </Link>
