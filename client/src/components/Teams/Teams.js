@@ -65,7 +65,11 @@ export default function Teams() {
               <ul>
                 {findTeam().map(({id, name, membersAmount, maxMembersAmount, founder}, key) => (
                   <li key={key}>
-                    <Link to={{pathname: `/team/${name}`, id}} className="data__team">
+                    <Link
+                      to={{pathname: `/team/${name}`, id}}
+                      className="data__team"
+                      data-testid={name}
+                    >
                       <span className="data__id">{key + 1}</span>
                       <span className="data__teams-name">{name}</span>
                       <span className="data__positions">
