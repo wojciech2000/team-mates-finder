@@ -29,8 +29,6 @@ export default function Login(props) {
         },
       },
     ) => {
-      //disable all inputs so user can't type  and click anything
-      Array.from(document.querySelectorAll("input")).forEach(input => (input.disabled = true));
       setMessages({message: "Logged in"});
       setIsMessageError(false);
       props.history.push("/home");
@@ -39,7 +37,7 @@ export default function Login(props) {
     },
     onError: error => {
       setIsMessageError(true);
-      setMessages(error.graphQLErrors[0].extensions.exception.errors);
+      setMessages(error.graphQLErrors[0].extensions.errors);
     },
   });
 
@@ -60,6 +58,7 @@ export default function Login(props) {
               name="login"
               value={values.name}
               onChange={e => onChangeInput(e)}
+              data-testid="loginLogin"
             />
             <input
               type="password"
@@ -68,9 +67,10 @@ export default function Login(props) {
               name="password"
               value={values.name}
               onChange={e => onChangeInput(e)}
+              data-testid="passwordLogin"
             />
           </div>
-          <input type="submit" value="Go" className="login__submit" />
+          <input type="submit" value="Go" className="login__submit" data-testid="logInButton" />
           <Link to="/register" className="login__redirect">
             Register
           </Link>
