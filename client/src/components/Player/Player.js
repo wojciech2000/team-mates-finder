@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import {useMutation, useQuery} from "@apollo/client";
 
-import {GET_USER, INVITE_TO_TEAM, GET_TEAMS, GET_USERS} from "../../queries";
+import {GET_USER, INVITE_TO_TEAM, GET_USERS} from "../../queries";
 import {AuthContext} from "../../context/authContext";
 import {InfoContext} from "../../context/infoContext";
 import Loading from "../Loading/Loading";
@@ -15,20 +15,20 @@ export default function Player(props) {
   const [position, setPosition] = useState("");
 
   const id = props.location.id;
-  const {loading, data, error} = useQuery(GET_USER, {variables: {id}});
   const {data: founderData} = useQuery(GET_USER, {
     variables: {id: founderId},
   });
+  const {loading, data, error} = useQuery(GET_USER, {variables: {id}});
 
   const [inviteToTeam] = useMutation(INVITE_TO_TEAM, {
     update: () => {
       setIsMessageError(false);
-      setMessages({error: "User has been invited"});
+      setMessages({message: "User has been invited"});
     },
-    refetchQueries: [{query: GET_TEAMS}, {query: GET_USERS}],
+    refetchQueries: [{query: GET_USERS}],
     onError: error => {
       setIsMessageError(true);
-      setMessages(error.graphQLErrors[0].extensions.exception.errors);
+      setMessages(error.graphQLErrors[0].extensions.errors);
     },
   });
 
@@ -37,10 +37,10 @@ export default function Player(props) {
       variables: {
         id,
         //if user did change nothing set first available position in db
-        position: position
-          ? position
-          : founderData.getUser.team.positions.filter(position => !position.nick && position)[0]
-              .position,
+        position:
+          position ||
+          founderData.getUser.team.positions.filter(position => !position.nick && position)[0]
+            .position,
       },
     });
   };
@@ -93,6 +93,7 @@ export default function Player(props) {
                     className="player__data__input"
                     value={position}
                     onChange={e => setPosition(e.target.value)}
+                    data-testid="selectPositionInviation"
                   >
                     {founderData.getUser.team.positions.map(
                       ({position: role, nick}, key) => !nick && <option key={key}>{role}</option>,

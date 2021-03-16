@@ -32,7 +32,7 @@ const mocks = [
   },
 ];
 
-const errorMocks = [
+const mocksError = [
   {
     request: {
       query: GET_USERS,
@@ -42,7 +42,7 @@ const errorMocks = [
 ];
 
 describe("Players component", () => {
-  it("should render loading component", () => {
+  it("should display loading component", () => {
     const {getByTestId} = render(
       <MockedProvider mocks={mocks}>
         <Router>
@@ -55,7 +55,7 @@ describe("Players component", () => {
     expect(loading).toBeInTheDocument;
   });
 
-  it("should render players", async () => {
+  it("should display players", async () => {
     const {findByText} = render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <Router>
@@ -69,7 +69,7 @@ describe("Players component", () => {
 
   it("should display error", async () => {
     const {findByText} = render(
-      <MockedProvider mocks={errorMocks} addTypename={false}>
+      <MockedProvider mocks={mocksError} addTypename={false}>
         <Router>
           <Players />
         </Router>

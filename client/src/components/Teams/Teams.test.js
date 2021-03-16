@@ -33,7 +33,7 @@ const mocks = [
   },
 ];
 
-const errorMocks = [
+const mocksError = [
   {
     request: {
       query: GET_TEAMS,
@@ -70,7 +70,7 @@ describe("Teams component", () => {
 
   it("should display error", async () => {
     const {findByText} = render(
-      <MockedProvider mocks={errorMocks} addTypename={false}>
+      <MockedProvider mocks={mocksError} addTypename={false}>
         <Router>
           <Teams />
         </Router>

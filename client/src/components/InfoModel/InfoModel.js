@@ -26,6 +26,7 @@ export default function InfoModel() {
           initial={{y: 100}}
           animate={{y: 0}}
           exit={{opacity: 0}}
+          data-testid="infoModal"
         >
           {Object.values(messages).map((message, id) => (
             <span key={id}>{message}</span>
