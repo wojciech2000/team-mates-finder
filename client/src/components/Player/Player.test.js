@@ -1,4 +1,4 @@
-import {cleanup, findByText, fireEvent, render} from "@testing-library/react";
+import {cleanup, fireEvent, render} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Player from "./Player";
 import InfoModel from "../InfoModel/InfoModel";
@@ -331,7 +331,7 @@ describe("Player component", () => {
   });
 
   it("should disply loading component", async () => {
-    const {findByText} = render(
+    const {findByTestId} = render(
       <MockedProvider mocks={mocksError}>
         <InfoProvider>
           <InfoContext.Consumer>
@@ -345,8 +345,7 @@ describe("Player component", () => {
       </MockedProvider>,
     );
 
-    const error = await findByText("Error...");
-    expect(error).toBeInTheDocument();
+    expect(await findByTestId("error")).toBeInTheDocument();
   });
 
   it("should disply user without a team", async () => {

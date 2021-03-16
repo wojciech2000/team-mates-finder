@@ -1,4 +1,5 @@
 import {fireEvent, render} from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
 import Teams from "./Teams";
 
 import {BrowserRouter as Router} from "react-router-dom";
@@ -53,7 +54,7 @@ describe("Teams component", () => {
     );
 
     const loading = getByTestId("loading");
-    expect(loading).toBeInTheDocument;
+    expect(loading).toBeInTheDocument();
   });
 
   it("should render teams", async () => {
@@ -65,11 +66,11 @@ describe("Teams component", () => {
       </MockedProvider>,
     );
 
-    expect(await findByText("team1")).toBeInTheDocument;
+    expect(await findByText("team1")).toBeInTheDocument();
   });
 
   it("should display error", async () => {
-    const {findByText} = render(
+    const {findByTestId} = render(
       <MockedProvider mocks={mocksError} addTypename={false}>
         <Router>
           <Teams />
@@ -77,7 +78,7 @@ describe("Teams component", () => {
       </MockedProvider>,
     );
 
-    expect(await findByText("Error...")).toBeInTheDocument;
+    expect(await findByTestId("error")).toBeInTheDocument();
   });
 
   it("should redirect on click", async () => {
@@ -89,7 +90,7 @@ describe("Teams component", () => {
       </MockedProvider>,
     );
 
-    expect(await findByText("team1")).toBeInTheDocument;
+    expect(await findByText("team1")).toBeInTheDocument();
 
     const teamLink = getByTestId("team1");
     fireEvent.click(teamLink);

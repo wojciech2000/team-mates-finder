@@ -1,4 +1,5 @@
 import {cleanup, fireEvent, render} from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
 import Players from "./Players";
 
 import {MockedProvider} from "@apollo/client/testing";
@@ -52,7 +53,7 @@ describe("Players component", () => {
     );
 
     const loading = getByTestId("loading");
-    expect(loading).toBeInTheDocument;
+    expect(loading).toBeInTheDocument();
   });
 
   it("should display players", async () => {
@@ -64,11 +65,11 @@ describe("Players component", () => {
       </MockedProvider>,
     );
 
-    expect(await findByText("nick1")).toBeInTheDocument;
+    expect(await findByText("nick1")).toBeInTheDocument();
   });
 
   it("should display error", async () => {
-    const {findByText} = render(
+    const {findByTestId} = render(
       <MockedProvider mocks={mocksError} addTypename={false}>
         <Router>
           <Players />
@@ -76,7 +77,7 @@ describe("Players component", () => {
       </MockedProvider>,
     );
 
-    expect(await findByText("Error...")).toBeInTheDocument;
+    expect(await findByTestId("error")).toBeInTheDocument();
   });
 
   it("should redirect on click", async () => {
@@ -88,7 +89,7 @@ describe("Players component", () => {
       </MockedProvider>,
     );
 
-    expect(await findByText("nick1")).toBeInTheDocument;
+    expect(await findByText("nick1")).toBeInTheDocument();
 
     const userLink = getByTestId("nick1");
     fireEvent.click(userLink);
