@@ -20,25 +20,35 @@ export default function Header() {
   return (
     <header className="header">
       <h1 className="header__title">
-        <Redirect to={user ? "/home" : "/players"} />
-        <Link to={user ? "/home" : "/players"}>TMF</Link>
+        <Link to={user ? "/home" : "/players"} data-testid="headerTitle">
+          TMF
+        </Link>
       </h1>
       <div className="menu">
         {!user ? (
-          <Link to="/login" className="menu__login">
+          <Link to="/login" className="menu__login" data-testid="redirectLogin">
             <BiLogIn />
           </Link>
         ) : (
           <Fragment>
             <Messages id={id} />
 
-            <Link to={{pathname: `/user/${nick}`, id}} className="menu__user">
+            <Link
+              to={{pathname: `/user/${nick}`, id}}
+              className="menu__user"
+              data-testid="redirectUserProfile"
+            >
               <span className="menu__username">{user}</span>
 
               <FaUser />
             </Link>
 
-            <Link to="/players" className="menu__logout" onClick={logoutonClick}>
+            <Link
+              to="/players"
+              className="menu__logout"
+              onClick={logoutonClick}
+              data-testid="redirectLogout"
+            >
               <BiLogIn />
             </Link>
           </Fragment>
