@@ -21,6 +21,7 @@ export default function Header() {
     <header className="header">
       <h1 className="header__title">
         <Link to={user ? "/home" : "/players"} data-testid="headerTitle">
+          <Redirect to={user ? "/home" : "/players"} />
           TMF
         </Link>
       </h1>
