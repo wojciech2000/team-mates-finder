@@ -7,6 +7,7 @@ import {InfoContext} from "../../context/infoContext";
 import Loading from "../Loading/Loading";
 import BackArrow from "../BackArrow/BackArrow";
 import Error from "../Error/Error";
+import {Link} from "react-router-dom";
 
 export default function Player(props) {
   const {id: founderId, nick} = useContext(AuthContext);
@@ -81,7 +82,12 @@ export default function Player(props) {
             {data.getUser.team ? (
               <div className="player__data">
                 <span className="player__description">Team: </span>
-                <span className="player__content">{data.getUser.team.name}</span>
+                <Link
+                  to={{pathname: `/team/${data.getUser.team.name}`, id: data.getUser.team.id}}
+                  className="data__team redirect-link"
+                >
+                  <span className="player__content">{data.getUser.team.name}</span>
+                </Link>
               </div>
             ) : (
               founderId &&

@@ -83,6 +83,15 @@ a {
   }
 }
 
+.redirect-link {
+  color: black;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #555;
+  }
+}
+
 //used in Player and Table components
 .header-table {
   display: flex;

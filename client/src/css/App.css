@@ -64,6 +64,12 @@ a {
   .loading-wrapper img {
     width: 150px; }
 
+.redirect-link {
+  color: black;
+  transition: color 0.2s ease; }
+  .redirect-link:hover {
+    color: #555; }
+
 .header-table {
   display: flex;
   flex-direction: column;

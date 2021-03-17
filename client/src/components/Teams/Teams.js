@@ -72,7 +72,7 @@ export default function Teams() {
                     >
                       <span className="data__id">{key + 1}</span>
                       <span className="data__teams-name">{name}</span>
-                      <span className="data__positions">
+                      <span className="data__positions ">
                         {membersAmount}/{maxMembersAmount}
                       </span>
                       <span className="data__founder">{founder}</span>
