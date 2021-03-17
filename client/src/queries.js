@@ -104,6 +104,7 @@ export const GET_TEAM = gql`
       name
       founder
       positions {
+        id
         nick
         position
       }
@@ -213,6 +214,7 @@ export const GET_TEAM_PROFILE = gql`
       membersAmount
       maxMembersAmount
       positions {
+        id
         nick
         invited
         position

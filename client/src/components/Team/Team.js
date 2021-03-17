@@ -7,6 +7,7 @@ import {AuthContext} from "../../context/authContext";
 import Loading from "../Loading/Loading";
 import BackArrow from "../BackArrow/BackArrow";
 import Error from "../Error/Error";
+import {Link} from "react-router-dom";
 
 export default function Team(props) {
   const id = props.location.id;
@@ -41,6 +42,8 @@ export default function Team(props) {
       });
     }
   };
+
+  data && console.log(data);
 
   return (
     <div className="wrapper">
@@ -90,7 +93,12 @@ export default function Team(props) {
                       position.nick && (
                         <span className="positions__position" key={id}>
                           <span className="positions__description">{position.position + ": "}</span>
-                          <span className="positions__content">{position.nick}</span>
+                          <Link
+                            to={{pathname: `/player/${position.nick}`, id: position.id}}
+                            className="data__team redirect-link"
+                          >
+                            <span className="positions__content">{position.nick}</span>
+                          </Link>
                         </span>
                       ),
                   )}

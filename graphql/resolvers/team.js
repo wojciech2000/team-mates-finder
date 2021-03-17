@@ -73,6 +73,7 @@ const teamResolver = {
       const membersAmount = positions.filter(position => position.nick && true).length;
 
       if (user.team) {
+        //update team
         const teamExists = await Team.findById({_id: user.team});
         if (teamExists) {
           teamExists.name = name;
@@ -93,6 +94,9 @@ const teamResolver = {
           maxMembersAmount,
           positions,
         });
+        //set founder id
+        team.positions[0].id = id;
+
         user.team = team._id;
         team.save();
         user.save();
@@ -280,9 +284,10 @@ const teamResolver = {
 
       //team modification
 
-      let members = team.positions.find(member => member.position == position);
-      members.nick = user.nick;
-      members.invited = null;
+      let invitedMember = team.positions.find(member => member.position == position);
+      invitedMember.id = user.id;
+      invitedMember.nick = user.nick;
+      invitedMember.invited = null;
 
       team.membersAmount++;
 
@@ -424,8 +429,9 @@ const teamResolver = {
         ({position: memberPosition}) => memberPosition === position,
       );
 
-      appliedPosition.invited = null;
+      appliedPosition.id = addressee.id;
       appliedPosition.nick = addressee.nick;
+      appliedPosition.invited = null;
 
       addressee.save();
       team.save();
@@ -510,6 +516,7 @@ const teamResolver = {
       //team modification
       const leavingPosition = team.positions.find(({nick}) => nick === user.nick);
       leavingPosition.nick = null;
+      leavingPosition.id = null;
 
       team.membersAmount--;
 

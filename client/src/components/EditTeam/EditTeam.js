@@ -45,7 +45,6 @@ export default function EditTeam(props) {
   const restEditValue = () => {
     const filterPositions = data.getTeam.positions.map(position => ({
       ...position,
-      __proto__: null,
     }));
 
     setEditValue({
@@ -101,7 +100,7 @@ export default function EditTeam(props) {
     } else {
       setEditValue({
         ...editValue,
-        positions: [...editValue.positions, {position: "Top", nick: null, invited: null}],
+        positions: [...editValue.positions, {position: "Top", nick: null, invited: null, id: null}],
       });
     }
   };
@@ -204,6 +203,8 @@ export default function EditTeam(props) {
   const leaveTeamOnClick = () => {
     leaveTeam();
   };
+
+  console.log(editValue);
 
   return (
     <div className="wrapper">

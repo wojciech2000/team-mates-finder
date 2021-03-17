@@ -43,13 +43,12 @@ export default function Messages({id}) {
   //ACCEPTING
 
   const [acceptInvitation] = useMutation(ACCEPT_INVITATION, {
-    update: (proxy, result) => {
+    update: () => {
       setMessages({message: "Accepted invitation"});
       setIsMessageError(false);
     },
     refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_TEAMS}, {query: GET_USERS}],
     onError: error => {
-      console.log(error);
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
@@ -62,7 +61,6 @@ export default function Messages({id}) {
     },
     refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_TEAMS}, {query: GET_USERS}],
     onError: error => {
-      console.log(error);
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
@@ -97,7 +95,6 @@ export default function Messages({id}) {
     },
     refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_USERS}, {query: GET_TEAMS}],
     onError: error => {
-      console.log(error);
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
@@ -110,14 +107,13 @@ export default function Messages({id}) {
     },
     refetchQueries: [{query: GET_USER, variables: {id}}, {query: GET_USERS}, {query: GET_TEAMS}],
     onError: error => {
-      console.log(error);
       setIsMessageError(true);
       setMessages(error.graphQLErrors[0].extensions.exception.errors);
     },
   });
 
   const rejectOnClick = e => {
-    if (data.getUser.team.founder === nick) {
+    if (data.getUser.team?.founder === nick) {
       rejectApplication({
         variables: {
           messageId: e.target.dataset.id,

@@ -7,6 +7,7 @@ const teamSchema = new Schema({
   maxMembersAmount: Number,
   positions: [
     {
+      id: String,
       nick: String,
       invited: String,
       position: String,
