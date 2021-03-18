@@ -19,12 +19,12 @@ export default function Team(props) {
   const [applyToTeam] = useMutation(APPLY_TO_TEAM, {
     update: () => {
       setIsMessageError(false);
-      setMessages({error: "Sent application to the team"});
+      setMessages({message: "Sent application to the team"});
     },
     refetchQueries: [{query: GET_USERS}],
     onError: error => {
       setIsMessageError(true);
-      setMessages(error.graphQLErrors[0].extensions.exception.errors);
+      setMessages(error.graphQLErrors[0].extensions.errors);
     },
   });
 
@@ -42,8 +42,6 @@ export default function Team(props) {
       });
     }
   };
-
-  data && console.log(data);
 
   return (
     <div className="wrapper">
@@ -77,6 +75,7 @@ export default function Team(props) {
                             className="positions__apply"
                             data-position={position.position}
                             onClick={applyToTeamOnClick}
+                            data-testid={`${position.position}ApplyButton`}
                           >
                             Apply
                           </button>

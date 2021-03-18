@@ -330,7 +330,7 @@ describe("Player component", () => {
     expect(loading).toBeInTheDocument();
   });
 
-  it("should disply loading component", async () => {
+  it("should disply error component", async () => {
     const {findByTestId} = render(
       <MockedProvider mocks={mocksError}>
         <InfoProvider>
@@ -345,7 +345,8 @@ describe("Player component", () => {
       </MockedProvider>,
     );
 
-    expect(await findByTestId("error")).toBeInTheDocument();
+    const error = await findByTestId("error");
+    expect(error).toBeInTheDocument();
   });
 
   it("should disply user without a team", async () => {
