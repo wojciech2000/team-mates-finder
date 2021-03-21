@@ -32,7 +32,7 @@ export default function Register(props) {
     refetchQueries: [{query: GET_USERS}],
     onError: error => {
       setIsMessageError(true);
-      setMessages(error.graphQLErrors[0].extensions.exception.errors);
+      setMessages(error.graphQLErrors[0].extensions.errors);
     },
   });
 
@@ -54,6 +54,7 @@ export default function Register(props) {
                 name="login"
                 value={values.login}
                 onChange={e => onChangeInput(e)}
+                data-testid="loginRegister"
               />
               <input
                 type="text"
@@ -62,6 +63,7 @@ export default function Register(props) {
                 name="email"
                 value={values.email}
                 onChange={e => onChangeInput(e)}
+                data-testid="emailRegister"
               />
               <input
                 type="password"
@@ -70,6 +72,7 @@ export default function Register(props) {
                 name="password"
                 value={values.password}
                 onChange={e => onChangeInput(e)}
+                data-testid="passwordRegister"
               />
               <input
                 type="password"
@@ -78,6 +81,7 @@ export default function Register(props) {
                 name="confirmPassword"
                 value={values.confirmPassword}
                 onChange={e => onChangeInput(e)}
+                data-testid="confirmPasswordRegister"
               />
 
               <select
@@ -85,6 +89,7 @@ export default function Register(props) {
                 name="server"
                 value={values.server}
                 onChange={e => onChangeInput(e)}
+                data-testid="serverRegister"
               >
                 <option disabled>Server</option>
                 <option value="BR">Brazil</option>
@@ -99,6 +104,7 @@ export default function Register(props) {
                 <option value="JP">Japan </option>
                 <option value="KR">Korea</option>
               </select>
+
               <input
                 type="text"
                 className="register__input"
@@ -106,6 +112,7 @@ export default function Register(props) {
                 name="nick"
                 value={values.nick}
                 onChange={e => onChangeInput(e)}
+                data-testid="nickRegister"
               />
               <div className="inputs-position">
                 <select
@@ -113,6 +120,7 @@ export default function Register(props) {
                   name="primary"
                   value={values.primary}
                   onChange={e => onChangeInput(e)}
+                  data-testid="primaryPositionRegister"
                 >
                   <option disabled>Primary</option>
                   <option value="Top">Top</option>
@@ -121,12 +129,14 @@ export default function Register(props) {
                   <option value="ADC">ADC</option>
                   <option value="Supp">Supp</option>
                 </select>
+
                 <select
                   className="register__input"
                   placeholder="Positions..."
                   name="secondary"
                   value={values.secondary}
                   onChange={e => onChangeInput(e)}
+                  data-testid="secondaryPositionRegister"
                 >
                   <option disabled>Secondary</option>
                   <option value="Top">Top</option>
@@ -139,7 +149,12 @@ export default function Register(props) {
             </div>
           </div>
 
-          <input type="submit" value="Sign in" className="register__submit" />
+          <input
+            type="submit"
+            value="Sign in"
+            className="register__submit"
+            data-testid="registerButton"
+          />
           <Link to="/login" className="register__redirect">
             Log in
           </Link>
