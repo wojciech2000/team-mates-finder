@@ -1,7 +1,7 @@
 import {cleanup, fireEvent, render} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Player from "./Player";
-import InfoModel from "../InfoModel/InfoModel";
+import InfoModal from "../InfoModal/InfoModal";
 
 import {BrowserRouter as Router} from "react-router-dom";
 import {MockedProvider} from "@apollo/client/testing";
@@ -420,7 +420,7 @@ describe("Player component", () => {
                 <InfoContext.Consumer>
                   {() => (
                     <Router>
-                      <InfoModel />
+                      <InfoModal />
                       <Player location={{id: "1"}} />
                     </Router>
                   )}
@@ -452,7 +452,7 @@ describe("Player component", () => {
                 <InfoContext.Consumer>
                   {() => (
                     <Router>
-                      <InfoModel />
+                      <InfoModal />
                       <Player location={{id: "1"}} />
                     </Router>
                   )}

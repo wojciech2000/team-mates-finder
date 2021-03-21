@@ -3,7 +3,7 @@ import {AnimatePresence, motion} from "framer-motion";
 
 import {InfoContext} from "../../context/infoContext";
 
-export default function InfoModel() {
+export default function InfoModal() {
   const {messages, setMessages, isMessageError} = useContext(InfoContext);
 
   useEffect(() => {

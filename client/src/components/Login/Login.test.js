@@ -1,7 +1,7 @@
 import {fireEvent, render} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Login from "./Login";
-import InfoModel from "../InfoModel/InfoModel";
+import InfoModal from "../InfoModal/InfoModal";
 
 import {MockedProvider} from "@apollo/client/testing";
 import {InfoContext, InfoProvider} from "../../context/infoContext";
@@ -86,7 +86,7 @@ describe("Login component", () => {
           <InfoContext.Consumer>
             {() => (
               <Router>
-                <InfoModel />
+                <InfoModal />
                 <Login />
               </Router>
             )}
@@ -113,7 +113,7 @@ describe("Login component", () => {
           <InfoContext.Consumer>
             {() => (
               <Router>
-                <InfoModel />
+                <InfoModal />
                 <Login />
               </Router>
             )}
@@ -145,7 +145,7 @@ describe("Login component", () => {
           <InfoContext.Consumer>
             {() => (
               <Router>
-                <InfoModel />
+                <InfoModal />
                 <Login history={history} />
               </Router>
             )}

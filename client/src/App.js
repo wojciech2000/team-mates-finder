@@ -18,7 +18,7 @@ import EditTeam from "./components/EditTeam/EditTeam";
 import AuthRoute from "./context/AuthRoute";
 import {AuthProvider} from "./context/authContext";
 import {InfoProvider} from "./context/infoContext";
-import InfoModel from "./components/InfoModel/InfoModel";
+import InfoModal from "./components/InfoModal/InfoModal";
 
 const httpLink = new createHttpLink({
   uri: "https://team-mates-finder-server.herokuapp.com/",
@@ -46,7 +46,7 @@ export default function App() {
           <div className="App">
             <Router>
               <Header />
-              <InfoModel />
+              <InfoModal />
               <Switch>
                 <Route path="/players" component={Players} />
                 <Route path="/player/:nick" component={Player} />

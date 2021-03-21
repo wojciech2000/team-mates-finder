@@ -1,7 +1,7 @@
 import {cleanup, fireEvent, render} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Team from "./Team";
-import InfoModel from "../InfoModel/InfoModel";
+import InfoModal from "../InfoModal/InfoModal";
 
 import {APPLY_TO_TEAM, GET_TEAM, GET_USERS} from "../../queries";
 import {MockedProvider} from "@apollo/client/testing";
@@ -180,7 +180,7 @@ describe("Team component", () => {
                 <InfoContext.Consumer>
                   {() => (
                     <Router>
-                      <InfoModel />
+                      <InfoModal />
                       <Team location={{id: "1"}} />
                     </Router>
                   )}
@@ -209,7 +209,7 @@ describe("Team component", () => {
                 <InfoContext.Consumer>
                   {() => (
                     <Router>
-                      <InfoModel />
+                      <InfoModal />
                       <Team location={{id: "1"}} />
                     </Router>
                   )}
