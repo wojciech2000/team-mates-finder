@@ -594,12 +594,8 @@ a {
     display: flex;
     justify-content: space-evenly;
     height: auto; }
-  .register .inputs-position__input {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-direction: column;
-    flex: 1; }
+    .register .inputs-position .register__input {
+      width: 40%; }
   .register__input {
     font-size: 16px; }
   .register__submit {
@@ -609,6 +605,8 @@ a {
   @media (min-width: 768px) {
     .register {
       height: 550px; }
+      .register .inputs-position .register__input {
+        width: 30%; }
       .register__input {
         font-size: 20px; } }
 

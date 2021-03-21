@@ -23,14 +23,10 @@
     display: flex;
     justify-content: space-evenly;
     height: auto;
-  }
 
-  .inputs-position__input {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-direction: column;
-    flex: 1;
+    .register__input {
+      width: 40%;
+    }
   }
 
   &__inputs {
@@ -54,6 +50,12 @@
 
   @media (min-width: 768px) {
     height: 550px;
+
+    .inputs-position {
+      .register__input {
+        width: 30%;
+      }
+    }
 
     &__input {
       font-size: 20px;
