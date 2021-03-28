@@ -597,7 +597,8 @@ a {
     .register .inputs-position .register__input {
       width: 40%; }
   .register__input {
-    font-size: 16px; }
+    font-size: 16px;
+    width: 210px; }
   .register__submit {
     width: 140px; }
   .register__redirect {
@@ -608,7 +609,8 @@ a {
       .register .inputs-position .register__input {
         width: 30%; }
       .register__input {
-        font-size: 20px; } }
+        font-size: 20px;
+        width: 250px; } }
 
 .profile {
   height: 500px;
