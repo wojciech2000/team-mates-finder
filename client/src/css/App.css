@@ -47,7 +47,7 @@ a {
   color: white;
   outline: none; }
 
-.main-input, .players .table__find-player, .players .table__find-position, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input, .profile__input, .edit-team__input, .create-team__input, .player .player__data__input, .profile .player__data__input {
+.main-input, .players .table__find-player, .players .table__find-position, .players .table__find-status, .teams .table__find-teams-name, .teams .table__find-founder, .login__input, .register__input, .profile__input, .edit-team__input, .create-team__input, .player .player__data__input, .profile .player__data__input {
   outline: none;
   background-color: black;
   border: 1px white solid;
@@ -210,12 +210,14 @@ a {
     column-gap: 10px;
     row-gap: 15px;
     font-size: 14px; }
-    .players .table__find-player, .players .table__find-position {
+    .players .table__find-player, .players .table__find-position, .players .table__find-status {
       text-align: center;
       font-size: 14px;
       grid-column: 2 / 3; }
     .players .table__find-position {
       grid-column: 3 / 4; }
+    .players .table__find-status {
+      grid-column: 4 / 5; }
     .players .table__id {
       grid-column: 1 / 2; }
     .players .table__id, .players .table__palyer-nick, .players .table__position, .players .table__status {
@@ -262,7 +264,7 @@ a {
     .players .table {
       grid-template-columns: 8vw 30vw 10vw 15vw;
       font-size: 18px; }
-      .players .table__find-player, .players .table__find-position {
+      .players .table__find-player, .players .table__find-position, .players .table__find-status {
         font-size: 18px; }
       .players .table .data {
         background-color: rgba(255, 255, 255, 0.95); }
@@ -281,7 +283,7 @@ a {
     .players .table {
       grid-template-columns: 115px 432px 144px 216px;
       font-size: 20px; }
-      .players .table__find-player, .players .table__find-position {
+      .players .table__find-player, .players .table__find-position, .players .table__find-status {
         font-size: 20px; }
       .players .table .data__player {
         grid-template-columns: 115px 432px 144px 216px;

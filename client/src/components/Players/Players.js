@@ -12,19 +12,33 @@ export default function Players() {
   const [players, setPlayers] = useState([]);
   const [filterNick, setFilterNick] = useState("");
   const [filterPosition, setFilterPosition] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
 
   useEffect(() => {
     data && setPlayers(data.getUsers);
   }, [data]);
 
-  const findNick = () => {
+  const filterPlayer = () => {
     const filter = players
       .filter(player => player.nick.toLocaleLowerCase().includes(filterNick.toLocaleLowerCase()))
       .filter(
         player =>
-          (player.position.primary && player.position.primary.includes(filterPosition)) ||
-          (player.position.secondary && player.position.secondary.includes(filterPosition)),
-      );
+          player.position.primary.includes(filterPosition) ||
+          player.position.secondary.includes(filterPosition),
+      )
+      .filter(player => {
+        switch (filterStatus) {
+          case "Free":
+            return !player.team;
+
+          case "Taken":
+            return player.team;
+
+          default:
+            return player;
+        }
+      });
+
     return filter;
   };
 
@@ -45,13 +59,7 @@ export default function Players() {
           value={filterNick}
           onChange={e => setFilterNick(e.target.value)}
         />
-        <select
-          name="cars"
-          id="cars"
-          form="carform"
-          className="table__find-position"
-          onChange={e => setFilterPosition(e.target.value)}
-        >
+        <select className="table__find-position" onChange={e => setFilterPosition(e.target.value)}>
           <option value="">All</option>
           <option value="Top">Top</option>
           <option value="Jungle">Jungle</option>
@@ -59,11 +67,17 @@ export default function Players() {
           <option value="ADC">ADC</option>
           <option value="Supp">Supp</option>
         </select>
+
+        <select className="table__find-status" onChange={e => setFilterStatus(e.target.value)}>
+          <option value="All">All</option>
+          <option value="Free">Free</option>
+          <option value="Taken">Taken</option>
+        </select>
+
         <div className="table__id">ID</div>
         <div className="table__palyer-nick">Player's nick</div>
         <div className="table__position">Position</div>
         <div className="table__status">Status</div>
-
         <div className="data">
           <ul>
             {loading ? (
@@ -71,7 +85,7 @@ export default function Players() {
             ) : error ? (
               <Error />
             ) : (
-              findNick().map(({id, nick, position, team}, key) => (
+              filterPlayer().map(({id, nick, position, team}, key) => (
                 <li key={key}>
                   <Link
                     to={{pathname: `/player/${nick}`, id}}

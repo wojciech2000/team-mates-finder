@@ -59,6 +59,11 @@ $table-shape3: 115px 432px 144px 216px;
       grid-column: 3 / 4;
     }
 
+    &__find-status {
+      @extend .table__find-player;
+      grid-column: 4 / 5;
+    }
+
     &__id {
       grid-column: 1 / 2;
     }
