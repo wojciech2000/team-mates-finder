@@ -5,13 +5,23 @@ import {Link} from "react-router-dom";
 import {GET_TEAMS} from "../../queries";
 import Loading from "../Loading/Loading";
 import Error from "../Error/Error";
+import useUpdate from "../../utils/useUpdate";
 
 export default function Teams() {
   const {loading, data, error} = useQuery(GET_TEAMS);
 
   const [teams, setTeams] = useState([]);
-  const [teamsName, setTeamsName] = useState("");
-  const [founder, setFounder] = useState("");
+
+  const initialState = {
+    teamName: "",
+    founderNick: "",
+  };
+
+  //null in useUpdate is a callback function needed in login and register components
+  const {
+    onChangeInput,
+    values: {teamName, founderNick},
+  } = useUpdate(null, initialState);
 
   useEffect(() => {
     data && setTeams(data.getTeams);
@@ -19,8 +29,8 @@ export default function Teams() {
 
   const findTeam = () => {
     const filter = teams
-      .filter(team => team.name.toLocaleLowerCase().includes(teamsName.toLocaleLowerCase()))
-      .filter(team => team.founder.toLocaleLowerCase().includes(founder.toLocaleLowerCase()));
+      .filter(team => team.name.toLocaleLowerCase().includes(teamName.toLocaleLowerCase()))
+      .filter(team => team.founder.toLocaleLowerCase().includes(founderNick.toLocaleLowerCase()));
 
     return filter;
   };
@@ -39,15 +49,17 @@ export default function Teams() {
           type="text"
           className="table__find-teams-name"
           placeholder="Search team's name..."
-          value={teamsName}
-          onChange={e => setTeamsName(e.target.value)}
+          value={teamName}
+          name="teamName"
+          onChange={e => onChangeInput(e)}
         />
         <input
           type="text"
           className="table__find-founder"
           placeholder="Search founder..."
-          value={founder}
-          onChange={e => setFounder(e.target.value)}
+          value={founderNick}
+          name="founderNick"
+          onChange={e => onChangeInput(e)}
         />
 
         <div className="table__id">ID</div>

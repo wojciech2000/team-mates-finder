@@ -5,14 +5,24 @@ import {Link} from "react-router-dom";
 import {GET_USERS} from "../../queries";
 import Loading from "../Loading/Loading";
 import Error from "../Error/Error";
+import useUpdate from "../../utils/useUpdate";
 
 export default function Players() {
   const {loading, data, error} = useQuery(GET_USERS);
 
   const [players, setPlayers] = useState([]);
-  const [filterNick, setFilterNick] = useState("");
-  const [filterPosition, setFilterPosition] = useState("");
-  const [filterStatus, setFilterStatus] = useState("");
+
+  const initialState = {
+    nick: "",
+    position: "",
+    teamStatus: "",
+  };
+
+  //null in useUpdate is a callback function needed in login and register components
+  const {
+    onChangeInput,
+    values: {nick, position, teamStatus},
+  } = useUpdate(null, initialState);
 
   useEffect(() => {
     data && setPlayers(data.getUsers);
@@ -20,14 +30,14 @@ export default function Players() {
 
   const filterPlayer = () => {
     const filter = players
-      .filter(player => player.nick.toLocaleLowerCase().includes(filterNick.toLocaleLowerCase()))
+      .filter(player => player.nick.toLocaleLowerCase().includes(nick.toLocaleLowerCase()))
       .filter(
         player =>
-          player.position.primary.includes(filterPosition) ||
-          player.position.secondary.includes(filterPosition),
+          player.position.primary.includes(position) ||
+          player.position.secondary.includes(position),
       )
       .filter(player => {
-        switch (filterStatus) {
+        switch (teamStatus) {
           case "Free":
             return !player.team;
 
@@ -56,10 +66,12 @@ export default function Players() {
           type="text"
           className="table__find-player"
           placeholder="Search player..."
-          value={filterNick}
-          onChange={e => setFilterNick(e.target.value)}
+          name="nick"
+          value={nick}
+          onChange={e => onChangeInput(e)}
         />
-        <select className="table__find-position" onChange={e => setFilterPosition(e.target.value)}>
+
+        <select className="table__find-position" name="position" onChange={e => onChangeInput(e)}>
           <option value="">All</option>
           <option value="Top">Top</option>
           <option value="Jungle">Jungle</option>
@@ -68,7 +80,7 @@ export default function Players() {
           <option value="Supp">Supp</option>
         </select>
 
-        <select className="table__find-status" onChange={e => setFilterStatus(e.target.value)}>
+        <select className="table__find-status" name="teamStatus" onChange={e => onChangeInput(e)}>
           <option value="All">All</option>
           <option value="Free">Free</option>
           <option value="Taken">Taken</option>
